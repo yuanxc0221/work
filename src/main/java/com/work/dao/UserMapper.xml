@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.work.dao.UserMapper">
+    <resultMap id="BaseResultMap" type="com.work.model.User">
+        <id column="u_id" property="u_id" jdbcType="INTEGER" />
+        <result column="username" property="username" jdbcType="VARCHAR" />
+        <result column="name" property="name" jdbcType="VARCHAR" />
+        <result column="sex" property="sex" jdbcType="VARCHAR" />
+        <result column="email" property="email" jdbcType="VARCHAR" />
+        <result column="phone" property="phone" jdbcType="VARCHAR" />
+        <result column="address" property="address" jdbcType="VARCHAR" />
+        <result column="introduction" property="introduction" jdbcType="VARCHAR" />
+        <result column="date" property="date" jdbcType="VARCHAR" />
+    </resultMap>
+    <parameterMap type="java.util.Map" id="getPageBean">
+        <parameter property="pageOffset" mode="IN" jdbcType="INTEGER"/>
+        <parameter property="size" mode="IN" jdbcType="INTEGER"/>
+        <parameter property="searchText" mode="IN" jdbcType="VARCHAR"/>
+        <parameter property="sort" mode="IN" jdbcType="VARCHAR"/>
+        <parameter property="order" mode="IN" jdbcType="VARCHAR"/>
+    </parameterMap>
+    <sql id="select">
+        u_id,
+        username,
+        name,
+        sex,
+        phone,
+        email,
+        introduction,
+        date
+    </sql>
+    <select id="selectAllUser" parameterMap="getPageBean" resultMap="BaseResultMap">
+        SELECT <include refid="select" />
+        FROM work_user
+        <if test="searchText !=null">
+            WHERE  name LIKE #{searchText}
+            OR phone LIKE #{searchText} OR  email LIKE #{searchText}
+            OR username LIKE #{searchText} OR sex LIKE #{searchText}
+        </if>
+        <if test="sort != null">
+            ORDER BY ${sort} ${order}
+        </if>
+        limit #{pageOffset},#{size}
+    </select>
+    <select id="countAll" parameterMap="getPageBean" resultType="int">
+        SELECT count(u_id)
+        FROM work_user
+        <if test="searchText !=null">
+            WHERE  name LIKE #{searchText}
+            OR phone LIKE #{searchText} OR  email LIKE #{searchText}
+            OR username LIKE #{searchText} OR sex LIKE #{searchText}
+        </if>
+        <if test="sort != null">
+            ORDER BY #{sort} #{order}
+        </if>
+    </select>
+    <update id="updateInfo" parameterType="com.work.model.User">
+        UPDATE
+        work_user
+        <set>
+            <if test="name != null">
+                name = #{name},
+            </if>
+            <if test="username != null">
+                username = #{username},
+            </if>
+            <if test="email != null">
+                email = #{email},
+            </if>
+            <if test="phone != null">
+                phone = #{phone},
+            </if>
+            <if test="sex != null">
+                sex = #{sex},
+            </if>
+            <if test="introduction != null">
+                introduction = #{introduction},
+            </if>
+        </set>
+        WHERE u_id = #{u_id};
+    </update>
+    <select id="selectById" parameterType="INTEGER" resultType="com.work.model.User">
+        SELECT <include refid="select" />
+        FROM work_user
+        WHERE u_id = #{u_id}
+    </select>
+    <delete id="deleteById" parameterType="INTEGER">
+        DELETE FROM work_user
+        WHERE u_id = #{u_id}
+    </delete>
+    <select id="login" resultMap="BaseResultMap" parameterType="com.work.model.User">
+        SELECT u_id,name FROM work_user where username = #{username} and password = #{password};
+    </select>
+    <insert id="add" parameterType="com.work.model.User">
+        INSERT INTO work_user (name,password,username,phone,date,address)
+        VALUES (#{name},#{password},#{username},#{phone},#{date},#{address});
+    </insert>
+</mapper>
