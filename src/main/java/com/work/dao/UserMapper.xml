@@ -26,6 +26,7 @@
         sex,
         phone,
         email,
+        address,
         introduction,
         date
     </sql>
@@ -66,6 +67,9 @@
             </if>
             <if test="email != null">
                 email = #{email},
+            </if>
+            <if test="address != null">
+                address = #{address},
             </if>
             <if test="phone != null">
                 phone = #{phone},

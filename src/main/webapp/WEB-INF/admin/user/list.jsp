@@ -1,35 +1,85 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>
-        报名管理
-    </title>
-    <meta charset="utf-8">
-    <%@ include file="../se7en_css.jsp" %>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta charset="utf-8" />
+    <title>Tables - Ace Admin</title>
+    <meta name="description" content="Static &amp; Dynamic Tables" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+    <%-- <%@ include file="${pageContext.request.contextPath}/resources/rear-end/ace_css.jsp" %>--%>
+    <!-- bootstrap & fontawesome -->
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/rear-end/assets/css/bootstrap.css" />
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/rear-end/assets/css/font-awesome.css" />
 
-    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport">
+    <!-- page specific plugin styles -->
+
+    <!-- text fonts -->
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/rear-end/assets/css/ace-fonts.css" />
+
+    <!-- ace styles -->
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/rear-end/assets/css/ace.css" class="ace-main-stylesheet" id="main-ace-style" />
+
+    <!--[if lte IE 9]>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/rear-end/assets/css/ace-part2.css" class="ace-main-stylesheet" />
+    <![endif]-->
+
+    <!--[if lte IE 9]>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/rear-end/assets/css/ace-ie.css" />
+    <![endif]-->
+
+    <!-- inline styles related to this page -->
+
+    <!-- ace settings handler -->
+    <script src="${pageContext.request.contextPath}/resources/rear-end/assets/js/ace-extra.js"></script>
+
+    <!-- HTML5shiv and Respond.js for IE8 to support HTML5 elements and media queries -->
+
+    <!--[if lte IE 8]>
+    <script src="${pageContext.request.contextPath}/resources/rear-end/assets/js/html5shiv.js"></script>
+    <script src="${pageContext.request.contextPath}/resources/rear-end/assets/js/respond.js"></script>
+    <![endif]-->
 </head>
-<body>
-<div class="modal-shiftfix">
-    <!-- Navigation -->
-    <%@ include file="../navigation.jsp" %>
-    <div class="alert alert-success " hidden="hidden" id="msg" role="alert">
-       <p> 提示:</p>
-    </div>
-    <!-- End Navigation -->
-    <div class="container-fluid main-content">
-        <!-- DataTables Example -->
+<body class="no-skin">
+<%--<%@ include file="${pageContext.request.contextPath}/resources/rear-end/ace_js.jsp" %>--%>
+<!-- #section:basics/navbar.layout -->
+<div id="navbar" class="navbar navbar-default">
+    <script type="text/javascript">
+        try{ace.settings.check('navbar' , 'fixed')}catch(e){}
+    </script>
+
+    <div class="navbar-container" id="navbar-container">
+        <!-- #section:basics/sidebar.mobile.toggle -->
+        <button type="button" class="navbar-toggle menu-toggler pull-left" id="menu-toggler" data-target="#sidebar">
+            <span class="sr-only">Toggle sidebar</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+        </button>
+        <!-- /section:basics/sidebar.mobile.toggle -->
+        <div class="navbar-header pull-left">
+            <!-- #section:basics/navbar.layout.brand -->
+            <a href="#" class="navbar-brand">
+                <small>
+                    <i class="fa fa-leaf"></i>
+                    Pizza后台管理
+                </small>
+            </a>
+        </div>
+        <%@ include file="../navbar.jsp" %>
         <div class="row">
             <div class="col-lg-12">
-                <div class="widget-container fluid-height clearfix">
-                    <div class="heading">
-                        <i class="icon-table"></i>报名管理
-                        <a class="btn btn-sm btn-primary-outline pull-right" href="${pageContext.request.contextPath}/admin/user/saveUI" ><i class="icon-plus"></i>添加</a>
-                    </div>
-                    <div class="widget-content padded clearfix">
-                        <table class="table table-bordered table-striped" id="datatable-editable">
+                <h3 class="header smaller lighter blue">　
+                    <i class="glyphicon glyphicon-th"></i>
+                    用户管理
+                </h3>
+                <div class="table-header">
+                    datatables
+                </div>
+                <div class="widget-container fluid-height clearfix" >
+                    <div id="sample-table-2_wrapper" class="widget-content padded clearfix dataTables_wrapper form-inline no-footer">
+                        <table id="datatable-editable" class="table table-striped table-bordered table-hover dataTable no-footer" role="grid">
                             <thead>
                             <th width="150px">姓名</th>
                             <th width="150px">登陆名</th>
@@ -38,6 +88,7 @@
                             <th width="110px">邮箱</th>
                             <th width="130px">日期</th>
                             <th width="140px">操作</th>
+                            <%--<th class="sorting_disabled" rowspan="1" colspan="1" aria-label=""></th>--%>
                             </thead>
                             <tbody>
                             </tbody>
@@ -45,11 +96,26 @@
                     </div>
                 </div>
             </div>
-        </div>
-        <!-- end DataTables Example -->
-    </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
 </div>
-<%@ include file="../se7en_js.jsp" %>
+<!--[if !IE]> -->
+<script type="text/javascript">
+    window.jQuery || document.write("<script src='${pageContext.request.contextPath}/resources/rear-end/assets/js/jquery.js'>"+"<"+"/script>");
+</script>
+
+<!-- <![endif]-->
+
+<!--[if IE]>
+<script type="text/javascript">
+    window.jQuery || document.write("<script src='${pageContext.request.contextPath}/resources/rear-end/assets/js/jquery1x.js'>"+"<"+"/script>");
+</script>
+<![endif]-->
+<script type="text/javascript">
+    if('ontouchstart' in document.documentElement) document.write("<script src='${pageContext.request.contextPath}/resources/rear-end/assets/js/jquery.mobile.custom.js'>"+"<"+"/script>");
+</script>
+<script type="text/javascript"> ace.vars['base'] = '${pageContext.request.contextPath}/resources/rear-end'; </script>
+
 <script type="text/javascript">
     $(document).ready(function() {
         $("#user_page").addClass("current");
@@ -75,7 +141,7 @@
                     "sPrevious" : " 上一页 ",
                     "sNext" : " 下一页 ",
                     "sLast" : " 最后一页 "
-                    }
+                }
             },
             "aoColumns":
                     [
@@ -109,7 +175,7 @@
                                 render += '&nbsp;&nbsp;';
                                 render += '<a class="delete-row" href="#" name='+id+'><i class="icon-remove"></i>删除</a>';
                                 return render;
-                             }
+                            }
                         }
 
                     ]
@@ -117,43 +183,43 @@
 
 // 3个参数的名字可以随便命名,但必须是3个参数,少一个都不行
         function retrieveData( sSource111,aoData111, fnCallback111) {
-                var arrayObj=new Array(
-                        { "mData": "name", 'sClass':'center'},
-                        { "mData": "username", 'sClass':'center'},
-                        { "mData": "sex", 'sClass':'center'},
-                        { "mData": "phone", 'sClass':'center'},
-                        { "mData": "email", 'sClass':'center'},
-                        { "mData": "date", 'sClass':'center'},
-                        { "mData": "u_id", 'sClass':'center'}
-                );
-                var searchtext="";
-                var sort="";
-                var order="";
-                var pageOffset=0;
-                var size=10;
-                var sEcho=0;
-                for(var i=0;i<aoData111.length;i++){
-                    var value=aoData111[i].value;
-                    if(aoData111[i].name=="iSortCol_0"){
-                        sort=arrayObj[value].mData;
-                    }
-                    if(aoData111[i].name=="sSortDir_0"){
-                        order=value;
-                    }
-                    if(aoData111[i].name=="sSearch"){
-                        searchtext=value;
-                    }
-                    if(aoData111[i].name=="iDisplayStart"){
-                        pageOffset=value
-                    }
-                    if(aoData111[i].name=="iDisplayLength"){
-                        size=value
-                    }
-                    if(aoData111[i].name=="sEcho"){
-                        sEcho=value;
-                    }
-
+            var arrayObj=new Array(
+                    { "mData": "name", 'sClass':'center'},
+                    { "mData": "username", 'sClass':'center'},
+                    { "mData": "sex", 'sClass':'center'},
+                    { "mData": "phone", 'sClass':'center'},
+                    { "mData": "email", 'sClass':'center'},
+                    { "mData": "date", 'sClass':'center'},
+                    { "mData": "u_id", 'sClass':'center'}
+            );
+            var searchtext="";
+            var sort="";
+            var order="";
+            var pageOffset=0;
+            var size=10;
+            var sEcho=0;
+            for(var i=0;i<aoData111.length;i++){
+                var value=aoData111[i].value;
+                if(aoData111[i].name=="iSortCol_0"){
+                    sort=arrayObj[value].mData;
                 }
+                if(aoData111[i].name=="sSortDir_0"){
+                    order=value;
+                }
+                if(aoData111[i].name=="sSearch"){
+                    searchtext=value;
+                }
+                if(aoData111[i].name=="iDisplayStart"){
+                    pageOffset=value
+                }
+                if(aoData111[i].name=="iDisplayLength"){
+                    size=value
+                }
+                if(aoData111[i].name=="sEcho"){
+                    sEcho=value;
+                }
+
+            }
             var page=Math.floor(pageOffset/size)+1;
             $.ajax({
                 url : sSource111,//这个就是请求地址对应sAjaxSource
@@ -207,5 +273,45 @@
         })
     </script>
 </c:if>
+<script src="${pageContext.request.contextPath}/resources/rear-end/assets/js/bootstrap.js"></script>
+
+<!-- page specific plugin scripts -->
+<script src="${pageContext.request.contextPath}/resources/rear-end/assets/js/jquery.dataTables.min.js"></script>
+<script src="${pageContext.request.contextPath}/resources/rear-end/assets/js/jquery.dataTables.bootstrap.js"></script>
+
+<!-- ace scripts -->
+<script src="${pageContext.request.contextPath}/resources/rear-end/assets/js/ace/elements.scroller.js"></script>
+<script src="${pageContext.request.contextPath}/resources/rear-end/assets/js/ace/elements.colorpicker.js"></script>
+<script src="${pageContext.request.contextPath}/resources/rear-end/assets/js/ace/elements.fileinput.js"></script>
+<script src="${pageContext.request.contextPath}/resources/rear-end/assets/js/ace/elements.typeahead.js"></script>
+<script src="${pageContext.request.contextPath}/resources/rear-end/assets/js/ace/elements.wysiwyg.js"></script>
+<script src="${pageContext.request.contextPath}/resources/rear-end/assets/js/ace/elements.spinner.js"></script>
+<script src="${pageContext.request.contextPath}/resources/rear-end/assets/js/ace/elements.treeview.js"></script>
+<script src="${pageContext.request.contextPath}/resources/rear-end/assets/js/ace/elements.wizard.js"></script>
+<script src="${pageContext.request.contextPath}/resources/rear-end/assets/js/ace/elements.aside.js"></script>
+<script src="${pageContext.request.contextPath}/resources/rear-end/assets/js/ace/ace.js"></script>
+<script src="${pageContext.request.contextPath}/resources/rear-end/assets/js/ace/ace.ajax-content.js"></script>
+<script src="${pageContext.request.contextPath}/resources/rear-end/assets/js/ace/ace.touch-drag.js"></script>
+<script src="${pageContext.request.contextPath}/resources/rear-end/assets/js/ace/ace.sidebar.js"></script>
+<script src="${pageContext.request.contextPath}/resources/rear-end/assets/js/ace/ace.sidebar-scroll-1.js"></script>
+<script src="${pageContext.request.contextPath}/resources/rear-end/assets/js/ace/ace.submenu-hover.js"></script>
+<script src="${pageContext.request.contextPath}/resources/rear-end/assets/js/ace/ace.widget-box.js"></script>
+<script src="${pageContext.request.contextPath}/resources/rear-end/assets/js/ace/ace.settings.js"></script>
+<script src="${pageContext.request.contextPath}/resources/rear-end/assets/js/ace/ace.settings-rtl.js"></script>
+<script src="${pageContext.request.contextPath}/resources/rear-end/assets/js/ace/ace.settings-skin.js"></script>
+<script src="${pageContext.request.contextPath}/resources/rear-end/assets/js/ace/ace.widget-on-reload.js"></script>
+<script src="${pageContext.request.contextPath}/resources/rear-end/assets/js/ace/ace.searchbox-autocomplete.js"></script>
+<!-- the following scripts are used in demo only for onpage help and you don't need them -->
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/rear-end/assets/css/ace.onpage-help.css" />
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/rear-end/docs/assets/js/themes/sunburst.css" />
+
+<script type="text/javascript"> ace.vars['base'] = '${pageContext.request.contextPath}/resources/rear-end'; </script>
+<script src="${pageContext.request.contextPath}/resources/rear-end/assets/js/ace/elements.onpage-help.js"></script>
+<script src="${pageContext.request.contextPath}/resources/rear-end/assets/js/ace/ace.onpage-help.js"></script>
+<script src="${pageContext.request.contextPath}/resources/rear-end/docs/assets/js/rainbow.js"></script>
+<script src="${pageContext.request.contextPath}/resources/rear-end/docs/assets/js/language/generic.js"></script>
+<script src="${pageContext.request.contextPath}/resources/rear-end/docs/assets/js/language/html.js"></script>
+<script src="${pageContext.request.contextPath}/resources/rear-end/docs/assets/js/language/css.js"></script>
+<script src="${pageContext.request.contextPath}/resources/rear-end/docs/assets/js/language/javascript.js"></script>
 </body>
 </html>
