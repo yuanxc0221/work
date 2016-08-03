@@ -4,7 +4,7 @@
 <html>
 <head>
     <title>
-        报名管理
+        管理员管理
     </title>
     <meta charset="utf-8">
     <%@ include file="../se7en_css.jsp" %>
@@ -25,19 +25,16 @@
             <div class="col-lg-12">
                 <div class="widget-container fluid-height clearfix">
                     <div class="heading">
-                        <i class="icon-table"></i>报名管理
-                        <a class="btn btn-sm btn-primary-outline pull-right" href="${pageContext.request.contextPath}/admin/user/saveUI" ><i class="icon-plus"></i>添加</a>
+                        <i class="icon-table"></i>管理员管理<a class="btn btn-sm btn-primary-outline pull-right" href="${pageContext.request.contextPath}/admin/admin/saveUI" ><i class="icon-plus"></i>添加</a>
                     </div>
                     <div class="widget-content padded clearfix">
                         <table class="table table-bordered table-striped" id="datatable-editable">
                             <thead>
-                            <th width="150px">姓名</th>
-                            <th width="150px">登陆名</th>
-                            <th width="100px">性别</th>
-                            <th width="100px">电话</th>
-                            <th width="110px">邮箱</th>
-                            <th width="130px">日期</th>
-                            <th width="140px">操作</th>
+                            <th width="200px">账号名</th>
+                            <th width="200px">姓名</th>
+                            <th width="200px">电话</th>
+                            <th width="200px">邮箱</th>
+                            <th width="150px">操作</th>
                             </thead>
                             <tbody>
                             </tbody>
@@ -52,13 +49,13 @@
 <%@ include file="../se7en_js.jsp" %>
 <script type="text/javascript">
     $(document).ready(function() {
-        $("#user_page").addClass("current");
+        $("#admin_page").addClass("current");
         var oTable= $("#datatable-editable").dataTable({
             "bProcessing": true, // 是否显示取数据时的那个等待提示
             "bServerSide": true,//这个用来指明是通过服务端来取数据
             "sPaginationType": "full_numbers", //分页风格，full_number会把所有页码显示出来（大概是，自己尝试）
             "iDisplayLength": 10,//每页显示10条数据
-            "sAjaxSource": "${pageContext.request.contextPath}/admin/user/dataTable",//这个是请求的地址
+            "sAjaxSource": "${pageContext.request.contextPath}/admin/admin/dataTable",//这个是请求的地址
             "fnServerData": retrieveData ,
             "oLanguage" : { // 汉化
                 "sProcessing" : "正在加载数据...",
@@ -79,35 +76,18 @@
             },
             "aoColumns":
                     [
+                        { "mData": "account", 'sClass':'center'},
                         { "mData": "name", 'sClass':'center'},
-                        { "mData": "username", 'sClass':'center'},
-                        { "mData": "sex", 'sClass':'center'},
-                        { "mData": "phone", 'sClass':'center'},
+                        { "mData": "phoneNumber", 'sClass':'center'},
                         { "mData": "email", 'sClass':'center'},
                         {
-                            "mDataProp": "date",
-                            "bSortable": true,
-                            "fnRender": function(obj) {
-                                var datetime = new Date();
-                                datetime.setTime(obj.aData.date);
-                                var year = datetime.getFullYear();
-                                var month = datetime.getMonth() + 1 < 10 ? "0" + (datetime.getMonth() + 1) : datetime.getMonth() + 1;
-                                var date = datetime.getDate() < 10 ? "0" + datetime.getDate() : datetime.getDate();
-                                var hour = datetime.getHours()< 10 ? "0" + datetime.getHours() : datetime.getHours();
-                                var minute = datetime.getMinutes()< 10 ? "0" + datetime.getMinutes() : datetime.getMinutes();
-                                var second = datetime.getSeconds()< 10 ? "0" + datetime.getSeconds() : datetime.getSeconds();
-                                return year + "-" + month + "-" + date+" "+hour+":"+minute+":"+second;
-                            }
-                        },
-                        {
-                            "mDataProp": "u_id",
+                            "mDataProp": "a_id",
                             "bSearchable": false,
                             "bSortable": false,
                             "fnRender": function(obj) {
-                                var id=obj.aData.u_id;
-                                var render=  '<a target="_blank"  href="${pageContext.request.contextPath}/admin/user/saveUI/'+id+'"><i class="icon-search"></i>查看/修改</a>';
+                                var id=obj.aData.a_id;
+                                var render=  '<a target="_blank"  href="${pageContext.request.contextPath}/admin/admin/show/'+id+'"><i class="icon-search"></i>查看</a>';
                                 render += '&nbsp;&nbsp;';
-                                render += '<a class="delete-row" href="#" name='+id+'><i class="icon-remove"></i>删除</a>';
                                 return render;
                              }
                         }
@@ -118,13 +98,10 @@
 // 3个参数的名字可以随便命名,但必须是3个参数,少一个都不行
         function retrieveData( sSource111,aoData111, fnCallback111) {
                 var arrayObj=new Array(
+                        { "mData": "account", 'sClass':'center'},
                         { "mData": "name", 'sClass':'center'},
-                        { "mData": "username", 'sClass':'center'},
-                        { "mData": "sex", 'sClass':'center'},
-                        { "mData": "phone", 'sClass':'center'},
-                        { "mData": "email", 'sClass':'center'},
-                        { "mData": "date", 'sClass':'center'},
-                        { "mData": "u_id", 'sClass':'center'}
+                        { "mData": "phoneNumber", 'sClass':'center'},
+                        { "mData": "email", 'sClass':'center'}
                 );
                 var searchtext="";
                 var sort="";
@@ -174,7 +151,7 @@
         $('#datatable-editable').on('click', 'a.delete-row', function (e) {
             var id=$(this).attr("name");
             var nRow = $(this).parents('tr')[0];
-            $.post("${pageContext.request.contextPath}/admin/user/delete/"+id, function(result){
+            $.post("${pageContext.request.contextPath}/admin/admin/delete/"+id, function(result){
                 if(result.success){
                     oTable.fnDeleteRow( nRow );
                     $("#msg >p").text("提示:"+result.msg);
@@ -191,14 +168,12 @@
 
     });
 </script>
-<c:if test="${result!=null}">
+<c:if test="${msg!=null}">
     <script type="application/javascript">
         $().ready(function(){
-            if(${result.success}){
-                $("#msg >p").text("提示:${result.msg}");
-                $("#msg").removeAttrs("hidden");
-            }else{
-                $("#msg >p").text("提示:${result.msg}");
+            var result=${msg};
+            if(result){
+                $("#msg >p").text("提示:"+result.msg);
                 $("#msg").removeAttrs("hidden");
             }
             setTimeout(function(){    //设时延迟0.5s执行

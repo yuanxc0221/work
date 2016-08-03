@@ -128,6 +128,7 @@ public class AdminController extends BaseAdminController<Admin,Long> {
      */
     @RequestMapping(value = "/saveUI/{id}")
     public String saveUI(@PathVariable Long id , Model model) {
+        model.addAttribute("id",id);
         model.addAttribute(this.adminService.selectByPrimaryKey(id));
         return TEMPLATE_PATH + "saveUI";
     }
