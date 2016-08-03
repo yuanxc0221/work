@@ -46,7 +46,7 @@
                 <li class="divider"></li>
 
                 <li>
-                    <a href="#">
+                    <a href="${pageContext.request.contextPath}/admin/admin/logout">
                         <i class="ace-icon fa fa-power-off"></i>
                         注销
                     </a>

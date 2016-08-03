@@ -59,7 +59,7 @@ public class AdminSessionInterceptor implements HandlerInterceptor {
             } else {
                 System.out.println("未通过拦截器");
                 request.setAttribute("result", new AjaxResult(false, "您还没有登录或登录已超时，请重新登录"));
-                request.getRequestDispatcher("/WEB-INF/jsp/admin/loginUI.jsp").forward(request, response);
+                request.getRequestDispatcher("/WEB-INF/admin/admin/loginUI.jsp").forward(request, response);
                 return false;
             }
         }
