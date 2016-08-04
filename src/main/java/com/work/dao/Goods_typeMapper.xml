@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.work.dao.Goods_typeMapper">
+    <resultMap id="BaseResultMap" type="com.work.model.Goods_type">
+        <id column="gt_id" property="gt_id" jdbcType="BIGINT"/>
+        <result column="introduction" property="introduction" jdbcType="VARCHAR"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+    </resultMap>
+    <parameterMap type="java.util.Map" id="getPageBean">
+        <parameter property="pageOffset" mode="IN" jdbcType="INTEGER"/>
+        <parameter property="size" mode="IN" jdbcType="INTEGER"/>
+        <parameter property="searchText" mode="IN" jdbcType="VARCHAR"/>
+        <parameter property="sort" mode="IN" jdbcType="VARCHAR"/>
+        <parameter property="order" mode="IN" jdbcType="VARCHAR"/>
+    </parameterMap>
+    <sql id="select">
+        gt_id,
+        introduction,
+        name
+    </sql>
+    <select id="selectAllGoods_type" parameterMap="getPageBean" resultMap="BaseResultMap">
+        SELECT <include refid="select" />
+        FROM goods_type
+        <if test="searchText !=null">
+            WHERE  name LIKE #{searchText}
+            OR introduction LIKE #{searchText}
+        </if>
+        <if test="sort != null">
+            ORDER BY ${sort} ${order}
+        </if>
+        limit #{pageOffset},#{size}
+    </select>
+    <select id="countAll" parameterMap="getPageBean" resultType="int">
+        SELECT count(gt_id)
+        FROM goods_type
+        <if test="searchText !=null">
+            WHERE  name LIKE #{searchText}
+            OR introduction LIKE #{searchText}
+        </if>
+        <if test="sort != null">
+            ORDER BY #{sort} #{order}
+        </if>
+    </select>
+    <update id="updateInfo" parameterType="com.work.model.Goods_type">
+        UPDATE
+        goods_type
+        <set>
+            <if test="name != null">
+                name = #{name},
+            </if>
+            <if test="introduction != null">
+                introduction = #{introduction},
+            </if>
+        </set>
+        WHERE gt_id = #{gt_id};
+    </update>
+    <select id="selectById" parameterType="INTEGER" resultType="com.work.model.Goods_type">
+        SELECT <include refid="select" />
+        FROM goods_type
+        WHERE gt_id = #{gt_id}
+    </select>
+    <delete id="deleteById" parameterType="INTEGER">
+        DELETE FROM goods_type
+        WHERE gt_id = #{gt_id}
+    </delete>
+</mapper>
