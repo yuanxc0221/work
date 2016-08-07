@@ -2,9 +2,17 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.work.dao.Goods_typeMapper">
     <resultMap id="BaseResultMap" type="com.work.model.Goods_type">
-        <id column="gt_id" property="gt_id" jdbcType="BIGINT"/>
+        <id column="gt_id" property="gt_id" jdbcType="INTEGER"/>
         <result column="introduction" property="introduction" jdbcType="VARCHAR"/>
         <result column="name" property="name" jdbcType="VARCHAR"/>
+        <collection property="goodsList" column="goods_type" ofType="com.work.model.Goods">
+            <id column="g_id" property="g_id" jdbcType="INTEGER"></id>
+            <result column="name" property="name" jdbcType="VARCHAR"></result>
+            <result column="date" property="date" jdbcType="VARCHAR"></result>
+            <result column="introduction" property="introduction" jdbcType="VARCHAR"></result>
+            <result column="money" property="money" jdbcType="INTEGER"></result>
+            <result column="picture" property="picture" jdbcType="VARCHAR"></result>
+        </collection>
     </resultMap>
     <parameterMap type="java.util.Map" id="getPageBean">
         <parameter property="pageOffset" mode="IN" jdbcType="INTEGER"/>
@@ -63,4 +71,7 @@
         DELETE FROM goods_type
         WHERE gt_id = #{gt_id}
     </delete>
+    <insert id="addGoods_type" parameterType="com.work.model.Goods_type">
+        INSERT INTO goods_type (name,introduction)VALUES (#{name},#{introduction});
+    </insert>
 </mapper>

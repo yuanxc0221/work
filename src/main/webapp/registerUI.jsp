@@ -17,7 +17,7 @@
     <div class="login-wrapper">
       <div class="login-container">
         <a href="index.html"><img width="100" height="30" src="${pageContext.request.contextPath}/resources/admin/images/logo-login%402x.png" /></a>
-        <form action="${pageContext.request.contextPath}/admin/user/add" method="post">
+        <form action="${pageContext.request.contextPath}/user/user/add" method="post">
           <div class="form-group">
             <input class="form-control" id="username" name="username" type="text" placeholder="登录名">
           </div>

@@ -57,7 +57,7 @@
                             <li><a href="#">
                                 <i class="icon-user"></i>我的账户</a>
                             </li>
-                            <li><a href="${pageContext.request.contextPath}/admin/user/logout">
+                            <li><a href="${pageContext.request.contextPath}/user/user/logout">
                                 <i class="icon-user"></i>注销</a>
                             </li>
                         </ul>

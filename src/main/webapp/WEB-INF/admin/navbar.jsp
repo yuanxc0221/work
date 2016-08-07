@@ -20,8 +20,33 @@
         <li class="purple">
             <a id="user_page" href="${pageContext.request.contextPath}/admin/user/list">
                 <i class="ace-icon fa fa-group"></i>
-                用户管理
+                用户
             </a>
+        </li>
+
+        <li class="blue">
+            <a id="goodsType_page" href="#" data-toggle="dropdown" class="dropdown-toggle">
+                <i class="ace-icon fa fa-group"></i>
+                商品
+                <i class="ace-icon fa fa-caret-down"></i>
+            </a>
+            <ul class="user-menu dropdown-menu-right dropdown-menu dropdown-yellow dropdown-caret dropdown-close">
+                <li>
+                    <a href="${pageContext.request.contextPath}/admin/goods_type/list">
+                        <i class="ace-icon fa fa-user"></i>
+                        商品类型
+                    </a>
+                </li>
+
+                <li class="divider"></li>
+
+                <li>
+                    <a href="${pageContext.request.contextPath}/admin/goods/list">
+                        <i class="ace-icon fa fa-user"></i>
+                        商品管理
+                    </a>
+                </li>
+            </ul>
         </li>
 
         <li class="light-blue">

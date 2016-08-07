@@ -76,6 +76,7 @@
                     </h3>
 					<div class="table-header">
 						datatables
+                        <a class="btn btn-sm btn-primary-outline pull-right col-xs-1" href="${pageContext.request.contextPath}/admin/admin/saveUI" id="add-row"><i class="glyphicon glyphicon-plus"></i> 添加</a>
 					</div>
 					<div class="widget-container fluid-height clearfix" >
 						<div id="sample-table-2_wrapper" class="widget-content padded clearfix dataTables_wrapper form-inline no-footer">

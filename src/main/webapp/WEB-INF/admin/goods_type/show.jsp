@@ -89,50 +89,22 @@
                 </div>
                 <!-- PAGE CONTENT BEGINS -->
                 <br><br>
-                <form action="${pageContext.request.contextPath}/admin/user/${ user.u_id == null ? 'add' : 'update' }" id="user-form" method="post" class="form-horizontal" role="form">
+                <form action="${pageContext.request.contextPath}/admin/goods_type/${ goods_type.gt_id == null ? 'add' : 'update' }" id="user-form" method="post" class="form-horizontal" role="form">
                     <fieldset>
                         <div class="hidden">
-                            <input name="u_id" type="hidden" value="${u_id}"/>
+                            <input name="u_id" type="hidden" value="${goods_type.gt_id}"/>
                         </div>
                         <div class="form-group">
-                            <label class="col-sm-3 control-label no-padding-right" for="name"> 姓名 </label>
+                            <label class="col-sm-3 control-label no-padding-right" for="name"> 类型名称 </label>
                             <div class="col-sm-9">
-                                <input type="text" id="name" name="name" class="col-xs-10 col-sm-5" value="${user.name} "/>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label class="col-sm-3 control-label no-padding-right" for="name"> 登录名 </label>
-                            <div class="col-sm-9">
-                                <input type="text" id="username" name="username" value="${user.username}" class="col-xs-10 col-sm-5"/>
+                                <input type="text" id="name" name="name" class="col-xs-10 col-sm-5" value="${goods_type.name}"/>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-sm-3 control-label no-padding-right" for="phone"> 手机号码 </label>
-                            <div class="col-sm-9">
-                                <input type="text" id="phone" name="phone"
-                                      value="${user.phone}" class="col-xs-10 col-sm-5"/>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-sm-3 control-label no-padding-right" for="address"> 联系地址 </label>
-                            <div class="col-sm-9">
-                                <input type="text" id="address" name="address"
-                                       value="${user.address}" class="col-xs-10 col-sm-5"/>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-sm-3 control-label no-padding-right" for="email"> 邮箱 </label>
-                            <div class="col-sm-9">
-                                <input type="email" id="email" name="email"
-                                       class="col-xs-10 col-sm-5" value="${user.email}"/>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-sm-3 control-label no-padding-right" for="introduction"> 个人说明 </label>
+                            <label class="col-sm-3 control-label no-padding-right" for="introduction"> 类型介绍 </label>
                             <div class="col-sm-9">
                                 <textarea id="introduction" name="introduction"
-                                          class="col-xs-10 col-sm-5" type="text">${user.introduction}</textarea>
+                                          class="col-xs-10 col-sm-5" type="text">${goods_type.introduction}</textarea>
                             </div>
                         </div>
                         <div class="clearfix form-actions">

@@ -1,7 +1,9 @@
 package com.work.model;
 
+import javax.persistence.Table;
+import javax.persistence.Transient;
 import java.util.Date;
-
+@Table(name = "goods")
 public class Goods {
     private Integer g_id;
 
@@ -11,20 +13,44 @@ public class Goods {
 
     private Date date;
 
-    private Goods_type goodsType = new Goods_type();
-
     private String picture;
 
     private Double money;
 
-    public Goods(Date date, Integer g_id, String introduction, String name, Goods_type goodsType, String picture, Double money) {
-        this.date = date;
-        this.g_id = g_id;
-        this.introduction = introduction;
-        this.name = name;
+    private Long goodsType;
+
+    @Transient
+    private Goods_type goods_type;
+
+    @Override
+    public String toString() {
+        return "Goods{" +
+                "g_id=" + g_id +
+                ", introduction='" + introduction + '\'' +
+                ", name='" + name + '\'' +
+                ", date=" + date +
+                ", picture='" + picture + '\'' +
+                ", money=" + money +
+                ", goodsType=" + goodsType +
+                ", goods_type=" + goods_type +
+                '}';
+    }
+
+    public Goods_type getGoods_type() {
+        return goods_type;
+    }
+
+    public void setGoods_type(Goods_type goods_type) {
+        this.goods_type = goods_type;
+    }
+
+    public Long getGoodsType() {
+
+        return goodsType;
+    }
+
+    public void setGoodsType(Long goodsType) {
         this.goodsType = goodsType;
-        this.picture = picture;
-        this.money = money;
     }
 
     public Integer getG_id() {
@@ -33,14 +59,6 @@ public class Goods {
 
     public void setG_id(Integer g_id) {
         this.g_id = g_id;
-    }
-
-    public Goods_type getGoodsType() {
-        return goodsType;
-    }
-
-    public void setGoodsType(Goods_type goodsType) {
-        this.goodsType = goodsType;
     }
 
     public String getName() {
