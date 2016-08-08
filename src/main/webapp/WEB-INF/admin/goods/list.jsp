@@ -144,7 +144,7 @@
                     [
                         { "mData": "name", 'sClass':'center'},
                         { "mData": "money", 'sClass':'center'},
-                        { "mData": "goods_type.gt_name", 'sClass':'center'},   //todo
+                        { "mData": "goods_type.gt_name", 'sClass':'center'},
                         {
                             "mDataProp": "g_id",
                             "bSearchable": false,

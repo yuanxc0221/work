@@ -6,7 +6,7 @@
         <result column="introduction" property="introduction" jdbcType="VARCHAR"/>
         <result column="name" property="name" jdbcType="VARCHAR"/>
         <result column="date" property="date" jdbcType="VARCHAR" />
-        <result column="goods_type_id" property="goods_type_id" jdbcType="INTEGER" />  <!-- todo 有很多细节还没确定下来-->
+        <result column="goods_type_id" property="goods_type_id" jdbcType="INTEGER" />
         <result column="picture" property="picture" jdbcType="VARCHAR" />
         <result column="money" property="money" jdbcType="INTEGER" />
         <association property="goods_type" javaType="com.work.model.Goods_type">
@@ -69,7 +69,7 @@
             <if test="introduction != null">
                 introduction = #{introduction},
             </if>
-            <if test="goods_type_id != null">       <!-- todo 有很多细节还没确定下来-->
+            <if test="goods_type_id != null">
                 goods_type_id = #{goods_type_id},
             </if>
             <if test="picture != null">
