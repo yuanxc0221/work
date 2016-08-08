@@ -3,9 +3,9 @@
 <mapper namespace="com.work.dao.Goods_typeMapper">
     <resultMap id="BaseResultMap" type="com.work.model.Goods_type">
         <id column="gt_id" property="gt_id" jdbcType="INTEGER"/>
-        <result column="introduction" property="introduction" jdbcType="VARCHAR"/>
-        <result column="name" property="name" jdbcType="VARCHAR"/>
-        <collection property="goodsList" column="goods_type" ofType="com.work.model.Goods">
+        <result column="gt_introduction" property="gt_introduction" jdbcType="VARCHAR"/>
+        <result column="gt_name" property="gt_name" jdbcType="VARCHAR"/>
+        <collection property="goodsList" column="goods_type_id" ofType="com.work.model.Goods">
             <id column="g_id" property="g_id" jdbcType="INTEGER"></id>
             <result column="name" property="name" jdbcType="VARCHAR"></result>
             <result column="date" property="date" jdbcType="VARCHAR"></result>
@@ -23,15 +23,15 @@
     </parameterMap>
     <sql id="select">
         gt_id,
-        introduction,
-        name
+        gt_introduction,
+        gt_name
     </sql>
     <select id="selectAllGoods_type" parameterMap="getPageBean" resultMap="BaseResultMap">
         SELECT <include refid="select" />
         FROM goods_type
         <if test="searchText !=null">
-            WHERE  name LIKE #{searchText}
-            OR introduction LIKE #{searchText}
+            WHERE  gt_name LIKE #{searchText}
+            OR gt_introduction LIKE #{searchText}
         </if>
         <if test="sort != null">
             ORDER BY ${sort} ${order}
@@ -42,8 +42,8 @@
         SELECT count(gt_id)
         FROM goods_type
         <if test="searchText !=null">
-            WHERE  name LIKE #{searchText}
-            OR introduction LIKE #{searchText}
+            WHERE  gt_name LIKE #{searchText}
+            OR gt_introduction LIKE #{searchText}
         </if>
         <if test="sort != null">
             ORDER BY #{sort} #{order}
@@ -53,16 +53,16 @@
         UPDATE
         goods_type
         <set>
-            <if test="name != null">
-                name = #{name},
+            <if test="gt_name != null">
+                gt_name = #{gt_name},
             </if>
-            <if test="introduction != null">
-                introduction = #{introduction},
+            <if test="gt_introduction != null">
+                gt_introduction = #{gt_introduction},
             </if>
         </set>
         WHERE gt_id = #{gt_id};
     </update>
-    <select id="selectById" parameterType="INTEGER" resultType="com.work.model.Goods_type">
+    <select id="selectById" parameterType="INTEGER" resultMap="BaseResultMap">
         SELECT <include refid="select" />
         FROM goods_type
         WHERE gt_id = #{gt_id}
@@ -72,6 +72,6 @@
         WHERE gt_id = #{gt_id}
     </delete>
     <insert id="addGoods_type" parameterType="com.work.model.Goods_type">
-        INSERT INTO goods_type (name,introduction)VALUES (#{name},#{introduction});
+        INSERT INTO goods_type (gt_name,gt_introduction)VALUES (#{gt_name},#{gt_introduction});
     </insert>
 </mapper>

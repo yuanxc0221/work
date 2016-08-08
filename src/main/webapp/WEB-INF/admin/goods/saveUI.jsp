@@ -82,29 +82,44 @@
             <div class="col-xs-12">
                 <h3 class="header smaller lighter blue">　
                     <i class="glyphicon glyphicon-th"></i>
-                    管理员编辑
+                    商品编辑
                 </h3>
                 <div class="table-header">
-                    管理员编辑
+                    商品编辑
                 </div>
                 <!-- PAGE CONTENT BEGINS -->
                 <br><br>
-                <form action="${pageContext.request.contextPath}/admin/goods_type/${ goods_type.gt_id == null ? 'add' : 'update' }" id="user-form" method="post" class="form-horizontal" role="form">
+                <form action="${pageContext.request.contextPath}/admin/goods/${ goods.g_id == null ? 'add' : 'update' }" id="user-form" method="post" class="form-horizontal" role="form">
                     <fieldset>
                         <div class="hidden">
-                            <input name="gt_id" type="hidden" value="${goods_type.gt_id}"/>
+                            <input name="g_id" type="hidden" value="${goods.g_id}"/>
                         </div>
                         <div class="form-group">
-                            <label class="col-sm-3 control-label no-padding-right" for="gt_name"> 类型名称 </label>
+                            <label class="col-sm-3 control-label no-padding-right" for="name"> 商品名称 </label>
                             <div class="col-sm-9">
-                                <input type="text" id="gt_name" name="gt_name" class="col-xs-10 col-sm-5" value="${goods_type.gt_name}"/>
+                                <input type="text" id="name" name="name" class="col-xs-10 col-sm-5" value="${goods.name}"/>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-sm-3 control-label no-padding-right" for="gt_introduction"> 类型介绍 </label>
+                            <label class="col-sm-3 control-label no-padding-right" for="money"> 商品价格 </label>
                             <div class="col-sm-9">
-                                <textarea id="gt_introduction" name="gt_introduction"
-                                          class="col-xs-10 col-sm-5" type="text">${goods_type.gt_introduction}</textarea>
+                                <input type="text" id="money" name="money" class="col-xs-10 col-sm-5" value="${goods.money}"/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label no-padding-right" for="goods_type_id"> 商品类型 </label>
+                            <select class="col-sm-2" id="goods_type_id" name="goods_type_id">
+                                <option value="${goods.goods_type.gt_id}">${goods.goods_type.gt_name}</option>
+                                <c:forEach items="${goods_type_list}" var="itm">
+                                    <option value="${itm.gt_id}">${itm.gt_name}</option>
+                                </c:forEach>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label no-padding-right" for="introduction"> 商品介绍 </label>
+                            <div class="col-sm-9">
+                                <textarea id="introduction" name="introduction"
+                                          class="col-xs-10 col-sm-5" type="text">${goods.introduction}</textarea>
                             </div>
                         </div>
                         <div class="clearfix form-actions">

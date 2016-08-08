@@ -17,7 +17,7 @@ public class Goods {
 
     private Double money;
 
-    private Long goodsType;
+    private Long goods_type_id;
 
     @Transient
     private Goods_type goods_type;
@@ -31,26 +31,9 @@ public class Goods {
                 ", date=" + date +
                 ", picture='" + picture + '\'' +
                 ", money=" + money +
-                ", goodsType=" + goodsType +
+                ", goods_type_id=" + goods_type_id +
                 ", goods_type=" + goods_type +
                 '}';
-    }
-
-    public Goods_type getGoods_type() {
-        return goods_type;
-    }
-
-    public void setGoods_type(Goods_type goods_type) {
-        this.goods_type = goods_type;
-    }
-
-    public Long getGoodsType() {
-
-        return goodsType;
-    }
-
-    public void setGoodsType(Long goodsType) {
-        this.goodsType = goodsType;
     }
 
     public Integer getG_id() {
@@ -61,20 +44,20 @@ public class Goods {
         this.g_id = g_id;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public String getIntroduction() {
         return introduction;
     }
 
     public void setIntroduction(String introduction) {
         this.introduction = introduction;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public Date getDate() {
@@ -99,5 +82,21 @@ public class Goods {
 
     public void setMoney(Double money) {
         this.money = money;
+    }
+
+    public Long getGoods_type_id() {
+        return goods_type_id;
+    }
+
+    public void setGoods_type_id(Long goods_type_id) {
+        this.goods_type_id = goods_type_id;
+    }
+
+    public Goods_type getGoods_type() {
+        return goods_type;
+    }
+
+    public void setGoods_type(Goods_type goods_type) {
+        this.goods_type = goods_type;
     }
 }

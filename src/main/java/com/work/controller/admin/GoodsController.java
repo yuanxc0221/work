@@ -2,7 +2,8 @@ package com.work.controller.admin;
 
 import com.work.been.AjaxResult;
 import com.work.been.PageBean;
-import com.work.model.Goods_type;
+import com.work.model.Goods;
+import com.work.service.GoodsService;
 import com.work.service.Goods_typeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -16,12 +17,13 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.util.Map;
 
 /**
- * Created by 林智 on 2016/8/6.
+ * Created by 林智 on 2016/8/7.
  */
 @Controller
-@RequestMapping(value = "admin/goods_type")
-public class Goods_typeController extends BaseAdminController<Goods_type,Long>{
-
+@RequestMapping(value = "admin/goods")
+public class GoodsController extends BaseAdminController<Goods,Long>{
+    @Autowired
+    private GoodsService goodsService;
     @Autowired
     private Goods_typeService goods_typeService;
 
@@ -33,13 +35,13 @@ public class Goods_typeController extends BaseAdminController<Goods_type,Long>{
     @RequestMapping("dataTable")
     @ResponseBody
     public Map dataTable(String searchText, int sEcho, PageBean pageBean){
-        return goods_typeService.dataTable(searchText,sEcho,pageBean);
+        return goodsService.dataTable(searchText,sEcho,pageBean);
     }
 
     @RequestMapping("update")
-    public String update(Goods_type goods_type, RedirectAttributes redirectAttributes){
+    public String update(Goods goods, RedirectAttributes redirectAttributes){
         try {
-            goods_typeService.updateInfo(goods_type);
+            goodsService.updateInfo(goods);
             redirectAttributes.addFlashAttribute("msg",RESULT_OK);
             return REDIRECT_URL+"list";
         }catch (Exception e){
@@ -50,14 +52,15 @@ public class Goods_typeController extends BaseAdminController<Goods_type,Long>{
     }
 
     @RequestMapping(value = "/saveUI", method = RequestMethod.GET)
-    public String saveUI(){
+    public String saveUI(Model model){
+        model.addAttribute("goods_type_list", goods_typeService.selectAll());
         return TEMPLATE_PATH+"saveUI";
     }
 
     @RequestMapping("saveUI/{gt_id}")
     public String saveUI(@PathVariable int gt_id, Model model){
-        model.addAttribute("goods_type",goods_typeService.selectById(gt_id));
-        System.out.println(goods_typeService.selectById(gt_id));
+        model.addAttribute("goods",goodsService.selectById(gt_id));
+        model.addAttribute("goods_type_list", goods_typeService.selectAll());
         return TEMPLATE_PATH+"saveUI";
     }
 
@@ -66,8 +69,8 @@ public class Goods_typeController extends BaseAdminController<Goods_type,Long>{
     @ResponseBody
     public AjaxResult delete(@PathVariable int gt_id){
         try {
-         //   majorService.deleteByDepartId(gt_id);
-            goods_typeService.deleteById(gt_id);
+            //   majorService.deleteByDepartId(gt_id);
+            goodsService.deleteById(gt_id);
             return successResult;
         }catch (Exception e){
             e.printStackTrace();
@@ -77,14 +80,14 @@ public class Goods_typeController extends BaseAdminController<Goods_type,Long>{
 
     @RequestMapping("show/{gt_id}")
     public String show(@PathVariable int gt_id,Model model){
-        model.addAttribute("goods_type",goods_typeService.selectById(gt_id));
+        model.addAttribute("goods",goodsService.selectById(gt_id));
         return TEMPLATE_PATH+"show";
     }
 
     @RequestMapping("add")
-    public String add(Goods_type goods_type,RedirectAttributes redirectAttributes){
+    public String add(Goods goods,RedirectAttributes redirectAttributes){
         try {
-            goods_typeService.addGoods_type(goods_type);
+            goodsService.addGoods(goods);
             redirectAttributes.addFlashAttribute("msg", RESULT_OK);
             return REDIRECT_URL + "list";
         }catch (Exception e){

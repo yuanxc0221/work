@@ -6,13 +6,13 @@
         <result column="introduction" property="introduction" jdbcType="VARCHAR"/>
         <result column="name" property="name" jdbcType="VARCHAR"/>
         <result column="date" property="date" jdbcType="VARCHAR" />
-        <result column="goods_type" property="goodsType" jdbcType="INTEGER" />  <!-- todo 有很多细节还没确定下来-->
+        <result column="goods_type_id" property="goods_type_id" jdbcType="INTEGER" />  <!-- todo 有很多细节还没确定下来-->
         <result column="picture" property="picture" jdbcType="VARCHAR" />
         <result column="money" property="money" jdbcType="INTEGER" />
         <association property="goods_type" javaType="com.work.model.Goods_type">
             <id column="gt_id" property="gt_id" jdbcType="INTEGER"></id>
-            <result column="introduction" property="introduction" jdbcType="VARCHAR"></result>
-            <result column="name" property="name" jdbcType="VARCHAR"></result>
+            <result column="gt_introduction" property="gt_introduction" jdbcType="VARCHAR"></result>
+            <result column="gt_name" property="gt_name" jdbcType="VARCHAR"></result>
         </association>
     </resultMap>
     <parameterMap type="java.util.Map" id="getPageBean">
@@ -29,14 +29,17 @@
         date,
         picture,
         money,
-        goodsType
+        goods_type_id
     </sql>
     <select id="selectAllGoods" parameterMap="getPageBean" resultMap="BaseResultMap">
-        SELECT <include refid="select" />
-        FROM goods
+        SELECT g.g_id, g.introduction, g.name, g.date, g.picture, g.money ,
+        gt.gt_name
+        FROM goods AS g , goods_type AS gt
+        WHERE g.goods_type_id = gt.gt_id
         <if test="searchText !=null">
-            WHERE  name LIKE #{searchText}
-            OR introduction LIKE #{searchText} OR money LIKE #{searchText}
+            WHERE  g.name LIKE #{searchText}
+            OR g.introduction LIKE #{searchText} OR gt.gt_name LIKE #{searchText}
+            OR g.money LIKE #{searchText}
         </if>
         <if test="sort != null">
             ORDER BY ${sort} ${order}
@@ -44,11 +47,13 @@
         limit #{pageOffset},#{size}
     </select>
     <select id="countAll" parameterMap="getPageBean" resultType="int">
-        SELECT count(g_id)
-        FROM goods
+        SELECT count(*)
+        FROM goods g, goods_type gt
+        WHERE g.goods_type_id = gt.gt_id
         <if test="searchText !=null">
-            WHERE  name LIKE #{searchText}
-            OR introduction LIKE #{searchText}
+            WHERE  g.name LIKE #{searchText}
+            OR g.introduction LIKE #{searchText} OR gt.name LIKE #{searchText}
+            OR g.money LIKE #{searchText}
         </if>
         <if test="sort != null">
             ORDER BY #{sort} #{order}
@@ -64,8 +69,8 @@
             <if test="introduction != null">
                 introduction = #{introduction},
             </if>
-            <if test="goodsType != null">       <!-- todo 有很多细节还没确定下来-->
-                goodsType = #{goodsType},
+            <if test="goods_type_id != null">       <!-- todo 有很多细节还没确定下来-->
+                goods_type_id = #{goods_type_id},
             </if>
             <if test="picture != null">
                 picture = #{picture},
@@ -76,13 +81,19 @@
         </set>
         WHERE g_id = #{g_id};
     </update>
-    <select id="selectById" parameterType="INTEGER" resultType="com.work.model.Goods">
-        SELECT <include refid="select" />
-        FROM goods
-        WHERE g_id = #{g_id}
+    <select id="selectById" parameterType="INTEGER" resultMap="BaseResultMap">
+        SELECT g.g_id, g.introduction, g.name, g.date, g.picture, g.money ,
+               gt.gt_name, gt.gt_id
+        FROM goods g, goods_type gt
+        WHERE g_id = #{g_id} AND g.goods_type_id = gt.gt_id
     </select>
     <delete id="deleteById" parameterType="INTEGER">
         DELETE FROM goods
         WHERE g_id = #{g_id}
     </delete>
+    <insert id="addGoods" parameterType="com.work.model.Goods">
+        INSERT
+        INTO goods (name,introduction,date,picture,money,goods_type_id)
+        VALUES (#{name},#{introduction},#{date},#{picture},#{money},#{goods_type_id});
+    </insert>
 </mapper>

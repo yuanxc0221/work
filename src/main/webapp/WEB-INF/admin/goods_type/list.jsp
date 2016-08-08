@@ -141,17 +141,17 @@
             },
             "aoColumns":
                     [
-                        { "mData": "name", 'sClass':'center'},
-                        { "mData": "introduction", 'sClass':'center'},
+                        { "mData": "gt_name", 'sClass':'center'},
+                        { "mData": "gt_introduction", 'sClass':'center'},
                         {
                             "mDataProp": "gt_id",
                             "bSearchable": false,
                             "bSortable": false,
                             "fnRender": function(obj) {
                                 var id=obj.aData.gt_id;
-                                var render=  '<a target="_blank"  href="${pageContext.request.contextPath}/admin/goods_type/saveUI/'+id+'"><i class="icon-search"></i>查看/修改</a>';
+                                var render=  '<a target="_blank"  href="${pageContext.request.contextPath}/admin/goods_type/saveUI/'+id+'"><i class="glyphicon glyphicon-search"></i>查看/修改</a>';
                                 render += '&nbsp;&nbsp;';
-                                render += '<a class="delete-row" href="#" name='+id+'><i class="icon-remove"></i>删除</a>';
+                                render += '<a class="delete-row" href="#" name='+id+'><i class="glyphicon glyphicon-remove"></i>删除</a>';
                                 return render;
                             }
                         }
@@ -162,8 +162,8 @@
 // 3个参数的名字可以随便命名,但必须是3个参数,少一个都不行
         function retrieveData( sSource111,aoData111, fnCallback111) {
             var arrayObj=new Array(
-                    { "mData": "name", 'sClass':'center'},
-                    { "mData": "introduction", 'sClass':'center'},
+                    { "mData": "gt_name", 'sClass':'center'},
+                    { "mData": "gt_introduction", 'sClass':'center'},
                     { "mData": "gt_id", 'sClass':'center'}
             );
             var searchtext="";

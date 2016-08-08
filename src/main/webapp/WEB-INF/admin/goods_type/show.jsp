@@ -95,16 +95,16 @@
                             <input name="u_id" type="hidden" value="${goods_type.gt_id}"/>
                         </div>
                         <div class="form-group">
-                            <label class="col-sm-3 control-label no-padding-right" for="name"> 类型名称 </label>
+                            <label class="col-sm-3 control-label no-padding-right" for="gt_name"> 类型名称 </label>
                             <div class="col-sm-9">
-                                <input type="text" id="name" name="name" class="col-xs-10 col-sm-5" value="${goods_type.name}"/>
+                                <input type="text" id="gt_name" name="gt_name" class="col-xs-10 col-sm-5" value="${goods_type.gt_name}"/>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-sm-3 control-label no-padding-right" for="introduction"> 类型介绍 </label>
+                            <label class="col-sm-3 control-label no-padding-right" for="gt_introduction"> 类型介绍 </label>
                             <div class="col-sm-9">
-                                <textarea id="introduction" name="introduction"
-                                          class="col-xs-10 col-sm-5" type="text">${goods_type.introduction}</textarea>
+                                <textarea id="gt_introduction" name="gt_introduction"
+                                          class="col-xs-10 col-sm-5" type="text">${goods_type.gt_introduction}</textarea>
                             </div>
                         </div>
                         <div class="clearfix form-actions">

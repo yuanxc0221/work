@@ -31,7 +31,7 @@ public class UUserController extends BaseAdminController<User, String>{
             this.userService.add(user) ;
           //  redirectAttributes.addAttribute("msg",RESULT_OK);
             redirectAttributes.addFlashAttribute("result", new AjaxResult(true, "注册成功"));
-            return "loginUI";
+            return "redirect:/loginUI.jsp";
         }catch(Exception e){
             e.printStackTrace();
         }
@@ -46,7 +46,7 @@ public class UUserController extends BaseAdminController<User, String>{
             if (loginUser!=null){
                 session.setAttribute("loginUser",loginUser);
                 redirectAttributes.addFlashAttribute("result", new AjaxResult(true, "登录成功"));
-                return "index";
+                return "redirect:/index.jsp";
             }else {
                 redirectAttributes.addFlashAttribute("result", new AjaxResult(false, "用户名或者密码错误"));
                 return "redirect:/loginUI";
@@ -77,7 +77,7 @@ public class UUserController extends BaseAdminController<User, String>{
     @RequestMapping(value = "/logout", method = RequestMethod.GET)
     public String logout(HttpSession session) {
         session.removeAttribute("loginUser");
-        return "index";
+        return "redirect:/index.jsp";
     }
 
 }

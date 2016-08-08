@@ -72,24 +72,20 @@
             <div class="col-lg-12">
                 <h3 class="header smaller lighter blue">　
                     <i class="glyphicon glyphicon-th"></i>
-                    用户管理
+                    商品类型管理
                 </h3>
                 <div class="table-header">
                     datatables
-                    <a class="btn btn-sm btn-primary-outline pull-right col-xs-1" href="${pageContext.request.contextPath}/admin/user/saveUI" id="add-row"><i class="glyphicon glyphicon-plus"></i> 添加</a>
+                    <a class="btn btn-sm btn-primary-outline pull-right col-xs-1" href="${pageContext.request.contextPath}/admin/goods/saveUI" id="add-row"><i class="glyphicon glyphicon-plus"></i> 添加</a>　　
                 </div>
                 <div class="widget-container fluid-height clearfix" >
                     <div id="sample-table-2_wrapper" class="widget-content padded clearfix dataTables_wrapper form-inline no-footer">
                         <table id="datatable-editable" class="table table-striped table-bordered table-hover dataTable no-footer" role="grid">
                             <thead>
-                            <th width="150px">姓名</th>
-                            <th width="150px">登陆名</th>
-                            <th width="100px">性别</th>
-                            <th width="100px">电话</th>
-                            <th width="110px">邮箱</th>
-                            <th width="130px">日期</th>
+                            <th width="150px">商品名称</th>
+                            <th width="150px">商品价格(单位:元)</th>
+                            <th width="150px">商品类型</th>
                             <th width="140px">操作</th>
-                            <%--<th class="sorting_disabled" rowspan="1" colspan="1" aria-label=""></th>--%>
                             </thead>
                             <tbody>
                             </tbody>
@@ -119,13 +115,13 @@
 
 <script type="text/javascript">
     $(document).ready(function() {
-        $("#user_page").addClass("current");
+        $("#goodsType_page").addClass("current");
         var oTable= $("#datatable-editable").dataTable({
             "bProcessing": true, // 是否显示取数据时的那个等待提示
             "bServerSide": true,//这个用来指明是通过服务端来取数据
             "sPaginationType": "full_numbers", //分页风格，full_number会把所有页码显示出来（大概是，自己尝试）
             "iDisplayLength": 10,//每页显示10条数据
-            "sAjaxSource": "${pageContext.request.contextPath}/admin/user/dataTable",//这个是请求的地址
+            "sAjaxSource": "${pageContext.request.contextPath}/admin/goods/dataTable",//这个是请求的地址
             "fnServerData": retrieveData ,
             "oLanguage" : { // 汉化
                 "sProcessing" : "正在加载数据...",
@@ -147,32 +143,15 @@
             "aoColumns":
                     [
                         { "mData": "name", 'sClass':'center'},
-                        { "mData": "username", 'sClass':'center'},
-                        { "mData": "sex", 'sClass':'center'},
-                        { "mData": "phone", 'sClass':'center'},
-                        { "mData": "email", 'sClass':'center'},
+                        { "mData": "money", 'sClass':'center'},
+                        { "mData": "goods_type.gt_name", 'sClass':'center'},   //todo
                         {
-                            "mDataProp": "date",
-                            "bSortable": true,
-                            "fnRender": function(obj) {
-                                var datetime = new Date();
-                                datetime.setTime(obj.aData.date);
-                                var year = datetime.getFullYear();
-                                var month = datetime.getMonth() + 1 < 10 ? "0" + (datetime.getMonth() + 1) : datetime.getMonth() + 1;
-                                var date = datetime.getDate() < 10 ? "0" + datetime.getDate() : datetime.getDate();
-                                var hour = datetime.getHours()< 10 ? "0" + datetime.getHours() : datetime.getHours();
-                                var minute = datetime.getMinutes()< 10 ? "0" + datetime.getMinutes() : datetime.getMinutes();
-                                var second = datetime.getSeconds()< 10 ? "0" + datetime.getSeconds() : datetime.getSeconds();
-                                return year + "-" + month + "-" + date+" "+hour+":"+minute+":"+second;
-                            }
-                        },
-                        {
-                            "mDataProp": "u_id",
+                            "mDataProp": "g_id",
                             "bSearchable": false,
                             "bSortable": false,
                             "fnRender": function(obj) {
-                                var id=obj.aData.u_id;
-                                var render=  '<a target="_blank"  href="${pageContext.request.contextPath}/admin/user/saveUI/'+id+'"><i class="glyphicon glyphicon-search"></i>查看/修改</a>';
+                                var id=obj.aData.g_id;
+                                var render=  '<a target="_blank"  href="${pageContext.request.contextPath}/admin/goods/saveUI/'+id+'"><i class="glyphicon glyphicon-search"></i>查看/修改</a>';
                                 render += '&nbsp;&nbsp;';
                                 render += '<a class="delete-row" href="#" name='+id+'><i class="glyphicon glyphicon-remove"></i>删除</a>';
                                 return render;
@@ -186,12 +165,9 @@
         function retrieveData( sSource111,aoData111, fnCallback111) {
             var arrayObj=new Array(
                     { "mData": "name", 'sClass':'center'},
-                    { "mData": "username", 'sClass':'center'},
-                    { "mData": "sex", 'sClass':'center'},
-                    { "mData": "phone", 'sClass':'center'},
-                    { "mData": "email", 'sClass':'center'},
-                    { "mData": "date", 'sClass':'center'},
-                    { "mData": "u_id", 'sClass':'center'}
+                    { "mData": "money", 'sClass':'center'},
+                    { "mData": "goods_type.gt_name", 'sClass':'center'},
+                    { "mData": "g_id", 'sClass':'center'}
             );
             var searchtext="";
             var sort="";
@@ -241,7 +217,7 @@
         $('#datatable-editable').on('click', 'a.delete-row', function (e) {
             var id=$(this).attr("name");
             var nRow = $(this).parents('tr')[0];
-            $.post("${pageContext.request.contextPath}/admin/user/delete/"+id, function(result){
+            $.post("${pageContext.request.contextPath}/admin/goods/delete/"+id, function(result){
                 if(result.success){
                     oTable.fnDeleteRow( nRow );
                     $("#msg >p").text("提示:"+result.msg);
