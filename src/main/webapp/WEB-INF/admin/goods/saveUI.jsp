@@ -89,10 +89,33 @@
                 </div>
                 <!-- PAGE CONTENT BEGINS -->
                 <br><br>
-                <form action="${pageContext.request.contextPath}/admin/goods/${ goods.g_id == null ? 'add' : 'update' }" id="user-form" method="post" class="form-horizontal" role="form">
+                <form action="${pageContext.request.contextPath}/admin/goods/${ goods.g_id == null ? 'add' : 'update' }" id="user-form" method="post" class="form-horizontal" role="form" enctype="multipart/form-data" >
                     <fieldset>
                         <div class="hidden">
                             <input name="g_id" type="hidden" value="${goods.g_id}"/>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3">产品图片</label>
+                            <div class="col-md-4">
+                                <div class="fileupload fileupload-new" data-provides="fileupload">
+
+                                    <div class="fileupload-new " style="width: 200px; height: 150px;">
+                                        <c:choose>
+                                            <c:when test="${goods.picture!=null}">
+                                                <img style="width: 200px; max-height: 150px" src="${pageContext.request.contextPath}/resources/file/goods/${goods.picture}" >
+                                            </c:when>
+                                            <c:otherwise>
+                                                <img src="${pageContext.request.contextPath}/resources/admin/images/noimage.gif" >
+                                            </c:otherwise>
+                                        </c:choose>
+                                    </div>
+                                   <%-- <div class="fileupload-preview fileupload-exists img-thumbnail" style="width: 200px; max-height: 150px"></div>--%>
+                                    <%--<div>
+                                        <span class="btn btn-default btn-file"><span class="fileupload-new">选择图片</span><span class="fileupload-exists">修改</span><input type="file" name="picture"></span><a class="btn btn-default fileupload-exists" data-dismiss="fileupload" href="#">移除</a>
+                                    </div>--%>
+                                        <input class="btn btn-default" type="file" name="picture" size="15" maxlength="100">
+                                </div>
+                            </div>
                         </div>
                         <div class="form-group">
                             <label class="col-sm-3 control-label no-padding-right" for="name"> 商品名称 </label>
@@ -126,7 +149,7 @@
                             <div class="col-md-offset-3 col-md-9">
                                 <input class="btn btn-info " type="submit" value="保存"/>
                                 &nbsp; &nbsp; &nbsp;
-                                <a class="btn btn-default" href="${pageContext.request.contextPath}/admin/admin/list">返回</a>
+                                <a class="btn btn-default" href="${pageContext.request.contextPath}/admin/goods/list">返回</a>
                             </div>
                         </div>
                         <div class="hr hr-24"></div>

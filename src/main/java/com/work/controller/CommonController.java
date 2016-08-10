@@ -1,5 +1,8 @@
 package com.work.controller;
 
+import com.work.service.GoodsService;
+import com.work.service.Goods_typeService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -8,7 +11,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
  * @Explain: 公共视图控制器
  */
 @Controller
+@RequestMapping(value = "/")
 public class CommonController {
+    @Autowired
+    private GoodsService goodsService;
+    @Autowired
+    private Goods_typeService goods_typeService;
+
     /**
      * 首页
      * 

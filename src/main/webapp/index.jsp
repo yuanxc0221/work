@@ -127,7 +127,7 @@
                 <h2 class="text-center text-uppercase">商品列表</h2>
                 <hr>
             </div>
-            <div class="col-md-4 col-sm-4">
+            <%--<div class="col-md-4 col-sm-4">
                 <div class="gallery-wrapper">
                     <img src="${pageContext.request.contextPath}/resources/front-end/images/gallery-img1.jpg" class="img-responsive gallery-img" alt="Pizza 1">
                     <div class="gallery-des">
@@ -171,7 +171,7 @@
                         <h5>Maecenas efficitur nisi id sapien</h5>
                     </div>
                 </div>
-            </div>
+            </div>--%>
         </div>
     </div>
 </section>

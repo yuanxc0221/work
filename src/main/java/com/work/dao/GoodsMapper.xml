@@ -37,8 +37,8 @@
         FROM goods AS g , goods_type AS gt
         WHERE g.goods_type_id = gt.gt_id
         <if test="searchText !=null">
-            WHERE  g.name LIKE #{searchText}
-            OR g.introduction LIKE #{searchText} OR gt.gt_name LIKE #{searchText}
+            WHERE  name LIKE #{searchText}
+            OR g.introduction LIKE #{searchText} /*OR gt.gt_name LIKE #{searchText}*/
             OR g.money LIKE #{searchText}
         </if>
         <if test="sort != null">
@@ -52,7 +52,7 @@
         WHERE g.goods_type_id = gt.gt_id
         <if test="searchText !=null">
             WHERE  g.name LIKE #{searchText}
-            OR g.introduction LIKE #{searchText} OR gt.name LIKE #{searchText}
+            OR g.introduction LIKE #{searchText} /*OR gt.name LIKE #{searchText}*/
             OR g.money LIKE #{searchText}
         </if>
         <if test="sort != null">

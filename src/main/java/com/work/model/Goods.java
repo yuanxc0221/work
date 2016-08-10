@@ -17,7 +17,7 @@ public class Goods {
 
     private Double money;
 
-    private Long goods_type_id;
+    private int goods_type_id;
 
     @Transient
     private Goods_type goods_type;
@@ -84,11 +84,11 @@ public class Goods {
         this.money = money;
     }
 
-    public Long getGoods_type_id() {
+    public int getGoods_type_id() {
         return goods_type_id;
     }
 
-    public void setGoods_type_id(Long goods_type_id) {
+    public void setGoods_type_id(int goods_type_id) {
         this.goods_type_id = goods_type_id;
     }
 

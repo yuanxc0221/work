@@ -2,6 +2,7 @@ package com.work.service;
 
 import com.work.been.PageBean;
 import com.work.model.Goods;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Map;
 
@@ -19,5 +20,7 @@ public interface GoodsService extends BaseService<Goods>{
     void updateInfo(Goods goods);
 
     void addGoods(Goods goods);
+
+    void saveOrUpdatePicture(Goods goods, MultipartFile picture);
 
 }

@@ -8,12 +8,11 @@ import com.work.service.Goods_typeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.Date;
 import java.util.Map;
 
 /**
@@ -39,8 +38,16 @@ public class GoodsController extends BaseAdminController<Goods,Long>{
     }
 
     @RequestMapping("update")
-    public String update(Goods goods, RedirectAttributes redirectAttributes){
+    public String update(@RequestParam("picture") MultipartFile picture, String name,
+                         double money, int goods_type_id, String introduction, int g_id,
+                         RedirectAttributes redirectAttributes){
         try {
+            Goods goods = goodsService.selectById(g_id);
+            goods.setMoney(money);
+            goods.setIntroduction(introduction);
+            goods.setName(name);
+            goods.setGoods_type_id(goods_type_id);
+            goodsService.saveOrUpdatePicture(goods, picture);
             goodsService.updateInfo(goods);
             redirectAttributes.addFlashAttribute("msg",RESULT_OK);
             return REDIRECT_URL+"list";
@@ -85,8 +92,18 @@ public class GoodsController extends BaseAdminController<Goods,Long>{
     }
 
     @RequestMapping("add")
-    public String add(Goods goods,RedirectAttributes redirectAttributes){
+    public String add(@RequestParam("picture") MultipartFile picture, String name,
+                      double money, int goods_type_id, String introduction,
+                      RedirectAttributes redirectAttributes){       //参数没办法带Goods对象,报400
         try {
+            Goods goods = new Goods();
+            goods.setDate(new Date());
+            goods.setName(name);
+            goods.setGoods_type_id(goods_type_id);
+            goods.setIntroduction(introduction);
+            goods.setMoney(money);
+            System.out.println(picture + "---------------");
+            goodsService.saveOrUpdatePicture(goods, picture);
             goodsService.addGoods(goods);
             redirectAttributes.addFlashAttribute("msg", RESULT_OK);
             return REDIRECT_URL + "list";

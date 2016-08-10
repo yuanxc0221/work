@@ -203,7 +203,7 @@
                 var page=Math.floor(pageOffset/size)+1;
                 $.ajax({
                     url : sSource111,//这个就是请求地址对应sAjaxSource
-                    data :{"sort":sort,"order":order,"pageOffset":pageOffset,"pageSize":size,"searchText":searchtext,"page":page,"sEcho":sEcho},//这个是把datatable的一些基本数据传给后台,比如起始位置,每页显示的行数
+                    data :{"sort":sort,"order":order,"pageOffset":pageOffset,"size":size,"searchText":searchtext,"page":page,"sEcho":sEcho},//这个是把datatable的一些基本数据传给后台,比如起始位置,每页显示的行数
                     type : 'post',
                     dataType : 'json',
                     async : false,

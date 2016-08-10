@@ -1,5 +1,6 @@
 package com.work.util;
 
+import com.work.model.Goods;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
@@ -23,7 +24,7 @@ public class FileUploadUtil {
     /**
      * 产品图片的保存位置
      */
-    public final static String PRODUCT_PATH = "/resources/file/product";
+    public final static String PRODUCT_PATH = "/resources/file/goods";
 
 /*    *//**
      * 上传App
@@ -48,15 +49,15 @@ public class FileUploadUtil {
      * @param uploadFile
      * @param
      */
- /*   public static void uploadProductPicture(MultipartFile uploadFile,Product product){
+    public static void uploadProductPicture(MultipartFile uploadFile,Goods goods){
         if (!uploadFile.isEmpty()){
-            if (product.getPicture()!=null){
-                deleteFile(PRODUCT_PATH,product.getPicture());
+            if (goods.getPicture()!=null){
+                deleteFile(PRODUCT_PATH,goods.getPicture());
             }
-            product.setPicture(uploadFile(uploadFile, PRODUCT_PATH));
+            goods.setPicture(uploadFile(uploadFile, PRODUCT_PATH));
 
         }
-    }*/
+    }
 	public static String uploadFile(MultipartFile uploadFile, String savePath) {
         RequestAttributes ar = RequestContextHolder.getRequestAttributes();
         HttpServletRequest request = ((ServletRequestAttributes) ar).getRequest();

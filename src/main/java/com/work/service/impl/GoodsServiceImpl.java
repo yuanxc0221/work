@@ -5,9 +5,11 @@ import com.work.dao.GoodsMapper;
 import com.work.model.Goods;
 import com.work.service.GoodsService;
 import com.work.util.BaseMapper;
+import com.work.util.FileUploadUtil;
 import org.apache.commons.collections.map.HashedMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.HashMap;
 import java.util.List;
@@ -73,5 +75,15 @@ public class GoodsServiceImpl extends BaseServiceImpl<Goods> implements GoodsSer
     public void addGoods(Goods goods) {
         goodsMapper.addGoods(goods);
     }
+
+    @Override
+    public void saveOrUpdatePicture(Goods goods, MultipartFile picture) {
+        FileUploadUtil.uploadProductPicture(picture, goods);
+        // 切割文章内用获取图片名称
+        System.out.println(goods + "==================================");
+       // this.addGoods(goods);
+    }
+
+
 
 }
