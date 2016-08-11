@@ -96,4 +96,15 @@
         INTO goods (name,introduction,date,picture,money,goods_type_id)
         VALUES (#{name},#{introduction},#{date},#{picture},#{money},#{goods_type_id});
     </insert>
+    <select id="getGoodsList" resultMap="BaseResultMap">
+        SELECT g.g_id, g.introduction, g.name, g.date, g.picture, g.money ,
+        gt.gt_name
+        FROM goods AS g , goods_type AS gt
+        WHERE g.goods_type_id = gt.gt_id
+    </select>
+    <select id="count"  resultType="int">
+        SELECT count(*)
+        FROM goods g, goods_type gt
+        WHERE g.goods_type_id = gt.gt_id
+    </select>
 </mapper>

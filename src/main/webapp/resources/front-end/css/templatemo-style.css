@@ -4,7 +4,7 @@
 
 body
 {
-  font-family: 'Signika', sans-serif;
+  font-family: 'Signika', sans-serif, "Microsoft YaHei";
   font-weight: 400;
   position: relative;
 }
@@ -14,7 +14,7 @@ h1,h2, h3, h4,
 .navbar-default .navbar-nav>li>a:focus
 {        
   color: #ffa400;
-  font-family: 'Chewy', cursive;
+  font-family: 'Chewy', cursive, "Microsoft YaHei";
   font-weight: 400;
 }
 

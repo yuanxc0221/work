@@ -19,7 +19,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=Edge">
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/lib/pagers/css/style.css" media="screen"/>
     <!-- bootstrap -->
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/front-end/css/bootstrap.min.css">
     <!-- font-awesome -->
@@ -32,6 +32,35 @@
 
 </head>
 <body id="home" data-spy="scroll" data-target=".navbar-collapse">
+
+<!--模态框-->
+<div class="modal fade" id="details" tabindex="-1" role="dialog" aria-labelledby="passSelectLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="passSelectLabel">面试结果查询</h4>
+            </div>
+            <div class="modal-body">
+                <form id="modal-form" action="#">
+                    <div class="form-group">
+                        <label for="modal_name" class="control-label">姓名:</label>
+                        <input type="text" class="form-control" id="modal_name" name="name">
+                    </div>
+                    <div class="form-group">
+                        <label for="modal_phone" class="control-label">手机号码:</label>
+                        <input class="form-control" id="modal_phone" name="phoneNumber">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                        <button id="modal_submit" type="submit" class="btn btn-primary">提交</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!--模态框-->
 
 <!-- start navigation -->
 <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -127,54 +156,18 @@
                 <h2 class="text-center text-uppercase">商品列表</h2>
                 <hr>
             </div>
-            <%--<div class="col-md-4 col-sm-4">
-                <div class="gallery-wrapper">
-                    <img src="${pageContext.request.contextPath}/resources/front-end/images/gallery-img1.jpg" class="img-responsive gallery-img" alt="Pizza 1">
-                    <div class="gallery-des">
-                        <h3>Curabitur </h3>
-                        <h5>Cras in ante mattis, elementum nunc sed.</h5>
-                    </div>
-                </div>
+            <div id="goods_show">
+                <!--商品列表-->
             </div>
-            <div class="col-md-4 col-sm-4">
-                <div class="gallery-wrapper">
-                    <img src="${pageContext.request.contextPath}/resources/front-end/images/gallery-img2.jpg" class="img-responsive gallery-img" alt="Pizza 2">
-                    <div class="gallery-des">
-                        <h3>Lorem ipsum</h3>
-                        <h5>In ullamcorper gravida enim id pulvinar</h5>
-                    </div>
+            <span class="pagers">
+                <div id="pagers" style="width: 480px">
+                    <!--分页插件显示-->
                 </div>
-            </div>
-            <div class="col-md-4 col-sm-4">
-                <div class="gallery-wrapper">
-                    <img src="${pageContext.request.contextPath}/resources/front-end/images/gallery-img3.jpg" class="img-responsive gallery-img" alt="Pizza 3">
-                    <div class="gallery-des">
-                        <h3>Pellentesque</h3>
-                        <h5>Maecenas efficitur nisi id sapien</h5>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-6 col-sm-6">
-                <div class="gallery-wrapper">
-                    <img src="${pageContext.request.contextPath}/resources/front-end/images/gallery-img4.jpg" class="img-responsive gallery-img" alt="Pizza 4">
-                    <div class="gallery-des">
-                        <h3>Suspendisse</h3>
-                        <h5>Mauris sit amet augue sit amet risus</h5>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-6 col-sm-6">
-                <div class="gallery-wrapper">
-                    <img src="${pageContext.request.contextPath}/resources/front-end/images/gallery-img5.jpg" class="img-responsive gallery-img" alt="Pizza 5">
-                    <div class="gallery-des">
-                        <h3>Elementum</h3>
-                        <h5>Maecenas efficitur nisi id sapien</h5>
-                    </div>
-                </div>
-            </div>--%>
+            </span>
         </div>
     </div>
 </section>
+
 <!-- end gallery -->
 
 <!-- start contact -->
@@ -253,10 +246,75 @@
 <script src="${pageContext.request.contextPath}/resources/front-end/js/plugins.js"></script>
 <script src="${pageContext.request.contextPath}/resources/front-end/js/smoothscroll.js"></script>
 <script src="${pageContext.request.contextPath}/resources/front-end/js/custom.js"></script>
+<!--分頁插件-->
+<script src="${pageContext.request.contextPath}/resources/lib/pagers/jquery.paginate.js" type="text/javascript"></script>
 
+<script>
+    $(document).ready(function(){
+        $.ajax({
+            url : "${pageContext.request.contextPath}/indexPagers",
+            type : 'get',
+            cache: false,
+            dataType : 'json',
+            async : false,
+            success : function(data) {
+                $("#pagers").paginate({
+                    count 		: data,
+                    start 		: 1,
+                    display     : 3,
+                    border		: true,
+                    border_color: "#79B5E3",//边框的颜色
+                    text_color  			: '#79B5E3',//页码文字的颜色
+                    background_color    	: '#FFFFFF',//页码容器的背景颜色
+                    text_hover_color  		: '#2573AF',//当鼠标移动到页码上时，页码文字的颜色
+                    background_hover_color	: '#AAE',//当鼠标移动到页码上时，容器的背景颜色
+                    border_hover_color: "#AAE",//当鼠标移动到页码上时，容器的边框颜色
+                    images		: false,
+                    mouse		: 'press',
+                    onChange    : function(page){ //本插件唯一可触发的事件,在点击页数的时候触发,只传过来当前被选中的页数,我想这其实足够了.
+                        list(page);
+                    }
+                });
+                list(0);
+            },
+            error : function() {
+                return;
+            }
+        });
+
+    });
+
+
+    function list(pages) {
+        $.ajax({
+            url : "${pageContext.request.contextPath}/paging/" + pages ,
+            type : 'get',
+            cache: false,
+            dataType : 'json',
+            async : false,
+            success : function(data) {
+                $("#goods_show").empty();
+                jQuery.each(data, function(i,item){
+                    //alert(item.g_id+","+item.name + "" +i+" " + item.picture +" "+ item.goods_type.gt_name +"------");
+                    $("#goods_show").append("<div class=col-md-4 col-sm-4><div class=gallery-wrapper ><a href=${pageContext.request.contextPath}/detail/"+item.g_id+" id=goods_list"+i+"></a></div></div>")
+                    if(item.picture==null){
+                        $("#goods_list"+i).append("<img alt="+item.name+" class=img-responsive gallery-img src="+"${pageContext.request.contextPath}/resources/admin/images/miss.PNG>")
+                    }else{
+                        $("#goods_list"+i).append("<img alt="+item.name+" class=img-responsive gallery-img src="+"${pageContext.request.contextPath}/resources/file/goods/"+item.picture+">")
+                    }
+                    $("#goods_list"+i).append("<div class=gallery-des><h3>"+item.name+"<h3><h4>￥"+item.money+"</h4></div>")
+                });
+            },
+            error : function() {
+                return;
+            }
+        });
+    };
+</script>
+a
 <c:if test="${result!=null}">
     <script>
-        $().ready(function(){               //当 DOM（文档对象模型） 已经加载，并且页面（包括图像）已经完全呈现时，会发生 ready 事件。
+        $(document).ready(function(){               //当 DOM（文档对象模型） 已经加载，并且页面（包括图像）已经完全呈现时，会发生 ready 事件。
             var success=${result.success};   //    由于该事件在文档就绪后发生，因此把所有其他的 jQuery 事件和函数置于该事件中是非常好的做法。正如上面的例子中那样。
             var msg='${result.msg}';        //ready() 函数规定当 ready 事件发生时执行的代码。
             var type="error";               //ready() 函数仅能用于当前文档，因此无需选择器。
@@ -269,7 +327,6 @@
             $.globalMessenger().post({  message:"提示："+ msg,
                 type: type,
                 showCloseButton: true})
-
         })
     </script>
 </c:if>

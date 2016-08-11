@@ -4,6 +4,7 @@ import com.work.been.PageBean;
 import com.work.model.Goods;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -23,4 +24,7 @@ public interface GoodsService extends BaseService<Goods>{
 
     void saveOrUpdatePicture(Goods goods, MultipartFile picture);
 
+    List<Goods> getGoodsList();
+
+    int count();
 }

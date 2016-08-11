@@ -84,6 +84,15 @@ public class GoodsServiceImpl extends BaseServiceImpl<Goods> implements GoodsSer
        // this.addGoods(goods);
     }
 
+    @Override
+    public List<Goods> getGoodsList() {
+        return goodsMapper.getGoodsList();
+    }
+
+    @Override
+    public int count() {
+        return goodsMapper.count();
+    }
 
 
 }

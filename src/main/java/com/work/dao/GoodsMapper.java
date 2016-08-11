@@ -18,4 +18,8 @@ public interface GoodsMapper extends BaseMapper<Goods> {
     void deleteById(int g_id);
 
     void addGoods(Goods goods);
+
+    List<Goods> getGoodsList();
+
+    int count();
 }
