@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.work.dao.GoodsMapper">
+    <resultMap id="BaseResultMap" type="com.work.model.Goods">
+        <id column="g_id" property="g_id" jdbcType="INTEGER"/>
+        <result column="goods_id" property="goods_id" jdbcType="INTEGER"/>
+        <result column="user_id" property="user_id" jdbcType="INTEGER"/>
+        <result column="s_time" property="s_time" jdbcType="VARCHAR" />
+        <result column="piece" property="piece" jdbcType="INTEGER" />
+        <association property="goods" javaType="com.work.model.Goods">
+            <id column="g_id" property="g_id" jdbcType="INTEGER"></id>
+            <result column="introduction" property="introduction" jdbcType="VARCHAR"></result>
+            <result column="name" property="name" jdbcType="VARCHAR"></result>
+            <result column="date" property="date" jdbcType="VARCHAR"></result>
+            <result column="picture" property="picture" jdbcType="VARCHAR"></result>
+            <result column="money" property="money" jdbcType="INTEGER"></result>
+            <result column="goods_type_id" property="goods_type_id" jdbcType="INTEGER"></result>
+        </association>
+        <association property="user" javaType="com.work.model.User">
+            <id column="u_id" property="u_id" jdbcType="INTEGER"></id>
+            <result column="username" property="username" jdbcType="VARCHAR"></result>
+            <result column="name" property="name" jdbcType="VARCHAR"></result>
+            <result column="password" property="password" jdbcType="VARCHAR"></result>
+            <result column="sex" property="sex" jdbcType="VARCHAR"></result>
+            <result column="phone" property="phone" jdbcType="VARCHAR"></result>
+            <result column="email" property="email" jdbcType="VARCHAR"></result>
+            <result column="date" property="date" jdbcType="VARCHAR"></result>
+            <result column="introduction" property="introduction" jdbcType="VARCHAR"></result>
+            <result column="address" property="address" jdbcType="VARCHAR"></result>
+        </association>
+    </resultMap>
+    <parameterMap type="java.util.Map" id="getPageBean">
+        <parameter property="pageOffset" mode="IN" jdbcType="INTEGER"/>
+        <parameter property="size" mode="IN" jdbcType="INTEGER"/>
+        <parameter property="searchText" mode="IN" jdbcType="VARCHAR"/>
+        <parameter property="sort" mode="IN" jdbcType="VARCHAR"/>
+        <parameter property="order" mode="IN" jdbcType="VARCHAR"/>
+    </parameterMap>
+    <sql id="select">
+        s_id,
+        goods_id,
+        user_id,
+        s_time,
+        piece
+    </sql>
+    <select id="selectAllShoppingCart" parameterMap="getPageBean" resultMap="BaseResultMap">
+        SELECT  g.name, g.money ,
+                u.name u_name,
+                s.s_id, s.s_time, s.piece
+        FROM goods AS g , work_user AS u , shoppingcart AS s
+        WHERE s.goods_id = g.g_id AND s.user_id = u.u_id
+        <if test="searchText !=null">
+            /*WHERE  name LIKE #{searchText}
+            OR g.introduction LIKE #{searchText} *//*OR gt.gt_name LIKE #{searchText}*//*
+            OR g.money LIKE #{searchText}*/
+        </if>
+        <if test="sort != null">
+            ORDER BY ${sort} ${order}
+        </if>
+        limit #{pageOffset},#{size}
+    </select>
+    <select id="countAll" parameterMap="getPageBean" resultType="int">
+        SELECT count(*)
+        FROM goods g, user u, shoppingcart s
+        WHERE s.goods_id = g.g_id AND s.user_id = u.u_id
+        <if test="searchText !=null">
+            /*WHERE  g.name LIKE #{searchText}
+            OR g.introduction LIKE #{searchText} *//*OR gt.name LIKE #{searchText}*//*
+            OR g.money LIKE #{searchText}*/
+        </if>
+        <if test="sort != null">
+            ORDER BY #{sort} #{order}
+        </if>
+    </select>
+    <update id="updateInfo" parameterType="com.work.model.Shoppingcart">
+        UPDATE
+        shoppingcart
+        <set>
+            <if test="goods_id != null">
+                goods_id = #{goods_id},
+            </if>
+            <if test="user_id != null">
+                user_id = #{user_id},
+            </if>
+            <if test="piece != null">
+                piece = #{piece},
+            </if>
+        </set>
+        WHERE s_id = #{s_id};
+    </update>
+    <select id="selectById" parameterType="INTEGER" resultMap="BaseResultMap">
+        SELECT  g.name, g.money ,
+                u.name u_name,
+                s.s_id, s.s_time, s.piece
+        FROM goods AS g , work_user AS u , shoppingcart AS s
+        WHERE s.goods_id = g.g_id AND s.user_id = u.u_id AND s.s_id = #{s_id}
+    </select>
+    <delete id="deleteById" parameterType="INTEGER">
+        DELETE FROM shoppingcart
+        WHERE s_id = #{s_id}
+    </delete>
+    <insert id="addShoppingCart" parameterType="com.work.model.Goods">
+        INSERT
+        INTO shoppingcart (goods_id,user_id,s_time,piece)
+        VALUES (#{goods_id},#{user_id},#{s_time},#{piece});
+    </insert>
+</mapper>
