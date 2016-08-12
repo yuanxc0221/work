@@ -29,35 +29,16 @@
     <!-- google font -->
     <link href='http://fonts.useso.com/css?family=Signika:400,300,600,700' rel='stylesheet' type='text/css'>
     <link href='http://fonts.useso.com/css?family=Chewy' rel='stylesheet' type='text/css'>
+    <!--模态框css-->
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/front-end/css/modelStyle.css">
 
 </head>
 <body id="home" data-spy="scroll" data-target=".navbar-collapse">
 
 <!--模态框-->
-<div class="modal fade" id="details" tabindex="-1" role="dialog" aria-labelledby="passSelectLabel">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="passSelectLabel">面试结果查询</h4>
-            </div>
-            <div class="modal-body">
-                <form id="modal-form" action="#">
-                    <div class="form-group">
-                        <label for="modal_name" class="control-label">姓名:</label>
-                        <input type="text" class="form-control" id="modal_name" name="name">
-                    </div>
-                    <div class="form-group">
-                        <label for="modal_phone" class="control-label">手机号码:</label>
-                        <input class="form-control" id="modal_phone" name="phoneNumber">
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-                        <button id="modal_submit" type="submit" class="btn btn-primary">提交</button>
-                    </div>
-                </form>
-            </div>
-        </div>
+<div class="modal fade" id="details" tabindex="-1" role="dialog">
+    <div class="modal-dialog" id="details-2" role="document">
+
     </div>
 </div>
 <!--模态框-->
@@ -241,6 +222,11 @@
     </div>
 </footer>
 <!-- end footer -->
+<!-- 消息弹框插件 -->
+<script src="${pageContext.request.contextPath}/resources/lib/messenger/build/js/messenger.min.js"></script>
+<link href="${pageContext.request.contextPath}/resources/lib/messenger/build/css/messenger.css"  rel="stylesheet" type="text/css" />
+<link href="${pageContext.request.contextPath}/resources/lib/messenger/build/css/messenger-theme-air.css"  rel="stylesheet" type="text/css" />
+<!-- 消息弹框 end -->
 <script src="${pageContext.request.contextPath}/resources/front-end/js/jquery.js"></script>
 <script src="${pageContext.request.contextPath}/resources/front-end/js/bootstrap.min.js"></script>
 <script src="${pageContext.request.contextPath}/resources/front-end/js/plugins.js"></script>
@@ -281,7 +267,6 @@
                 return;
             }
         });
-
     });
 
 
@@ -296,13 +281,13 @@
                 $("#goods_show").empty();
                 jQuery.each(data, function(i,item){
                     //alert(item.g_id+","+item.name + "" +i+" " + item.picture +" "+ item.goods_type.gt_name +"------");
-                    $("#goods_show").append("<div class=col-md-4 col-sm-4><div class=gallery-wrapper ><a href=${pageContext.request.contextPath}/detail/"+item.g_id+" id=goods_list"+i+"></a></div></div>")
+                    $("#goods_show").append("<div class=col-md-4 col-sm-4><div class=gallery-wrapper ><a id=goods_list"+i+"></a></div></div>")
                     if(item.picture==null){
                         $("#goods_list"+i).append("<img alt="+item.name+" class=img-responsive gallery-img src="+"${pageContext.request.contextPath}/resources/admin/images/miss.PNG>")
                     }else{
                         $("#goods_list"+i).append("<img alt="+item.name+" class=img-responsive gallery-img src="+"${pageContext.request.contextPath}/resources/file/goods/"+item.picture+">")
                     }
-                    $("#goods_list"+i).append("<div class=gallery-des><h3>"+item.name+"<h3><h4>￥"+item.money+"</h4></div>")
+                    $("#goods_list"+i).append("<div class=gallery-des><h3>"+item.name+"<h3><h4>￥"+item.money+"</h4><div class=goods_details><a href=javascript:onclick=orderProduct("+item.g_id+");></a></div></div>")
                 });
             },
             error : function() {
@@ -310,8 +295,37 @@
             }
         });
     };
+
+    function orderProduct(g_id) {
+        $.ajax({
+            url : "${pageContext.request.contextPath}/details/" + g_id,
+            type : 'get',
+            cache : false,
+            dataType : 'json',
+            async : false,
+            success : function(data) {
+                $('#details-2').empty();
+                $('#details-2').append("<div id=img class=popbox_p objectid=undefined baseid=022 sizeid=040  productid=354 style=margin-top:50px;>" +
+                        "<span class=close style=color:rgb(51,51,51);></span>" +
+                        "<div class=p_box>" +
+                        "<div class=p_boximg_box><img src=" + "${pageContext.request.contextPath}/resources/file/goods/"+data.picture+ " height=190></div>" +
+                        "<div class=p_box_con><h4>"+data.name+"</h4><div class=con>"+data.introduction+"</div>" +
+                        "<div class=p_num><ul><li class=cursor><div class=p_num_p02 font_weight><span class=price_size>"+data.money+"</span> 元 "+data.goods_type.gt_introduction+"</div></li></ul></div>" +
+                        "</div></div>" +
+                        "<div class=bottom>" +
+                        "<div class=p_order1_box>" +
+                        "<div class=p_order1>" +
+                        "<a href=javascript:onclick=orderProduct(2);>" +
+                        "</a></div></div>")
+            },
+            error : function(){
+                return;
+            }
+        });
+        $('#details').modal('toggle');
+    };
 </script>
-a
+
 <c:if test="${result!=null}">
     <script>
         $(document).ready(function(){               //当 DOM（文档对象模型） 已经加载，并且页面（包括图像）已经完全呈现时，会发生 ready 事件。

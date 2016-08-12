@@ -571,3 +571,19 @@ IPHONE 4-4S-5 LANDSCAPE (568x320)
 /********************************
 IPHONE 4-4S-5 PORTRAIT (320x568)
 ********************************/
+.goods_details{
+    width: 100%;
+    height: 34px;
+    position: absolute;
+    text-align: center;
+    bottom: 10px;
+    left: 0px;
+    z-index: 1;
+}
+.goods_details a{
+    width: 163px;
+    height: 34px;
+    margin: 0 auto;
+    display: block;
+    background: url(../images/orderImg.gif) center center no-repeat;
+}

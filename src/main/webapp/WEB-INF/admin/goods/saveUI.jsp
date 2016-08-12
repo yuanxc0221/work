@@ -132,9 +132,9 @@
                         <div class="form-group">
                             <label class="col-sm-3 control-label no-padding-right" for="goods_type_id"> 商品类型 </label>
                             <select class="col-sm-2" id="goods_type_id" name="goods_type_id">
-                                <option value="${goods.goods_type.gt_id}">${goods.goods_type.gt_name}</option>
+                                <option value="${goods.goods_type.gt_id}">${goods.goods_type.gt_name} ${goods.goods_type.gt_introduction}</option>
                                 <c:forEach items="${goods_type_list}" var="itm">
-                                    <option value="${itm.gt_id}">${itm.gt_name}</option>
+                                    <option value="${itm.gt_id}">${itm.gt_name} ${itm.gt_introduction}</option>
                                 </c:forEach>
                             </select>
                         </div>

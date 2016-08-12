@@ -33,7 +33,7 @@
     </sql>
     <select id="selectAllGoods" parameterMap="getPageBean" resultMap="BaseResultMap">
         SELECT g.g_id, g.introduction, g.name, g.date, g.picture, g.money ,
-        gt.gt_name
+        gt.gt_name,gt.gt_introduction
         FROM goods AS g , goods_type AS gt
         WHERE g.goods_type_id = gt.gt_id
         <if test="searchText !=null">
@@ -83,7 +83,7 @@
     </update>
     <select id="selectById" parameterType="INTEGER" resultMap="BaseResultMap">
         SELECT g.g_id, g.introduction, g.name, g.date, g.picture, g.money ,
-               gt.gt_name, gt.gt_id
+               gt.gt_name, gt.gt_id,gt.gt_introduction
         FROM goods g, goods_type gt
         WHERE g_id = #{g_id} AND g.goods_type_id = gt.gt_id
     </select>
@@ -98,7 +98,7 @@
     </insert>
     <select id="getGoodsList" resultMap="BaseResultMap">
         SELECT g.g_id, g.introduction, g.name, g.date, g.picture, g.money ,
-        gt.gt_name
+        gt.gt_name, gt.gt_introduction
         FROM goods AS g , goods_type AS gt
         WHERE g.goods_type_id = gt.gt_id
     </select>

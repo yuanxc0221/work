@@ -57,4 +57,12 @@ public class CommonController {
         }
     }
 
+    @RequestMapping("/details/{g_id}")
+    @ResponseBody
+    public Goods details(@PathVariable int g_id){
+        Goods goods = goodsService.selectById(g_id);
+        return goods;
+
+    }
+
 }

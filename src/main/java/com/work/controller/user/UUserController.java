@@ -49,12 +49,12 @@ public class UUserController extends BaseAdminController<User, String>{
                 return "redirect:/index.jsp";
             }else {
                 redirectAttributes.addFlashAttribute("result", new AjaxResult(false, "用户名或者密码错误"));
-                return "redirect:/loginUI";
+                return "/loginUI";
             }
         }catch (Exception e){
             e.printStackTrace();
             redirectAttributes.addFlashAttribute("result", new AjaxResult(false, "发生错误"));
-            return "redirect:/loginUI";
+            return "/loginUI";
         }
     }
 
