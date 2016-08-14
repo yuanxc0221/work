@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.work.dao.GoodsMapper">
-    <resultMap id="BaseResultMap" type="com.work.model.Goods">
-        <id column="g_id" property="g_id" jdbcType="INTEGER"/>
+<mapper namespace="com.work.dao.ShoppingcartMapper">
+    <resultMap id="BaseResultMap" type="com.work.model.Shoppingcart">
+        <id column="s_id" property="s_id" jdbcType="INTEGER"/>
         <result column="goods_id" property="goods_id" jdbcType="INTEGER"/>
         <result column="user_id" property="user_id" jdbcType="INTEGER"/>
         <result column="s_time" property="s_time" jdbcType="VARCHAR" />
@@ -35,6 +35,7 @@
         <parameter property="searchText" mode="IN" jdbcType="VARCHAR"/>
         <parameter property="sort" mode="IN" jdbcType="VARCHAR"/>
         <parameter property="order" mode="IN" jdbcType="VARCHAR"/>
+        <parameter property="u_id" mode="IN" jdbcType="INTEGER"/>
     </parameterMap>
     <sql id="select">
         s_id,
@@ -43,6 +44,34 @@
         s_time,
         piece
     </sql>
+    <select id="selectOwnShoppingCart" parameterMap="getPageBean" resultMap="BaseResultMap">
+        SELECT  g.name, g.money ,
+                s.s_id, s.s_time, s.piece
+        FROM goods AS g , work_user AS u , shoppingcart AS s
+        WHERE s.goods_id = g.g_id AND u.u_id = #{u_id}
+        <if test="searchText !=null">
+            /*WHERE  name LIKE #{searchText}
+            OR g.introduction LIKE #{searchText} *//*OR gt.gt_name LIKE #{searchText}*//*
+            OR g.money LIKE #{searchText}*/
+        </if>
+        <if test="sort != null">
+            ORDER BY ${sort} ${order}
+        </if>
+        limit #{pageOffset},#{size}
+    </select>
+    <select id="countOwn" parameterMap="getPageBean" resultType="int">
+        SELECT count(*)
+        FROM goods g, work_user u, shoppingcart s
+        WHERE s.goods_id = g.g_id AND u.u_id = #{u_id}
+        <if test="searchText !=null">
+            /*WHERE  g.name LIKE #{searchText}
+            OR g.introduction LIKE #{searchText} *//*OR gt.name LIKE #{searchText}*//*
+            OR g.money LIKE #{searchText}*/
+        </if>
+        <if test="sort != null">
+            ORDER BY #{sort} #{order}
+        </if>
+    </select>
     <select id="selectAllShoppingCart" parameterMap="getPageBean" resultMap="BaseResultMap">
         SELECT  g.name, g.money ,
                 u.name u_name,
@@ -61,7 +90,7 @@
     </select>
     <select id="countAll" parameterMap="getPageBean" resultType="int">
         SELECT count(*)
-        FROM goods g, user u, shoppingcart s
+        FROM goods g, work_user u, shoppingcart s
         WHERE s.goods_id = g.g_id AND s.user_id = u.u_id
         <if test="searchText !=null">
             /*WHERE  g.name LIKE #{searchText}
@@ -76,13 +105,13 @@
         UPDATE
         shoppingcart
         <set>
-            <if test="goods_id != null">
+            <if test="goods_id != 0">
                 goods_id = #{goods_id},
             </if>
-            <if test="user_id != null">
+            <if test="user_id != 0">
                 user_id = #{user_id},
             </if>
-            <if test="piece != null">
+            <if test="piece != 0">
                 piece = #{piece},
             </if>
         </set>
@@ -99,9 +128,14 @@
         DELETE FROM shoppingcart
         WHERE s_id = #{s_id}
     </delete>
-    <insert id="addShoppingCart" parameterType="com.work.model.Goods">
+    <insert id="addShoppingCart" parameterType="com.work.model.Shoppingcart">
         INSERT
         INTO shoppingcart (goods_id,user_id,s_time,piece)
         VALUES (#{goods_id},#{user_id},#{s_time},#{piece});
     </insert>
+    <select id="isRepeat" parameterType="com.work.model.Shoppingcart" resultMap="BaseResultMap">
+         SELECT piece, s_id , goods_id, user_id
+         FROM shoppingcart
+         WHERE goods_id = #{goods_id} AND user_id = #{user_id}
+    </select>
 </mapper>

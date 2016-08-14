@@ -64,8 +64,8 @@
                 <c:if test="${loginUser.u_id != null}">
                     <li><a href="#" data-toggle="dropdown" class="dropdown dropdown-toggle" >${loginUser.name}，你好<b class="caret"></b></a>
                         <ul class="dropdown-menu">
-                            <li><a href="#">
-                                <i class="icon-user"></i>我的账户</a>
+                            <li><a href="${pageContext.request.contextPath}/user/ShoppingCart/list">
+                                <i class="icon-user"></i>个人中心</a>
                             </li>
                             <li><a href="${pageContext.request.contextPath}/user/user/logout">
                                 <i class="icon-user"></i>注销</a>
@@ -315,7 +315,7 @@
                         "<div class=bottom>" +
                         "<div class=p_order1_box>" +
                         "<div class=p_order1>" +
-                        "<a href=javascript:onclick=orderProduct(2);>" +
+                        "<a href=javascript:onclick=addToShoppingCart("+g_id+");>" +
                         "</a></div></div>")
             },
             error : function(){
@@ -324,6 +324,27 @@
         });
         $('#details').modal('toggle');
     };
+
+    function addToShoppingCart(g_id) {
+        $.ajax({
+            url : "${pageContext.request.contextPath}/addToShoppingCart/" + g_id,
+            type : 'get',
+            cache : false,
+            dataType : 'json',
+            async : false,
+            success : function(data){
+                if(data){
+                    alert("成功添加至购物车");
+                }else {
+                    alert("亲, 请先登录了再下单哦1");
+                }
+            },
+            error : function () {
+                alert("内部错误");
+                return;
+            }
+        })
+    }
 </script>
 
 <c:if test="${result!=null}">

@@ -1,7 +1,6 @@
 package com.work.controller.user;
 
 import com.work.been.AjaxResult;
-import com.work.controller.admin.BaseAdminController;
 import com.work.model.User;
 import com.work.service.UserService;
 import com.work.util.Encrypt;
@@ -19,7 +18,7 @@ import java.util.Date;
 
 @Controller
 @RequestMapping("user/user")
-public class UUserController extends BaseAdminController<User, String>{
+public class UUserController extends BaseUserController<User, String>{
     @Autowired
     private UserService userService ;
 
@@ -78,6 +77,11 @@ public class UUserController extends BaseAdminController<User, String>{
     public String logout(HttpSession session) {
         session.removeAttribute("loginUser");
         return "redirect:/index.jsp";
+    }
+
+    @RequestMapping("list")
+    public String list(){
+        return TEMPLATE_PATH+"list";
     }
 
 }

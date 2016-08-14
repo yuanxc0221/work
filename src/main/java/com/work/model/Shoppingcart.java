@@ -70,4 +70,20 @@ public class Shoppingcart {
     public void setS_time(Date s_time) {
         this.s_time = s_time;
     }
+
+    public Goods getGoods() {
+        return goods;
+    }
+
+    public void setGoods(Goods goods) {
+        this.goods = goods;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
 }

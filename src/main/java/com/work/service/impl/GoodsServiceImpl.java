@@ -32,7 +32,6 @@ public class GoodsServiceImpl extends BaseServiceImpl<Goods> implements GoodsSer
 
     @Override
     public Map dataTable(String searchText, int sEcho, PageBean pageBean) {
-        System.out.println("111");
         Map<String, Object> parameterMap = new HashMap<String, Object>();
         if (searchText != null && !searchText.trim().isEmpty()) {
             searchText = "%"+searchText+"%";
@@ -51,7 +50,6 @@ public class GoodsServiceImpl extends BaseServiceImpl<Goods> implements GoodsSer
         map.put("iTotalRecords", list.size());//当前总数据条数
         map.put("iTotalDisplayRecords",count);//查询结果的总条数
         map.put("aaData", list);
-        System.out.println("222");
         System.out.println(map);
         return map;
     }
