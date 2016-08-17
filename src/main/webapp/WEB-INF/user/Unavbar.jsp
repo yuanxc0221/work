@@ -11,14 +11,14 @@
             </a>
         </li>
         <li class="green">
-            <a id="admin_page" href="${pageContext.request.contextPath}/user/user/list">
+            <a id="admin_page" href="${pageContext.request.contextPath}/user/ShoppingCart/list">
                 <i class="ace-icon fa fa-user"></i>
                 我的购物车
             </a>
         </li>
 
         <li class="purple">
-            <a id="user_page" href="${pageContext.request.contextPath}/user/user/list">
+            <a id="user_page" href="${pageContext.request.contextPath}/user/orders/list">
                 <i class="ace-icon fa fa-group"></i>
                 我的订单
             </a>

@@ -3,6 +3,7 @@ package com.work.service;
 import com.work.been.PageBean;
 import com.work.model.Shoppingcart;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -21,5 +22,8 @@ public interface ShoppingcartService extends BaseService<Shoppingcart>{
     void addShoppingCart(Shoppingcart shoppingcart);
 
     Shoppingcart isRepeat(Shoppingcart shoppingcart);
-    
+
+    List<Shoppingcart> selectByUserId(int u_id);
+
+    void deleteByUserId(int u_id);
 }

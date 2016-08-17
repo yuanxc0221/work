@@ -72,7 +72,7 @@
                 <a href="#" class="navbar-brand">
                     <small>
                         <i class="fa fa-leaf"></i>
-                        Pizza后台管理
+                        个人中心
                     </small>
                 </a>
             </div>
@@ -82,64 +82,44 @@
             <div class="col-xs-12">
                 <h3 class="header smaller lighter blue">　
                     <i class="glyphicon glyphicon-th"></i>
-                    管理员编辑
+                    订单确认
                 </h3>
                 <div class="table-header">
-                    管理员编辑
+                    订单确认
                 </div>
                 <!-- PAGE CONTENT BEGINS -->
                 <br><br>
-                <form action="${pageContext.request.contextPath}/user/user/${ user.u_id == null ? 'add' : 'update' }" id="user-form" method="post" class="form-horizontal" role="form">
-                    <fieldset>
-                        <div class="hidden">
-                            <input name="u_id" type="hidden" value="${u_id}"/>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-sm-3 control-label no-padding-right" for="name"> 姓名 </label>
-                            <div class="col-sm-9">
-                                <input type="text" id="name" name="name" class="col-xs-10 col-sm-5" value="${user.name} "/>
-                            </div>
-                        </div>
+                <h4>订单详情</h4>
+                <table>
+                    <tr>
+                        <td>　　　　商品　　</td>
+                        <td>　　　　份数　　</td>
+                        <td>　　　　单价（元）</td>
+                    </tr>
+                    <c:forEach items="${ShoppingCartList}" var="itm">
+                    <tr>
+                        <td>　　　　${itm.goods.name }　　</td>
+                        <td>　　　　${itm.piece }　　</td>
+                        <td>　　　　${itm.goods.money }</td>
+                    </tr>
+                    </c:forEach>
 
+                </table>
+                <h4>总金额为：${count} 元</h4>
+                <h4>客户信息填写</h4>
+                <form action="${pageContext.request.contextPath}/user/orders/add" id="user-form" method="post" class="form-horizontal" role="form" enctype="multipart/form-data" >
+                    <fieldset>
                         <div class="form-group">
-                            <label class="col-sm-3 control-label no-padding-right" for="name"> 登录名 </label>
+                            <label class="col-sm-3 control-label no-padding-right" for="remark"> 备注 </label>
                             <div class="col-sm-9">
-                                <input type="text" id="username" name="username" value="${user.username}" class="col-xs-10 col-sm-5"/>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-sm-3 control-label no-padding-right" for="phone"> 手机号码 </label>
-                            <div class="col-sm-9">
-                                <input type="text" id="phone" name="phone"
-                                      value="${user.phone}" class="col-xs-10 col-sm-5"/>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-sm-3 control-label no-padding-right" for="address"> 联系地址 </label>
-                            <div class="col-sm-9">
-                                <input type="text" id="address" name="address"
-                                       value="${user.address}" class="col-xs-10 col-sm-5"/>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-sm-3 control-label no-padding-right" for="email"> 邮箱 </label>
-                            <div class="col-sm-9">
-                                <input type="email" id="email" name="email"
-                                       class="col-xs-10 col-sm-5" value="${user.email}"/>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-sm-3 control-label no-padding-right" for="introduction"> 个人说明 </label>
-                            <div class="col-sm-9">
-                                <textarea id="introduction" name="introduction"
-                                          class="col-xs-10 col-sm-5" type="text">${user.introduction}</textarea>
+                                <textarea id="remark" name="remark"
+                                          ${ShoppingCartList[0].remark != null? "disabled" : ""}  class="col-xs-10 col-sm-5" type="text">${ShoppingCartList[0].remark}</textarea>
                             </div>
                         </div>
                         <div class="clearfix form-actions">
                             <div class="col-md-offset-3 col-md-9">
-                                <input class="btn btn-info " type="submit" value="保存"/>
                                 &nbsp; &nbsp; &nbsp;
-                                <a class="btn btn-default" href="${pageContext.request.contextPath}/admin/user/list">返回</a>
+                                <a class="btn btn-default" href="${pageContext.request.contextPath}/user/orders/list">返回</a>
                             </div>
                         </div>
                         <div class="hr hr-24"></div>

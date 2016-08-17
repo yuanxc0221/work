@@ -84,4 +84,10 @@ public class UUserController extends BaseUserController<User, String>{
         return TEMPLATE_PATH+"list";
     }
 
+    @RequestMapping(value = "update" ,method = RequestMethod.POST)
+    public String update(User user , RedirectAttributes redirectAttributes){
+        this.userService.updateInfo(user) ;
+        redirectAttributes.addFlashAttribute("result", successResult);
+        return REDIRECT_URL+"list";
+    }
 }

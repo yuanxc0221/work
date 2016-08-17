@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Created by 林智 on 2016/8/7.
+ * Created by 林智 on 2016/8/13.
  */
 @Service
 public class ShoppingcartServiceImpl extends BaseServiceImpl<Shoppingcart> implements ShoppingcartService {
@@ -80,6 +80,16 @@ public class ShoppingcartServiceImpl extends BaseServiceImpl<Shoppingcart> imple
 
     public Shoppingcart isRepeat(Shoppingcart shoppingcart){
         return shoppingcartMapper.isRepeat(shoppingcart);
+    }
+
+    @Override
+    public List<Shoppingcart> selectByUserId(int u_id) {
+        return shoppingcartMapper.selectByUserId(u_id);
+    }
+
+    @Override
+    public void deleteByUserId(int u_id) {
+        shoppingcartMapper.deleteByUserId(u_id);
     }
 
 }

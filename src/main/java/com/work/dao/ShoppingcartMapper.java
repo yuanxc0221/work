@@ -27,4 +27,8 @@ public interface ShoppingcartMapper extends BaseMapper<Shoppingcart> {
     int countOwn(Map<String, Object> parameterMap);
 
     List<Shoppingcart> selectOwnShoppingCart(Map<String, Object> parameterMap);
+
+    List<Shoppingcart> selectByUserId(int u_id);
+
+    void deleteByUserId(int u_id);
 }

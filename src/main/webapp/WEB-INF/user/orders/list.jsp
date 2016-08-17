@@ -72,19 +72,21 @@
             <div class="col-lg-12">
                 <h3 class="header smaller lighter blue">　
                     <i class="glyphicon glyphicon-th"></i>
-                    购物车管理
+                    订单管理
                 </h3>
                 <div class="table-header">
                     datatables
-                    <a class="btn btn-sm btn-primary-outline pull-right col-xs-1" href="${pageContext.request.contextPath}/user/orders/saveUI" id="add-row"><i class="glyphicon glyphicon-plus"></i> 结算购物车</a>　　
+                    　　
                 </div>
                 <div class="widget-container fluid-height clearfix" >
                     <div id="sample-table-2_wrapper" class="widget-content padded clearfix dataTables_wrapper form-inline no-footer">
                         <table id="datatable-editable" class="table table-striped table-bordered table-hover dataTable no-footer" role="grid">
                             <thead>
-                            <th width="150px">件数</th>
-                            <th width="150px">商品名称</th>
-                            <th width="150px">商品单价(单位:元)</th>
+                            <th width="150px">订单号</th>
+                            <th width="150px">下单人</th>
+                            <th width="150px">下单人手机号码</th>
+                            <th width="150px">下单人地址</th>
+                            <th width="150px">下单时间</th>
                             <th width="140px">操作</th>
                             </thead>
                             <tbody>
@@ -121,7 +123,7 @@
             "bServerSide": true,//这个用来指明是通过服务端来取数据
             "sPaginationType": "full_numbers", //分页风格，full_number会把所有页码显示出来（大概是，自己尝试）
             "iDisplayLength": 10,//每页显示10条数据
-            "sAjaxSource": "${pageContext.request.contextPath}/user/ShoppingCart/dataTable",//这个是请求的地址
+            "sAjaxSource": "${pageContext.request.contextPath}/user/orders/dataTable",//这个是请求的地址
             "fnServerData": retrieveData ,
             "oLanguage" : { // 汉化
                 "sProcessing" : "正在加载数据...",
@@ -142,16 +144,18 @@
             },
             "aoColumns":
                     [
-                        { "mData": "piece", 'sClass':'center'},
-                        { "mData": "goods.name", 'sClass':'center'},
-                        { "mData": "goods.money", 'sClass':'center'},
+                        { "mData": "o_sign", 'sClass':'center'},
+                        { "mData": "user.name", 'sClass':'center'},
+                        { "mData": "user.phone", 'sClass':'center'},
+                        { "mData": "user.address", 'sClass':'center'},
+                        { "mData": "o_time", 'sClass':'center'},
                         {
-                            "mDataProp": "s_id",
+                            "mDataProp": "o_integrate",
                             "bSearchable": false,
                             "bSortable": false,
                             "fnRender": function(obj) {
-                                var id=obj.aData.s_id;
-                                var render=  '<a target="_blank"  href="${pageContext.request.contextPath}/user/ShoppingCart/saveUI/'+id+'"><i class="glyphicon glyphicon-search"></i>查看/修改件数</a>';
+                                var id=obj.aData.o_integrate;
+                                var render=  '<a target="_blank"  href="${pageContext.request.contextPath}/user/orders/saveUI/'+id+'"><i class="glyphicon glyphicon-search"></i>查看</a>';
                                 render += '&nbsp;&nbsp;';
                                 render += '<a class="delete-row" href="#" name='+id+'><i class="glyphicon glyphicon-remove"></i>删除</a>';
                                 return render;
@@ -164,11 +168,14 @@
 // 3个参数的名字可以随便命名,但必须是3个参数,少一个都不行
         function retrieveData( sSource111,aoData111, fnCallback111) {
             var arrayObj=new Array(
-                    { "mData": "piece", 'sClass':'center'},
-                    { "mData": "goods.name", 'sClass':'center'},
-                    { "mData": "goods.money", 'sClass':'center'},
-                    { "mData": "s_id", 'sClass':'center'}
-            );
+                    { "mData": "o_sign", 'sClass':'center'},
+                    { "mData": "user.name", 'sClass':'center'},
+                    { "mData": "user.phone", 'sClass':'center'},
+                    { "mData": "user.address", 'sClass':'center'},
+                    { "mData": "o_time", 'sClass':'center'},
+                    { "mData": "o_id", 'sClass':'center'}
+
+        );
             var searchtext="";
             var sort="";
             var order="";
@@ -217,7 +224,7 @@
         $('#datatable-editable').on('click', 'a.delete-row', function (e) {
             var id=$(this).attr("name");
             var nRow = $(this).parents('tr')[0];
-            $.post("${pageContext.request.contextPath}/user/ShoppingCart/delete/"+id, function(result){
+            $.post("${pageContext.request.contextPath}/user/orders/delete/"+id, function(result){
                 if(result.success){
                     oTable.fnDeleteRow( nRow );
                     $("#msg >p").text("提示:"+result.msg);
