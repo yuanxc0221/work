@@ -44,10 +44,10 @@ public class UShoppingcartController extends BaseUserController<Shoppingcart, St
     public AjaxResult delete(@PathVariable int s_id){
         try {
             shoppingcartService.deleteById(s_id);
-            return successResult;
+            return new AjaxResult(true,"操作成功");
         }catch (Exception e){
             e.printStackTrace();
-            return errorResult;
+            return new AjaxResult(false,"操作失败");
         }
     }
 

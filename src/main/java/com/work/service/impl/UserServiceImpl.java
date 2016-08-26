@@ -71,7 +71,13 @@ public class UserServiceImpl extends BaseServiceImpl<User> implements UserServic
     }
 
     @Override
-    public void add(User user) {
+    public void
+    add(User user) {
         this.userMapper.add(user);
+    }
+
+    @Override
+    public List<User> selectAllToExcel() {
+        return userMapper.selectAllToExcel();
     }
 }

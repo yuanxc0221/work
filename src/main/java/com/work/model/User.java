@@ -1,18 +1,36 @@
 package com.work.model;
 
+import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.Length;
+
+import javax.persistence.Column;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.Pattern;
 import java.util.Date;
 
 @Table(name = "work_user")
 public class User {
     @Id
     private int u_id;
+
+    @Length(max = 20)
+    @Column(length = 20)
     private String username;
+
+    @Length(max = 20)
+    @Column(length = 20)
     private String name;
     private String password;
     private String sex;
+
+    @Pattern(regexp = "^(((13[0-9]{1})|(15[0-9]{1})|(18[0-9]{1}))+\\d{8})$")
+    @Length(max = 11)
     private String phone;
+
+    @Email
+    @Length(max = 200)
+    @Column(length = 200)
     private String email;
     private Date date;
     private String introduction;

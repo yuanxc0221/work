@@ -96,7 +96,11 @@
         SELECT u_id,name FROM work_user where username = #{username} and password = #{password};
     </select>
     <insert id="add" parameterType="com.work.model.User">
-        INSERT INTO work_user (name,password,username,phone,date,address)
-        VALUES (#{name},#{password},#{username},#{phone},#{date},#{address});
+        INSERT INTO work_user (name,password,username,phone,date,address,email,sex,introduction)
+        VALUES (#{name},#{password},#{username},#{phone},#{date},#{address},#{email},#{sex},#{introduction});
     </insert>
+    <select id="selectAllToExcel" resultMap="BaseResultMap">
+        SELECT <include refid="select" />
+        FROM work_user
+    </select>
 </mapper>

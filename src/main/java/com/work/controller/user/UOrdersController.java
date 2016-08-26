@@ -98,6 +98,21 @@ public class UOrdersController extends BaseUserController<Orders, String> {
         return TEMPLATE_PATH+"saveUI";
     }
 
+    @RequestMapping(value = "/addUI", method = RequestMethod.GET)
+    public String addUI(Model model,HttpSession session){
+        User user = (User)session.getAttribute("loginUser");
+        int u_id = user.getU_id();
+        List<Shoppingcart> shoppingcartList = shoppingcartService.selectByUserId(u_id);
+        double count = 0;
+        for(Shoppingcart s: shoppingcartList){
+            count += s.getPiece() * s.getGoods().getMoney();
+        }
+        model.addAttribute("count",count);      //count表示订单的总金额
+        model.addAttribute("ShoppingCartList", shoppingcartList);
+        System.out.println(shoppingcartList + "---------------");
+        return TEMPLATE_PATH+"addUI";
+    }
+
     @RequestMapping("saveUI/{o_sign}")
     public String saveUI(@PathVariable int o_sign, Model model){
         List<Orders> ordersList = ordersService.selectBySign(o_sign);
@@ -115,10 +130,10 @@ public class UOrdersController extends BaseUserController<Orders, String> {
     public AjaxResult delete(@PathVariable int o_sign){
         try {
             ordersService.deleteBySign(o_sign);
-            return successResult;
+            return new AjaxResult(true,"操作成功");
         }catch (Exception e){
             e.printStackTrace();
-            return errorResult;
+            return new AjaxResult(false,"操作失败");
         }
     }
 }

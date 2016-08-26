@@ -128,11 +128,11 @@
         <url-pattern>/druid/*</url-pattern>
     </servlet-mapping>
     <!-- 错误页 -->
-    <error-page>
-        <error-code>404</error-code>
-        <location>/WEB-INF/404.jsp</location>
-    </error-page>
-    <error-page>
+    <!--<error-page>-->
+        <!--<error-code>404</error-code>-->
+        <!--<location>/WEB-INF/404.jsp</location>-->
+    <!--</error-page>-->
+    <!--<error-page>
         <error-code>500</error-code>
         <location>/WEB-INF/500.jsp</location>
     </error-page>
@@ -143,7 +143,7 @@
     <error-page>
         <error-code>405</error-code>
         <location>/WEB-INF/400.jsp</location>
-    </error-page>
+    </error-page>-->
     <!-- 首页 -->
     <welcome-file-list>
         <welcome-file>/index.jsp</welcome-file>

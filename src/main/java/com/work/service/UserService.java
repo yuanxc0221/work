@@ -3,6 +3,7 @@ package com.work.service;
 import com.work.been.PageBean;
 import com.work.model.User;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -21,4 +22,6 @@ public interface UserService extends BaseService<User> {
     User login(User user);
 
     void add(User user);
+
+    List<User> selectAllToExcel();
 }

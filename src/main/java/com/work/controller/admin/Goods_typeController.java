@@ -40,12 +40,12 @@ public class Goods_typeController extends BaseAdminController<Goods_type,Long>{
     public String update(Goods_type goods_type, RedirectAttributes redirectAttributes){
         try {
             goods_typeService.updateInfo(goods_type);
-            redirectAttributes.addFlashAttribute("msg",RESULT_OK);
+            redirectAttributes.addFlashAttribute("result", new AjaxResult(true, "操作成功"));
             return REDIRECT_URL+"list";
         }catch (Exception e){
             e.printStackTrace();
         }
-        redirectAttributes.addFlashAttribute("msg", RESULT_ERROR);
+        redirectAttributes.addFlashAttribute("result", new AjaxResult(false, "操作失败"));
         return REDIRECT_URL+"list";
     }
 
@@ -66,12 +66,11 @@ public class Goods_typeController extends BaseAdminController<Goods_type,Long>{
     @ResponseBody
     public AjaxResult delete(@PathVariable int gt_id){
         try {
-         //   majorService.deleteByDepartId(gt_id);
             goods_typeService.deleteById(gt_id);
-            return successResult;
+            return new AjaxResult(true,"操作成功");
         }catch (Exception e){
             e.printStackTrace();
-            return errorResult;
+            return new AjaxResult(false,"操作失败");
         }
     }
 
@@ -85,12 +84,12 @@ public class Goods_typeController extends BaseAdminController<Goods_type,Long>{
     public String add(Goods_type goods_type,RedirectAttributes redirectAttributes){
         try {
             goods_typeService.addGoods_type(goods_type);
-            redirectAttributes.addFlashAttribute("msg", RESULT_OK);
+            redirectAttributes.addFlashAttribute("result", new AjaxResult(true, "操作成功"));
             return REDIRECT_URL + "list";
         }catch (Exception e){
             e.printStackTrace();
         }
-        redirectAttributes.addFlashAttribute("msg", RESULT_ERROR);
+        redirectAttributes.addFlashAttribute("result", new AjaxResult(false, "操作失败"));
         return REDIRECT_URL+"list";
     }
 }

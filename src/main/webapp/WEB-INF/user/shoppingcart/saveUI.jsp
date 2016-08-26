@@ -89,7 +89,7 @@
                 </div>
                 <!-- PAGE CONTENT BEGINS -->
                 <br><br>
-                <form action="${pageContext.request.contextPath}/user/ShoppingCart/update" id="user-form" method="post" class="form-horizontal" role="form" enctype="multipart/form-data" >
+                <form action="${pageContext.request.contextPath}/user/ShoppingCart/update" id="shoppingcart-form" method="post" class="form-horizontal" role="form" enctype="multipart/form-data" >
                     <fieldset>
                         <div class="hidden">
                             <input name="s_id" type="hidden" value="${shoppingcart.s_id}"/>
@@ -117,7 +117,7 @@
                             <div class="col-md-offset-3 col-md-9">
                                 <input class="btn btn-info " type="submit" value="保存"/>
                                 &nbsp; &nbsp; &nbsp;
-                                <a class="btn btn-default" href="${pageContext.request.contextPath}/admin/goods/list">返回</a>
+                                <a class="btn btn-default" href="${pageContext.request.contextPath}/user/ShoppingCart/list">返回</a>
                             </div>
                         </div>
                         <div class="hr hr-24"></div>
@@ -151,6 +151,9 @@
 
         <!-- page specific plugin scripts -->
 
+        <!--前端校验-->
+        <script src="${pageContext.request.contextPath}/resources/admin/javascripts/jquery.validate.js" type="text/javascript"></script>
+        <script src="${pageContext.request.contextPath}/resources/js/validate-methods.js" type="text/javascript"></script>
         <!--[if lte IE 8]>
         <script src="${pageContext.request.contextPath}/resources/rear-end/assets/js/excanvas.js"></script>
         <![endif]-->
@@ -206,5 +209,26 @@
         <script src="${pageContext.request.contextPath}/resources/rear-end/docs/assets/js/language/html.js"></script>
         <script src="${pageContext.request.contextPath}/resources/rear-end/docs/assets/js/language/css.js"></script>
         <script src="${pageContext.request.contextPath}/resources/rear-end/docs/assets/js/language/javascript.js"></script>
+
+        <script type="text/javascript">
+            $(document).ready(function() {
+                $("#shoppingcart-form").validate({
+                    rules: {
+                        piece: {
+                            required: true,
+                            maxlength: 3,
+                            number : true
+                        }
+                    },
+                    messages: {
+                        piece: {
+                            required: "请输入您需要购买的商品数量",
+                            maxlength: "库存在1000以下哦",
+                            number : "请输入大于0的整数"
+                        },
+                    }
+                });
+            });
+        </script>
 </body>
 </html>

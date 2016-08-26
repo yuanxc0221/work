@@ -5,17 +5,26 @@ import com.work.been.PageBean;
 import com.work.model.User;
 import com.work.service.UserService;
 import com.work.util.Encrypt;
+import com.work.util.ExcelUtil;
+import com.work.util.FileUploadUtil;
+import com.work.util.ReadExcel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import javax.swing.filechooser.FileSystemView;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 
@@ -25,10 +34,18 @@ public class UserController extends BaseAdminController<User, String>{
     @Autowired
     private UserService userService ;
 
-    @RequestMapping(value = "add" ,method = RequestMethod.POST)     // todo  后台添加报400  待解决
-    public String add(User user , RedirectAttributes redirectAttributes){
+    @RequestMapping(value = "add" ,method = RequestMethod.POST)     // 由于未知原因传入 user 对象会报400, 所以只好改用传入属性再封装的方式来解决这个问题, 这也是我暂时所能想到的解决方法..
+    public String add(String name ,String username, String phone, String address, String email,
+                      String introduction , RedirectAttributes redirectAttributes){
         try {
-            user.setPassword(Encrypt.e(user.getPassword()));       // md5加密
+            User user = new User();
+            user.setEmail(email);
+            user.setIntroduction(introduction);
+            user.setAddress(address);
+            user.setName(name);
+            user.setPhone(phone);
+            user.setUsername(username);
+            user.setPassword(Encrypt.e("123456"));       // md5加密
             user.setDate(new Date());
             this.userService.add(user) ;
           //  redirectAttributes.addAttribute("msg",RESULT_OK);
@@ -120,6 +137,116 @@ public class UserController extends BaseAdminController<User, String>{
     public String logout(HttpSession session) {
         session.removeAttribute("loginUser");
         return "index";
+    }
+
+    /**
+     * 导出Excel的方法
+     * */
+    @RequestMapping(value = "excel")
+    public boolean excel(){
+        List<User> userList = userService.selectAllToExcel();
+        ExcelUtil<User> u = new ExcelUtil<User>();
+        String[] headers = { "用户名", "姓名", "性别", "手机号", "邮箱", "地址",
+                "个人说明", "创建时间"};
+        String[] fields = { "username", "name",
+                "sex", "phone", "email",
+                "address", "introduction", "date"};
+        OutputStream out = null;
+        // HttpServletResponse response = ServletActionContext.getResponse();
+        // response.setContentType("application/msexcel;charset=UTF-8");
+        Date myDate = new Date();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+        String time = sdf.format(new Date());       //效果为  文件名+time
+        /*int time = myDate.getMonth() + 1;*/
+        // response.setHeader("Content-disposition","attachment; filename="+time+"Mouth_excel_gdzcheck.xls");
+        try {
+            File desktopDir = FileSystemView.getFileSystemView()      //获取桌面路径
+                    .getHomeDirectory();
+            String desktopPath = desktopDir.getAbsolutePath();        //获取桌面路径
+            String title = "用户信息导出表" + time ;
+            //String name = File.separator + time + "Mouth.xls";
+            File file = new File(desktopPath + File.separator+"用户信息"+File.separator+"用户信息导出表" + time + ".xls");
+            // out = response.getOutputStream();
+            if (!file.getParentFile().exists()) {
+                file.getParentFile().mkdirs();
+            }
+            file.createNewFile();
+            out = new FileOutputStream(file);
+
+            u.exportExcel(title, headers, fields, userList, out, "yyyy-MM-dd");
+            /* 测试通过-----返回list
+             * ReadExcel readExcel=new ReadExcel();
+            List<User> list=readExcel.readExcel(name);
+            if (list!=null) {
+                for (User tasksVo :list) {
+                    System.out.println("taskTransmitterName:"+tasksVo.getTaskTransmitterName());
+                }
+            }*/
+            // response.reset();//清空输出流
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        } finally {
+            if (out != null) {
+                try {
+                    out.close();
+                } catch (IOException ex) {
+                }
+            }
+        }
+    }
+
+    @RequestMapping(value = "readExcel")
+    public String readExcel(@RequestParam(value = "excel", required = true) MultipartFile excel, HttpServletRequest request, RedirectAttributes redirectAttributes){
+        //String path = request.getSession().getServletContext().getRealPath("resources/user/xls");
+        String path = "/resources/file/user/excel";
+       /* String fileName = new Date().getTime() + ".xls";
+        File f = new File(path, fileName);
+        if (!f.exists()) {
+            f.mkdirs();     // mkdirs() 可以创建指定目录以及所有的父目录
+        }*/
+        String fileName = FileUploadUtil.uploadFile(excel,path);
+        String savePath = request.getSession().getServletContext().getRealPath("/resources/file/user/excel/"+fileName);//测试所得为真实路径
+       // System.out.println(savePath + "============---------------");     //测试所得为真实路径
+        /*try {
+            excel.transferTo(f);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+*/
+        //String path = "D:\\1.xls";
+        List<String> list = null;
+        int sign = 0;   //用于标记是否读取了属性名那行(也就是第一行,这个是不需要的)
+        User user = new User();
+        try {
+            list = ReadExcel.exportListFromExcel(new File(savePath), 0);
+            for(String s: list){
+              //  System.out.println(s + "==========");    //测试方便用
+                sign++;  //当sign大于1时,表示第一行已经遍历过了,此后可以继续遍历读取属性到相应对象中
+                String[] names = s.split("\\|");
+                if(sign > 1){
+                    /*for (int i = 1; i < 8; i++) {   //不能从 0 开始,由于分割的作用,导致了第一个位置会是空格,所以得从 1 开始才是读取真正的数据
+                        System.out.println(names[i] + "---- ");        //测试用
+                    }*/
+                    user.setUsername(names[1]);
+                    user.setName(names[2]);
+                    user.setSex(names[3]);
+                    user.setPhone(names[4]);
+                    user.setEmail(names[5]);
+                    user.setAddress(names[6]);
+                    user.setIntroduction(names[7]);
+                    user.setDate(new Date());
+                    user.setPassword(Encrypt.e("123456"));   //从excel导入的用户密码均设为123456
+                    userService.add(user);
+                }
+            }
+
+            System.out.println(list);
+        } catch (IOException e) {
+
+        }
+        return REDIRECT_URL+"list";
     }
 
 }

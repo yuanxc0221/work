@@ -144,12 +144,12 @@ public class AdminController extends BaseAdminController<Admin,Long> {
         try {
             admin.setPassword(Encrypt.e(admin.getPassword()));
             adminService.updateByPrimaryKey(admin);
-            redirectAttributes.addFlashAttribute("msg",RESULT_OK);
+            redirectAttributes.addFlashAttribute("result", new AjaxResult(true, "操作成功"));
             return REDIRECT_URL+"list";
         }catch(Exception e){
             e.printStackTrace();
         }
-        redirectAttributes.addFlashAttribute("msg", RESULT_ERROR);
+        redirectAttributes.addFlashAttribute("result", new AjaxResult(false, "操作失败"));
         return REDIRECT_URL+"list";
     }
 
@@ -164,12 +164,12 @@ public class AdminController extends BaseAdminController<Admin,Long> {
         try {
             admin.setPassword(Encrypt.e(admin.getPassword()));    //md5加密
             adminService.insert(admin);
-            redirectAttributes.addAttribute("msg",RESULT_OK);
+            redirectAttributes.addFlashAttribute("result", new AjaxResult(true, "操作成功"));
             return REDIRECT_URL+"list";
         }catch(Exception e){
             e.printStackTrace();
         }
-        redirectAttributes.addFlashAttribute("msg", RESULT_ERROR);
+        redirectAttributes.addFlashAttribute("result", new AjaxResult(false, "操作失败"));
         return REDIRECT_URL+"list";
     }
 

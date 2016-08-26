@@ -49,12 +49,12 @@ public class GoodsController extends BaseAdminController<Goods,Long>{
             goods.setGoods_type_id(goods_type_id);
             goodsService.saveOrUpdatePicture(goods, picture);
             goodsService.updateInfo(goods);
-            redirectAttributes.addFlashAttribute("msg",RESULT_OK);
+            redirectAttributes.addFlashAttribute("result", new AjaxResult(true, "操作成功"));
             return REDIRECT_URL+"list";
         }catch (Exception e){
             e.printStackTrace();
         }
-        redirectAttributes.addFlashAttribute("msg", RESULT_ERROR);
+        redirectAttributes.addFlashAttribute("result", new AjaxResult(false, "操作失败"));
         return REDIRECT_URL+"list";
     }
 
@@ -78,10 +78,10 @@ public class GoodsController extends BaseAdminController<Goods,Long>{
         try {
             //   majorService.deleteByDepartId(gt_id);
             goodsService.deleteById(gt_id);
-            return successResult;
+            return new AjaxResult(true,"操作成功");
         }catch (Exception e){
             e.printStackTrace();
-            return errorResult;
+            return new AjaxResult(false,"操作失败");
         }
     }
 
@@ -105,12 +105,12 @@ public class GoodsController extends BaseAdminController<Goods,Long>{
             System.out.println(picture + "---------------");
             goodsService.saveOrUpdatePicture(goods, picture);
             goodsService.addGoods(goods);
-            redirectAttributes.addFlashAttribute("msg", RESULT_OK);
+            redirectAttributes.addFlashAttribute("result", new AjaxResult(true, "操作成功"));
             return REDIRECT_URL + "list";
         }catch (Exception e){
             e.printStackTrace();
         }
-        redirectAttributes.addFlashAttribute("msg", RESULT_ERROR);
+        redirectAttributes.addFlashAttribute("result", new AjaxResult(false, "操作失败"));
         return REDIRECT_URL+"list";
     }
 }

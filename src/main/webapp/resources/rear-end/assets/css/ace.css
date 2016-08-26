@@ -5319,7 +5319,7 @@ body.mob-safari .sidebar.sidebar-fixed {
   border-width: 4px;
   font-size: 13px;
   padding: 4px 9px;
-  line-height: 1.39;
+  line-height: 1.70;
 }
 .btn-xs {
   border-width: 3px;
@@ -19358,5 +19358,11 @@ input.typeahead.scrollable ~ .tt-dropdown-menu {
   .label[class*=arrowed]:before,
   .label[class*=arrowed]:after {
     display: none !important;
+  }
+  .line-height{
+      border-width: 4px;
+      font-size: 13px;
+      padding: 4px 9px;
+      line-height: 1.80;
   }
 }

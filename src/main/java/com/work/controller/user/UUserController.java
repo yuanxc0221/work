@@ -7,12 +7,16 @@ import com.work.util.Encrypt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 import java.util.Date;
 
 
@@ -23,18 +27,22 @@ public class UUserController extends BaseUserController<User, String>{
     private UserService userService ;
 
     @RequestMapping(value = "add" ,method = RequestMethod.POST)
-    public String add(User user , RedirectAttributes redirectAttributes){
+    public String add(@Valid @ModelAttribute("user")User user , BindingResult result, RedirectAttributes redirectAttributes, HttpServletRequest request){
         try {
+            if(result.hasErrors()){
+                redirectAttributes.addFlashAttribute("result", new AjaxResult(false, "填写格式错误,注册失败"));
+                return "redirect:/registerUI";
+            }
+
             user.setPassword(Encrypt.e(user.getPassword()));       // md5加密
             user.setDate(new Date());
             this.userService.add(user) ;
-          //  redirectAttributes.addAttribute("msg",RESULT_OK);
             redirectAttributes.addFlashAttribute("result", new AjaxResult(true, "注册成功"));
-            return "redirect:/loginUI.jsp";
+            return "redirect:/loginUI";
         }catch(Exception e){
             e.printStackTrace();
         }
-        redirectAttributes.addFlashAttribute("msg", RESULT_ERROR);
+        redirectAttributes.addFlashAttribute("result", new AjaxResult(false, "注册失败"));
         return "redirect:/registerUI";
     }
 
@@ -45,15 +53,15 @@ public class UUserController extends BaseUserController<User, String>{
             if (loginUser!=null){
                 session.setAttribute("loginUser",loginUser);
                 redirectAttributes.addFlashAttribute("result", new AjaxResult(true, "登录成功"));
-                return "redirect:/index.jsp";
+                return "redirect:/index";
             }else {
                 redirectAttributes.addFlashAttribute("result", new AjaxResult(false, "用户名或者密码错误"));
-                return "/loginUI";
+                return "redirect:/loginUI";
             }
         }catch (Exception e){
             e.printStackTrace();
             redirectAttributes.addFlashAttribute("result", new AjaxResult(false, "发生错误"));
-            return "/loginUI";
+            return "redirect:/loginUI";
         }
     }
 
@@ -73,12 +81,6 @@ public class UUserController extends BaseUserController<User, String>{
         return TEMPLATE_PATH + "saveUI";
     }
 
-    @RequestMapping(value = "/logout", method = RequestMethod.GET)
-    public String logout(HttpSession session) {
-        session.removeAttribute("loginUser");
-        return "redirect:/index.jsp";
-    }
-
     @RequestMapping("list")
     public String list(){
         return TEMPLATE_PATH+"list";
@@ -88,6 +90,13 @@ public class UUserController extends BaseUserController<User, String>{
     public String update(User user , RedirectAttributes redirectAttributes){
         this.userService.updateInfo(user) ;
         redirectAttributes.addFlashAttribute("result", successResult);
-        return REDIRECT_URL+"list";
+        return "redirect:/user/ShoppingCart/list";
+    }
+
+    @RequestMapping(value = "/logout", method = RequestMethod.GET)
+    public String logout(HttpSession session, RedirectAttributes redirectAttributes) {
+        session.removeAttribute("loginUser");
+        redirectAttributes.addFlashAttribute("result", new AjaxResult(true, "注销成功"));
+        return "redirect:/index";
     }
 }

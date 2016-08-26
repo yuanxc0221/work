@@ -140,9 +140,8 @@
                         </div>
                         <div class="form-group">
                             <label class="col-sm-3 control-label no-padding-right" for="introduction"> 商品介绍 </label>
-                            <div class="col-sm-9">
-                                <textarea id="introduction" name="introduction"
-                                          class="col-xs-10 col-sm-5" type="text">${goods.introduction}</textarea>
+                            <div class="col-sm-6">
+                                <script id="introduction" name="introduction" type="text/plain">${goods.introduction}</script>
                             </div>
                         </div>
                         <div class="clearfix form-actions">
@@ -175,14 +174,31 @@
         <script type="text/javascript">
             window.jQuery || document.write("<script src='${pageContext.request.contextPath}/resources/rear-end/assets/js/jquery1x.js'>"+"<"+"/script>");
         </script>
-        <![endif]-->
+  1      <![endif]-->
         <script type="text/javascript">
             if('ontouchstart' in document.documentElement) document.write("<script src='${pageContext.request.contextPath}/resources/rear-end/assets/js/jquery.mobile.custom.js'>"+"<"+"/script>");
         </script>
         <script src="${pageContext.request.contextPath}/resources/rear-end/assets/js/bootstrap.js"></script>
 
-        <!-- page specific plugin scripts -->
+        <!-- EUditor js -->
+        <!-- 配置文件 -->
+        <script src="${pageContext.request.contextPath}/resources/UEditor/ueditor.config.js" type="text/javascript" ></script>
+        <!-- 编辑器源文件 -->
+        <script src="${pageContext.request.contextPath}/resources/UEditor/ueditor.all.js" type="text/javascript"></script>
+        <!-- 实例化编辑器 -->
+        <script type="text/javascript">
+            var ue = UE.getEditor('introduction',{
+                toolbars: [     //设置编辑器图标(工具栏的功能按钮)
+                    ['fullscreen', 'source', 'undo', 'redo','link','unlink','bold', 'italic', 'underline','fontfamily','fontsize', 'fontborder','forecolor' ],
+                    ['strikethrough', 'superscript', 'subscript', 'removeformat', 'formatmatch', 'autotypeset', 'blockquote', 'pasteplain', '|', 'forecolor', 'backcolor', 'insertorderedlist', 'insertunorderedlist', 'selectall', 'cleardoc']
+                ],
+                initialFrameHeight: 400     //设置编辑器高度
+            });
+        </script>
+        <!-- EUditor js -->
 
+        <!--前端校验-->
+        <script src="${pageContext.request.contextPath}/resources/admin/javascripts/jquery.validate.js" type="text/javascript"></script>
         <!--[if lte IE 8]>
         <script src="${pageContext.request.contextPath}/resources/rear-end/assets/js/excanvas.js"></script>
         <![endif]-->
@@ -238,5 +254,27 @@
         <script src="${pageContext.request.contextPath}/resources/rear-end/docs/assets/js/language/html.js"></script>
         <script src="${pageContext.request.contextPath}/resources/rear-end/docs/assets/js/language/css.js"></script>
         <script src="${pageContext.request.contextPath}/resources/rear-end/docs/assets/js/language/javascript.js"></script>
+
+
+<script type="text/javascript">
+    $(document).ready(function() {
+        $("#user-form").validate({
+            rules: {
+                name: "required",
+                money: {
+                    required: true,
+                    number : true
+                }
+            },
+            messages: {
+                name: "请输入商品的名称",
+                money: {
+                    required: "请输入商品的价格",
+                    number : "请输入大于0的整数"
+                }
+            }
+        });
+    });
+</script>
 </body>
 </html>

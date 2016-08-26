@@ -30,7 +30,7 @@
         <![endif]-->
 
         <!-- inline styles related to this page -->
-
+        <%@ include file="../messenger_css.jsp" %>
         <!-- ace settings handler -->
         <script src="${pageContext.request.contextPath}/resources/rear-end/assets/js/ace-extra.js"></script>
 
@@ -237,20 +237,26 @@
 
         });
     </script>
-    <c:if test="${msg!=null}">
-        <script type="application/javascript">
-            $().ready(function(){
-                var result=${msg};
-                if(result){
-                    $("#msg >p").text("提示:"+result.msg);
-                    $("#msg").removeAttrs("hidden");
+    <c:if test="${result!=null}">
+        <script>
+            $().ready(function(){               //当 DOM（文档对象模型） 已经加载，并且页面（包括图像）已经完全呈现时，会发生 ready 事件。
+                var success=${result.success};   //    由于该事件在文档就绪后发生，因此把所有其他的 jQuery 事件和函数置于该事件中是非常好的做法。正如上面的例子中那样。
+                var msg='${result.msg}';        //ready() 函数规定当 ready 事件发生时执行的代码。
+                var type="error";               //ready() 函数仅能用于当前文档，因此无需选择器。
+                if(success==true){
+                    type="success"
                 }
-                setTimeout(function(){    //设时延迟0.5s执行
-                    $("#msg").attr("hidden","hidden");
-                },5000)
+                $._messengerDefaults = {
+                    extraClasses: 'messenger-fixed messenger-theme-block  messenger-on-top messenger-on-left'
+                }
+                $.globalMessenger().post({  message:"提示："+ msg,
+                    type: type,
+                    hideAfter: 3,
+                    showCloseButton: true})
             })
         </script>
     </c:if>
+    <%@ include file="../messenger_js.jsp" %>
     <script src="${pageContext.request.contextPath}/resources/rear-end/assets/js/bootstrap.js"></script>
 
     <!-- page specific plugin scripts -->
@@ -291,5 +297,8 @@
     <script src="${pageContext.request.contextPath}/resources/rear-end/docs/assets/js/language/html.js"></script>
     <script src="${pageContext.request.contextPath}/resources/rear-end/docs/assets/js/language/css.js"></script>
     <script src="${pageContext.request.contextPath}/resources/rear-end/docs/assets/js/language/javascript.js"></script>
-	</body>
+
+
+
+    </body>
 </html>

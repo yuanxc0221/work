@@ -33,6 +33,7 @@
         </dependency>
 
         <!-- junit 包 end-->
+        <!--导入导出excel表需要的包-->
         <dependency>
             <groupId>org.apache.poi</groupId>
             <artifactId>poi</artifactId>
@@ -43,6 +44,25 @@
             <artifactId>poi-ooxml</artifactId>
             <version>3.14</version>
         </dependency>
+        <dependency>
+            <groupId>org.apache.servicemix.bundles</groupId>
+            <artifactId>org.apache.servicemix.bundles.dom4j</artifactId>
+            <version>1.6.1_5</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/commons-io/commons-io -->
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>2.4</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/org.apache.hadoop/hadoop-common -->
+        <dependency>
+            <groupId>org.apache.hadoop</groupId>
+            <artifactId>hadoop-common</artifactId>
+            <version>2.7.1</version>
+        </dependency>
+
+        <!--导入导出excel表需要的包-->
         <!-- ehcache 包  -->
         <dependency>
             <groupId>net.sf.ehcache</groupId>

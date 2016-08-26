@@ -30,7 +30,7 @@
     <![endif]-->
 
     <!-- inline styles related to this page -->
-
+    <%@ include file="../messenger_css.jsp" %>
     <!-- ace settings handler -->
     <script src="${pageContext.request.contextPath}/resources/rear-end/assets/js/ace-extra.js"></script>
 
@@ -76,8 +76,14 @@
                 </h3>
                 <div class="table-header">
                     datatables
-                    <a class="btn btn-sm btn-primary-outline pull-right col-xs-1" href="${pageContext.request.contextPath}/admin/user/saveUI" id="add-row"><i class="glyphicon glyphicon-plus"></i> 添加</a>
+                    <a class="btn btn-primary-outline pull-right col-xs-1 line-height"  href="${pageContext.request.contextPath}/admin/user/saveUI" id="add-row"><i class="glyphicon glyphicon-plus"></i> 添加</a>
+                    <a class="btn btn-primary-outline pull-right cls-xs-1 line-height" href="javascript:onclick=excel();"><i class="glyphicon glyphicon-download"></i> 导出用户信息到桌面</a>
+                        <form action="${pageContext.request.contextPath}/admin/user/readExcel" id="user-form" method="post" class="form-horizontal" enctype="multipart/form-data" >
+                            <input class="btn btn-default pull-right "  type="file" id="excel" name="excel" line-height="1.39" size="15" maxlength="100">
+                            <input class="btn btn-info  pull-right" type="submit" id="submit" value="提交用户信息表"/>
+                        </form>
                 </div>
+
                 <div class="widget-container fluid-height clearfix" >
                     <div id="sample-table-2_wrapper" class="widget-content padded clearfix dataTables_wrapper form-inline no-footer">
                         <table id="datatable-editable" class="table table-striped table-bordered table-hover dataTable no-footer" role="grid">
@@ -241,39 +247,95 @@
         $('#datatable-editable').on('click', 'a.delete-row', function (e) {
             var id=$(this).attr("name");
             var nRow = $(this).parents('tr')[0];
-            $.post("${pageContext.request.contextPath}/admin/user/delete/"+id, function(result){
-                if(result.success){
+            $.post("${pageContext.request.contextPath}/admin/user/delete/"+id, function(data){
+                if (data.success == true) {
                     oTable.fnDeleteRow( nRow );
-                    $("#msg >p").text("提示:"+result.msg);
-                    $("#msg").removeAttrs("hidden");
-                }else{
-                    $("#msg >p").text("提示:"+result.msg);
-                    $("#msg").removeAttrs("hidden");
+                    $._messengerDefaults = {
+                        extraClasses: 'messenger-fixed messenger-theme-block  messenger-on-top messenger-on-left'
+                    }
+                    $.globalMessenger().post({
+                        message: "提示：" + data.msg,
+                        type: "success",
+                        hideAfter: 2,
+                        showCloseButton: true
+                    })
+                } else {
+                    $._messengerDefaults = {
+                        extraClasses: 'messenger-fixed messenger-theme-block  messenger-on-top messenger-on-left'
+                    }
+                    $.globalMessenger().post({
+                        message: "提示：" + data.msg,
+                        type: "error",
+                        hideAfter: 2,
+                        showCloseButton: true
+                    })
                 }
-                setTimeout(function(){    //设时延迟0.5s执行
-                    $("#msg").attr("hidden","hidden");
-                },5000)
             },"json");
         } );
 
     });
-</script>
-<c:if test="${result!=null}">
-    <script type="application/javascript">
-        $().ready(function(){
-            if(${result.success}){
-                $("#msg >p").text("提示:${result.msg}");
-                $("#msg").removeAttrs("hidden");
-            }else{
-                $("#msg >p").text("提示:${result.msg}");
-                $("#msg").removeAttrs("hidden");
+
+    function excel() {
+        $.ajax({
+            url : "${pageContext.request.contextPath}/admin/user/excel",
+            type : 'get',
+            cache : false,
+            dataType : 'json',
+            async : false,
+            success : function(date) {
+                if(date){
+                    alert("导出成功,请在桌面查看该Excel文件");
+                }else {
+                    alert("导出失败,Excel表正在使用中");
+                }
+            },
+            error : function(){
+                alert("导出成功");
+                return;
             }
-            setTimeout(function(){    //设时延迟0.5s执行
-                $("#msg").attr("hidden","hidden");
-            },5000)
+        });
+    };
+
+    function readExcel(){
+        var excelPath = $('#excel').val();
+        alert(excelPath);
+        $.ajax({
+            url : "${pageContext.request.contextPath}/admin/user/readExcel",
+            type : 'get',
+            cache : flase,
+            dataType : 'json',
+            async : false,
+            success : function(){
+
+            },
+            error : function () {
+                return;
+            }
+        })
+    }
+
+
+</script>
+<<c:if test="${result!=null}">
+    <script>
+        $().ready(function(){               //当 DOM（文档对象模型） 已经加载，并且页面（包括图像）已经完全呈现时，会发生 ready 事件。
+            var success=${result.success};   //    由于该事件在文档就绪后发生，因此把所有其他的 jQuery 事件和函数置于该事件中是非常好的做法。正如上面的例子中那样。
+            var msg='${result.msg}';        //ready() 函数规定当 ready 事件发生时执行的代码。
+            var type="error";               //ready() 函数仅能用于当前文档，因此无需选择器。
+            if(success==true){
+                type="success"
+            }
+            $._messengerDefaults = {
+                extraClasses: 'messenger-fixed messenger-theme-block  messenger-on-top messenger-on-left'
+            }
+            $.globalMessenger().post({  message:"提示："+ msg,
+                type: type,
+                hideAfter: 3,
+                showCloseButton: true})
         })
     </script>
 </c:if>
+<%@ include file="../messenger_js.jsp" %>
 <script src="${pageContext.request.contextPath}/resources/rear-end/assets/js/bootstrap.js"></script>
 
 <!-- page specific plugin scripts -->

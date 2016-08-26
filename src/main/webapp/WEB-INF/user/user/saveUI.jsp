@@ -139,7 +139,7 @@
                             <div class="col-md-offset-3 col-md-9">
                                 <input class="btn btn-info " type="submit" value="保存"/>
                                 &nbsp; &nbsp; &nbsp;
-                                <a class="btn btn-default" href="${pageContext.request.contextPath}/admin/user/list">返回</a>
+                                <a class="btn btn-default" href="${pageContext.request.contextPath}/user/ShoppingCart/list">返回</a>
                             </div>
                         </div>
                         <div class="hr hr-24"></div>

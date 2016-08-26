@@ -19,8 +19,18 @@
     <meta http-equiv="X-UA-Compatible" content="IE=Edge">
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
+
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/lib/pagers/css/style.css" media="screen"/>
     <!-- bootstrap -->
+    <!--弹框插件-->
+
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/lib/messenger/build/css/messenger.css" />
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/lib/messenger/build/css/messenger-theme-future.css" />
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/lib/messenger/build/css/messenger-theme-flat.css" />
+    <link href="${pageContext.request.contextPath}/resources/lib/messenger/build/css/messenger.css"  rel="stylesheet" type="text/css" />
+    <link href="${pageContext.request.contextPath}/resources/lib/messenger/build/css/messenger-theme-air.css"  rel="stylesheet" type="text/css" />
+
+
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/front-end/css/bootstrap.min.css">
     <!-- font-awesome -->
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/front-end/css/font-awesome.min.css">
@@ -42,7 +52,6 @@
     </div>
 </div>
 <!--模态框-->
-
 <!-- start navigation -->
 <div class="navbar navbar-default navbar-fixed-top" role="navigation">
     <div class="container">
@@ -222,11 +231,6 @@
     </div>
 </footer>
 <!-- end footer -->
-<!-- 消息弹框插件 -->
-<script src="${pageContext.request.contextPath}/resources/lib/messenger/build/js/messenger.min.js"></script>
-<link href="${pageContext.request.contextPath}/resources/lib/messenger/build/css/messenger.css"  rel="stylesheet" type="text/css" />
-<link href="${pageContext.request.contextPath}/resources/lib/messenger/build/css/messenger-theme-air.css"  rel="stylesheet" type="text/css" />
-<!-- 消息弹框 end -->
 <script src="${pageContext.request.contextPath}/resources/front-end/js/jquery.js"></script>
 <script src="${pageContext.request.contextPath}/resources/front-end/js/bootstrap.min.js"></script>
 <script src="${pageContext.request.contextPath}/resources/front-end/js/plugins.js"></script>
@@ -234,7 +238,8 @@
 <script src="${pageContext.request.contextPath}/resources/front-end/js/custom.js"></script>
 <!--分頁插件-->
 <script src="${pageContext.request.contextPath}/resources/lib/pagers/jquery.paginate.js" type="text/javascript"></script>
-
+<script src="${pageContext.request.contextPath}/resources/lib/messenger/build/js/messenger.min.js"></script>
+<script src="${pageContext.request.contextPath}/resources/lib/messenger/build/js/messenger-theme-future.js" type="text/javascript"></script>
 <script>
     $(document).ready(function(){
         $.ajax({
@@ -336,7 +341,7 @@
                 if(data){
                     alert("成功添加至购物车");
                 }else {
-                    alert("亲, 请先登录了再下单哦1");
+                    alert("亲, 请先登录了再下单哦");
                 }
             },
             error : function () {
@@ -349,18 +354,19 @@
 
 <c:if test="${result!=null}">
     <script>
-        $(document).ready(function(){               //当 DOM（文档对象模型） 已经加载，并且页面（包括图像）已经完全呈现时，会发生 ready 事件。
+        $().ready(function(){               //当 DOM（文档对象模型） 已经加载，并且页面（包括图像）已经完全呈现时，会发生 ready 事件。
             var success=${result.success};   //    由于该事件在文档就绪后发生，因此把所有其他的 jQuery 事件和函数置于该事件中是非常好的做法。正如上面的例子中那样。
             var msg='${result.msg}';        //ready() 函数规定当 ready 事件发生时执行的代码。
             var type="error";               //ready() 函数仅能用于当前文档，因此无需选择器。
-            if(success=true){
+            if(success==true){
                 type="success"
             }
             $._messengerDefaults = {
-                extraClasses: 'messenger-fixed messenger-theme-air  messenger-on-top messenger-on-right'
+                extraClasses: 'messenger-fixed messenger-theme-block  messenger-on-top messenger-on-left'
             }
             $.globalMessenger().post({  message:"提示："+ msg,
                 type: type,
+                hideAfter: 3,
                 showCloseButton: true})
         })
     </script>

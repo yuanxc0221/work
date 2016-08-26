@@ -1,5 +1,7 @@
 package com.work.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import java.util.Date;
@@ -61,7 +63,7 @@ public class Orders {
     public void setUser_id(int user_id) {
         this.user_id = user_id;
     }
-
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     public Date getO_time() {
         return o_time;
     }

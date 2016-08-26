@@ -3,7 +3,7 @@
 <mapper namespace="com.work.dao.GoodsMapper">
     <resultMap id="BaseResultMap" type="com.work.model.Goods">
         <id column="g_id" property="g_id" jdbcType="INTEGER"/>
-        <result column="introduction" property="introduction" jdbcType="VARCHAR"/>
+        <result column="introduction" property="introduction" jdbcType="LONGVARCHAR"/>
         <result column="name" property="name" jdbcType="VARCHAR"/>
         <result column="date" property="date" jdbcType="VARCHAR" />
         <result column="goods_type_id" property="goods_type_id" jdbcType="INTEGER" />

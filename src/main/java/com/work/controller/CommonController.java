@@ -18,10 +18,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-/**
- * Created by 黄柏樟 on 2016/3/8.
- * @Explain: 公共视图控制器
- */
+
 @Controller
 @RequestMapping(value = "/")
 public class CommonController {
@@ -41,7 +38,11 @@ public class CommonController {
         System.out.println("......!!!!!!");
         return "index";
     }
-
+    @RequestMapping("/index")
+    public String index2() {
+        System.out.println("!!!!!.....");
+        return "index";
+    }
     @RequestMapping("/paging/{pages}")
     @ResponseBody
     public List<Goods> paging(@PathVariable int pages){
@@ -87,4 +88,22 @@ public class CommonController {
         return false;
     }
 
+    @RequestMapping("/registerUI")
+    public String registerUI(){
+        return "registerUI";
+    }
+
+    @RequestMapping("/loginUI")
+    public String loginUI(){
+        return "loginUI";
+    }
+
+   /* @RequestMapping(value = "/logout", method = RequestMethod.GET)
+    public String logout(HttpSession session, HttpServletRequest request, RedirectAttributes redirectAttributes) {
+        session.removeAttribute("loginUser");
+        // request.setAttribute("result", new AjaxResult(true, "注销成功"));
+        redirectAttributes.addFlashAttribute("result", new AjaxResult(true, "注销成功"));
+        // redirectAttributes.addFlashAttribute("msg", RESULT_OK);
+        return "redirect:/index";
+    }*/
 }

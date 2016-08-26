@@ -30,4 +30,6 @@ public interface UserMapper extends BaseMapper<User> {
     User login(User user);
 
     void add(User user);
+
+    List<User> selectAllToExcel();
 }

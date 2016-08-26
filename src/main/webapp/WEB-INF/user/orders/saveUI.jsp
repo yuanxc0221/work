@@ -107,7 +107,7 @@
                 </table>
                 <h4>总金额为：${count} 元</h4>
                 <h4>客户信息填写</h4>
-                <form action="${pageContext.request.contextPath}/user/orders/add" id="user-form" method="post" class="form-horizontal" role="form" enctype="multipart/form-data" >
+                <form action="#" id="user-form" method="post" class="form-horizontal" role="form" enctype="multipart/form-data" >
                     <fieldset>
                         <div class="form-group">
                             <label class="col-sm-3 control-label no-padding-right" for="remark"> 备注 </label>

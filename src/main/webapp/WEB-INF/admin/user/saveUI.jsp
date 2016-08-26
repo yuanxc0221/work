@@ -82,17 +82,17 @@
             <div class="col-xs-12">
                 <h3 class="header smaller lighter blue">　
                     <i class="glyphicon glyphicon-th"></i>
-                    管理员编辑
+                    用户添加
                 </h3>
                 <div class="table-header">
-                    管理员编辑
+                    用户添加
                 </div>
                 <!-- PAGE CONTENT BEGINS -->
                 <br><br>
                 <form action="${pageContext.request.contextPath}/admin/user/${ user.u_id == null ? 'add' : 'update' }" id="user-form" method="post" class="form-horizontal" role="form">
                     <fieldset>
                         <div class="hidden">
-                            <input name="u_id" type="hidden" value="${u_id}"/>
+                            <input name="u_id" type="hidden" value="${user.u_id}"/>
                         </div>
                         <div class="form-group">
                             <label class="col-sm-3 control-label no-padding-right" for="name"> 姓名 </label>
@@ -102,7 +102,7 @@
                         </div>
 
                         <div class="form-group">
-                            <label class="col-sm-3 control-label no-padding-right" for="name"> 登录名 </label>
+                            <label class="col-sm-3 control-label no-padding-right" for="username"> 登录名 </label>
                             <div class="col-sm-9">
                                 <input type="text" id="username" name="username" value="${user.username}" class="col-xs-10 col-sm-5"/>
                             </div>
@@ -173,6 +173,8 @@
 
         <!-- page specific plugin scripts -->
 
+        <!--前端校验-->
+        <script src="${pageContext.request.contextPath}/resources/admin/javascripts/jquery.validate.js" type="text/javascript"></script>
         <!--[if lte IE 8]>
         <script src="${pageContext.request.contextPath}/resources/rear-end/assets/js/excanvas.js"></script>
         <![endif]-->
@@ -228,5 +230,47 @@
         <script src="${pageContext.request.contextPath}/resources/rear-end/docs/assets/js/language/html.js"></script>
         <script src="${pageContext.request.contextPath}/resources/rear-end/docs/assets/js/language/css.js"></script>
         <script src="${pageContext.request.contextPath}/resources/rear-end/docs/assets/js/language/javascript.js"></script>
+
+<script type="text/javascript">
+    $(document).ready(function() {
+        $("#user-form").validate({
+            rules: {
+                name: "required",
+                username: {
+                    required: true,
+                    minlength: 5
+                },
+                phone: {
+                    minlength: 11,
+                    maxlength: 11,
+                    number: true
+                },
+                password: {
+                    required: true,
+                    minlength: 6
+                },
+                address:"required",
+                email:{
+                    email : true
+                }
+
+            },
+            messages: {
+                name: "请填写您的姓名",
+                username: {
+                    required: "请输入您的登录名",
+                    minlength: "登录名长度不能小于5位"
+                },
+                password: {
+                    required: "请填写密码",
+                    minlength: "密码长度不能小于6位"
+                },
+                phone: '请输入正确的手机号码',
+                address: "请输入您的收货地址",
+                email : "请输入正确的邮箱地址"
+            }
+        });
+    });
+</script>
 </body>
 </html>

@@ -29,6 +29,7 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/rear-end/assets/css/ace-ie.css" />
     <![endif]-->
 
+    <%@ include file="../messenger_css.jsp" %>
     <!-- inline styles related to this page -->
 
     <!-- ace settings handler -->
@@ -76,7 +77,7 @@
                 </h3>
                 <div class="table-header">
                     datatables
-                    <a class="btn btn-sm btn-primary-outline pull-right col-xs-1" href="${pageContext.request.contextPath}/user/orders/saveUI" id="add-row"><i class="glyphicon glyphicon-plus"></i> 结算购物车</a>　　
+                    <a class="btn btn-sm btn-primary-outline pull-right col-xs-1" href="${pageContext.request.contextPath}/user/orders/addUI" id="add-row"><i class="glyphicon glyphicon-plus"></i> 结算购物车</a>　　
                 </div>
                 <div class="widget-container fluid-height clearfix" >
                     <div id="sample-table-2_wrapper" class="widget-content padded clearfix dataTables_wrapper form-inline no-footer">
@@ -126,7 +127,7 @@
             "oLanguage" : { // 汉化
                 "sProcessing" : "正在加载数据...",
                 "sLengthMenu" : "显示_MENU_条 ",
-                "sZeroRecords" : "没有您要搜索的内容",
+                "sZeroRecords" : "您的购物车还是空的, 赶快去添加商品吧",
                 "sInfo" : "从_START_ 到 _END_ 条记录——总记录数为 _TOTAL_ 条",
                 "sInfoEmpty" : "记录数为0",
                 "sInfoFiltered" : "(全部记录数 _MAX_  条)",
@@ -217,39 +218,54 @@
         $('#datatable-editable').on('click', 'a.delete-row', function (e) {
             var id=$(this).attr("name");
             var nRow = $(this).parents('tr')[0];
-            $.post("${pageContext.request.contextPath}/user/ShoppingCart/delete/"+id, function(result){
-                if(result.success){
+            $.post("${pageContext.request.contextPath}/user/ShoppingCart/delete/"+id, function(data){
+                if (data.success == true) {
                     oTable.fnDeleteRow( nRow );
-                    $("#msg >p").text("提示:"+result.msg);
-                    $("#msg").removeAttrs("hidden");
-                }else{
-                    $("#msg >p").text("提示:"+result.msg);
-                    $("#msg").removeAttrs("hidden");
+                    $._messengerDefaults = {
+                        extraClasses: 'messenger-fixed messenger-theme-block  messenger-on-top messenger-on-left'
+                    }
+                    $.globalMessenger().post({
+                        message: "提示：" + data.msg,
+                        type: "success",
+                        hideAfter: 2,
+                        showCloseButton: true
+                    })
+                } else {
+                    $._messengerDefaults = {
+                        extraClasses: 'messenger-fixed messenger-theme-block  messenger-on-top messenger-on-left'
+                    }
+                    $.globalMessenger().post({
+                        message: "提示：" + data.msg,
+                        type: "error",
+                        hideAfter: 2,
+                        showCloseButton: true
+                    })
                 }
-                setTimeout(function(){    //设时延迟0.5s执行
-                    $("#msg").attr("hidden","hidden");
-                },5000)
             },"json");
         } );
 
     });
 </script>
 <c:if test="${result!=null}">
-    <script type="application/javascript">
-        $().ready(function(){
-            if(${result.success}){
-                $("#msg >p").text("提示:${result.msg}");
-                $("#msg").removeAttrs("hidden");
-            }else{
-                $("#msg >p").text("提示:${result.msg}");
-                $("#msg").removeAttrs("hidden");
+    <script>
+        $().ready(function(){               //当 DOM（文档对象模型） 已经加载，并且页面（包括图像）已经完全呈现时，会发生 ready 事件。
+            var success=${result.success};   //    由于该事件在文档就绪后发生，因此把所有其他的 jQuery 事件和函数置于该事件中是非常好的做法。正如上面的例子中那样。
+            var msg='${result.msg}';        //ready() 函数规定当 ready 事件发生时执行的代码。
+            var type="error";               //ready() 函数仅能用于当前文档，因此无需选择器。
+            if(success==true){
+                type="success"
             }
-            setTimeout(function(){    //设时延迟0.5s执行
-                $("#msg").attr("hidden","hidden");
-            },5000)
+            $._messengerDefaults = {
+                extraClasses: 'messenger-fixed messenger-theme-block  messenger-on-top messenger-on-left'
+            }
+            $.globalMessenger().post({  message:"提示："+ msg,
+                type: type,
+                hideAfter: 3,
+                showCloseButton: true})
         })
     </script>
 </c:if>
+<%@ include file="../messenger_js.jsp" %>
 <script src="${pageContext.request.contextPath}/resources/rear-end/assets/js/bootstrap.js"></script>
 
 <!-- page specific plugin scripts -->

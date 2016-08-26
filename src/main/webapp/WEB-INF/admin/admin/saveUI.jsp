@@ -163,7 +163,8 @@
 <script src="${pageContext.request.contextPath}/resources/rear-end/assets/js/bootstrap.js"></script>
 
 <!-- page specific plugin scripts -->
-
+<!--前端校验-->
+<script src="${pageContext.request.contextPath}/resources/admin/javascripts/jquery.validate.js" type="text/javascript"></script>
 <!--[if lte IE 8]>
 <script src="${pageContext.request.contextPath}/resources/rear-end/assets/js/excanvas.js"></script>
 <![endif]-->
@@ -219,5 +220,56 @@
 <script src="${pageContext.request.contextPath}/resources/rear-end/docs/assets/js/language/html.js"></script>
 <script src="${pageContext.request.contextPath}/resources/rear-end/docs/assets/js/language/css.js"></script>
 <script src="${pageContext.request.contextPath}/resources/rear-end/docs/assets/js/language/javascript.js"></script>
+
+<script type="text/javascript">
+    $(document).ready(function() {
+        $("#admin-form").validate({
+            rules: {
+                account: "required",
+                name: {
+                    required: true,
+                    minlength: 5
+                },
+                password : "required",
+                phone: {
+                    minlength: 11,
+                    maxlength: 11,
+                    number: true
+                },
+                password: {
+                    required: true,
+                    minlength: 6
+                },
+                phoneNumber: {
+                    required: true,
+                    minlength: 11,
+                    maxlength: 11
+                },
+                email:{
+                    email : true
+                }
+
+            },
+            messages: {
+                account: "请填写您的姓名",
+                name: {
+                    required: "请输入您的登录名",
+                    minlength: "登录名长度不能小于5位"
+                },
+                password: {
+                    required: "请填写密码",
+                    minlength: "密码长度不能小于6位"
+                },
+                phone: '请输入正确的手机号码',
+                phoneNumber:{
+                    required:"请输入手机号码",
+                    minlength: "请输入正确的手机号码",
+                    maxlength: "请输入正确的手机号码"
+                },
+                email: "请输入正确的邮箱地址"
+            }
+        });
+    });
+</script>
 </body>
 </html>
