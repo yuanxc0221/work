@@ -109,10 +109,6 @@
                                             </c:otherwise>
                                         </c:choose>
                                     </div>
-                                   <%-- <div class="fileupload-preview fileupload-exists img-thumbnail" style="width: 200px; max-height: 150px"></div>--%>
-                                    <%--<div>
-                                        <span class="btn btn-default btn-file"><span class="fileupload-new">选择图片</span><span class="fileupload-exists">修改</span><input type="file" name="picture"></span><a class="btn btn-default fileupload-exists" data-dismiss="fileupload" href="#">移除</a>
-                                    </div>--%>
                                         <input class="btn btn-default" type="file" name="picture" size="15" maxlength="100">
                                 </div>
                             </div>
@@ -260,18 +256,22 @@
     $(document).ready(function() {
         $("#user-form").validate({
             rules: {
+                picture:"required",
                 name: "required",
                 money: {
                     required: true,
                     number : true
-                }
+                },
+                introduction: "required"
             },
             messages: {
+                picture: "请选择一张图片",
                 name: "请输入商品的名称",
                 money: {
                     required: "请输入商品的价格",
                     number : "请输入大于0的整数"
-                }
+                },
+                introduction:"请输入商品介绍"
             }
         });
     });
