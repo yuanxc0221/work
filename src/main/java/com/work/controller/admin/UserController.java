@@ -58,25 +58,6 @@ public class UserController extends BaseAdminController<User, String>{
         return REDIRECT_URL+"list";
     }
 
- /*   @RequestMapping(value = "login" ,method = RequestMethod.POST)
-    public String login(User user , HttpSession session, RedirectAttributes redirectAttributes){
-        try {
-            User loginUser=this.userService.login(user);
-            if (loginUser!=null){
-                session.setAttribute("loginUser",loginUser);
-                redirectAttributes.addFlashAttribute("result", new AjaxResult(true, "登录成功"));
-                return "index";
-            }else {
-                redirectAttributes.addFlashAttribute("result", new AjaxResult(false, "用户名或者密码错误"));
-                return "redirect:/loginUI";
-            }
-        }catch (Exception e){
-            e.printStackTrace();
-            redirectAttributes.addFlashAttribute("result", new AjaxResult(false, "发生错误"));
-            return "redirect:/loginUI";
-        }
-    }*/
-
     /**
      * 异步删除
      * @param u_id
@@ -143,6 +124,7 @@ public class UserController extends BaseAdminController<User, String>{
      * 导出Excel的方法
      * */
     @RequestMapping(value = "excel")
+    @ResponseBody
     public boolean excel(){
         List<User> userList = userService.selectAllToExcel();
         ExcelUtil<User> u = new ExcelUtil<User>();
@@ -197,27 +179,26 @@ public class UserController extends BaseAdminController<User, String>{
         }
     }
 
+    /**
+     * 导入Excel的方法
+     * */
     @RequestMapping(value = "readExcel")
     public String readExcel(@RequestParam(value = "excel", required = true) MultipartFile excel, HttpServletRequest request, RedirectAttributes redirectAttributes){
-        //String path = request.getSession().getServletContext().getRealPath("resources/user/xls");
         String path = "/resources/file/user/excel";
-       /* String fileName = new Date().getTime() + ".xls";
-        File f = new File(path, fileName);
-        if (!f.exists()) {
-            f.mkdirs();     // mkdirs() 可以创建指定目录以及所有的父目录
-        }*/
         String fileName = FileUploadUtil.uploadFile(excel,path);
+        //System.out.println(fileName + " =============================== ");
+        String suffix = fileName.substring(36, 40);
+        //System.out.println(suffix + " =============================== ");
+        if(!".xls".equals(suffix) && !".xlsx".equals(suffix)){
+            //System.out.println("!\".xls\".equals(suffix) : " + !".xls".equals(suffix));
+            //System.out.println("!\".xlsx\".equals(suffix) : " + !".xlsx".equals(suffix));
+            redirectAttributes.addFlashAttribute("result", new AjaxResult(false, "导入失败,表的格式必须为 .xls 或 .xlsx"));
+            return REDIRECT_URL+"list";
+        }
         String savePath = request.getSession().getServletContext().getRealPath("/resources/file/user/excel/"+fileName);//测试所得为真实路径
        // System.out.println(savePath + "============---------------");     //测试所得为真实路径
-        /*try {
-            excel.transferTo(f);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-*/
-        //String path = "D:\\1.xls";
         List<String> list = null;
-        int sign = 0;   //用于标记是否读取了属性名那行(也就是第一行,这个是不需要的)
+        int sign = 0;   //用于标记是否读取了属性名那行(也就是第一行,第一行是不需要的)
         User user = new User();
         try {
             list = ReadExcel.exportListFromExcel(new File(savePath), 0);
@@ -241,10 +222,11 @@ public class UserController extends BaseAdminController<User, String>{
                     userService.add(user);
                 }
             }
-
+            redirectAttributes.addFlashAttribute("result", new AjaxResult(true, "成功导入用户信息表"));
             System.out.println(list);
         } catch (IOException e) {
-
+            e.printStackTrace();
+            redirectAttributes.addFlashAttribute("result", new AjaxResult(true, "导入失败,请确认表的格式是否为 .xls 或 .xlsx"));
         }
         return REDIRECT_URL+"list";
     }

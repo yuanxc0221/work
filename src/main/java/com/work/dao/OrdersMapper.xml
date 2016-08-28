@@ -22,7 +22,8 @@
         <association property="user" javaType="com.work.model.User">
             <id column="u_id" property="u_id" jdbcType="INTEGER"></id>
             <result column="username" property="username" jdbcType="VARCHAR"></result>
-            <result column="name" property="name" jdbcType="VARCHAR"></result>
+            <!--column 表示要被放进去的属性名, 查数据库的时候都得用column名-->
+            <result column="u_name" property="name" jdbcType="VARCHAR"></result>
             <result column="password" property="password" jdbcType="VARCHAR"></result>
             <result column="sex" property="sex" jdbcType="VARCHAR"></result>
             <result column="phone" property="phone" jdbcType="VARCHAR"></result>
@@ -40,10 +41,10 @@
         <parameter property="order" mode="IN" jdbcType="VARCHAR"/>
     </parameterMap>
     <select id="selectOwnOrders" parameterMap="getPageBean" resultMap="BaseResultMap">
-        SELECT  u.name, u.address , u.phone,
-                o.o_id, o.o_time, o.piece, o.o_sign, o.o_integrate
+        SELECT  u.name u_name, u.address , u.phone,
+        o.o_id, o.o_time, o.piece, o.o_sign, o.o_integrate
         FROM goods AS g , work_user AS u , orders AS o
-        WHERE o.goods_id = g.g_id AND u.u_id = #{u_id} AND o.o_integrate > 0
+        WHERE o.goods_id = g.g_id AND o.user_id = #{u_id} AND u.u_id = #{u_id} AND o.o_integrate > 0
         <if test="searchText !=null">
            AND o.o_integrate LIKE #{searchText}
         </if>
@@ -55,7 +56,7 @@
     <select id="countOwn" parameterMap="getPageBean" resultType="int">
         SELECT count(o.o_id)
         FROM goods AS g , work_user AS u , orders AS o
-        WHERE o.goods_id = g.g_id AND u.u_id = #{u_id} AND o.o_integrate > 0
+        WHERE o.goods_id = g.g_id AND o.user_id = #{u_id} AND u.u_id = #{u_id} AND o.o_integrate > 0
         <if test="searchText !=null">
             AND o.o_integrate LIKE #{searchText}
         </if>
@@ -63,12 +64,11 @@
             ORDER BY #{sort} #{order}
         </if>
     </select>
-    <select id="selectAllShoppingCart" parameterMap="getPageBean" resultMap="BaseResultMap">
-        SELECT  g.name, g.money ,
-                u.name u_name,
-                s.s_id, s.s_time, s.piece
-        FROM goods AS g , work_user AS u , shoppingcart AS s
-        WHERE s.goods_id = g.g_id AND s.user_id = u.u_id
+    <select id="selectAllOrders" parameterMap="getPageBean" resultMap="BaseResultMap">
+        SELECT  u.name u_name, u.address , u.phone,
+                o.o_id, o.o_time, o.piece, o.o_sign, o.o_integrate
+        FROM goods AS g , work_user AS u , orders AS o
+        WHERE o.goods_id = g.g_id AND u.u_id = o.user_id AND o.o_integrate > 0
         <if test="searchText !=null">
             /*WHERE  name LIKE #{searchText}
             OR g.introduction LIKE #{searchText} *//*OR gt.gt_name LIKE #{searchText}*//*
@@ -81,8 +81,8 @@
     </select>
     <select id="countAll" parameterMap="getPageBean" resultType="int">
         SELECT count(*)
-        FROM goods g, work_user u, shoppingcart s
-        WHERE s.goods_id = g.g_id AND s.user_id = u.u_id
+        FROM goods AS g , work_user AS u , orders AS o
+        WHERE o.goods_id = g.g_id AND u.u_id = o.user_id AND o.o_integrate > 0
         <if test="searchText !=null">
             /*WHERE  g.name LIKE #{searchText}
             OR g.introduction LIKE #{searchText} *//*OR gt.name LIKE #{searchText}*//*
@@ -110,7 +110,7 @@
     </update>
     <select id="selectBySign" parameterType="INTEGER" resultMap="BaseResultMap">
         SELECT  g.name, g.money ,
-                u.name u_name,
+                u.name u_name, u.address, u.phone,    <!--这里的别名必须配合 BaseResultMap 才能取得正确的值-->
                 o.o_id, o.o_time, o.piece, o.remark
         FROM goods AS g , work_user AS u , orders AS o
         WHERE o.goods_id = g.g_id AND o.user_id = u.u_id AND o.o_sign = #{o_sign}

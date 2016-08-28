@@ -5,7 +5,7 @@
     <ul class="nav ace-nav">
         <!-- #section:basics/navbar.user_menu -->
         <li class="grey">
-            <a id="control_page" href="#">
+            <a id="control_page" href="${pageContext.request.contextPath}/index">
                 <i class="ace-icon fa fa-home"></i>
                 主页
             </a>

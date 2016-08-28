@@ -103,4 +103,9 @@
         SELECT <include refid="select" />
         FROM work_user
     </select>
+    <select id="countUsername" parameterType="java.lang.String" resultType="int">
+        SELECT count(u_id)
+        FROM work_user
+        WHERE username = #{username}
+    </select>
 </mapper>

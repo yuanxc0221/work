@@ -33,7 +33,10 @@ public class UUserController extends BaseUserController<User, String>{
                 redirectAttributes.addFlashAttribute("result", new AjaxResult(false, "填写格式错误,注册失败"));
                 return "redirect:/registerUI";
             }
-
+            if(userService.countUsername(user.getUsername()) > 0){
+                redirectAttributes.addFlashAttribute("result", new AjaxResult(false,"该登录名已被注册,请换一个登录名"));
+                return "redirect:/registerUI";
+            }
             user.setPassword(Encrypt.e(user.getPassword()));       // md5加密
             user.setDate(new Date());
             this.userService.add(user) ;

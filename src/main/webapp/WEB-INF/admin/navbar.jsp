@@ -3,13 +3,6 @@
 
 <div class="navbar-buttons navbar-header pull-right" role="navigation">
     <ul class="nav ace-nav">
-        <!-- #section:basics/navbar.user_menu -->
-        <li class="grey">
-            <a id="control_page" href="#">
-                <i class="ace-icon fa fa-home"></i>
-                主页
-            </a>
-        </li>
         <li class="green">
             <a id="admin_page" href="${pageContext.request.contextPath}/admin/admin/list">
                 <i class="ace-icon fa fa-user"></i>
@@ -47,6 +40,13 @@
                     </a>
                 </li>
             </ul>
+        </li>
+
+        <li class="red">
+            <a href="${pageContext.request.contextPath}/admin/orders/list">
+                <i class="ace-icon fa fa-group"></i>
+                订单
+            </a>
         </li>
 
         <li class="light-blue">

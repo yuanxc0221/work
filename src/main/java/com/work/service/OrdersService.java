@@ -13,6 +13,8 @@ public interface OrdersService extends BaseService<Orders>{
 
     Map dataTable(String searchText, int sEcho, PageBean pageBean, int u_id);
 
+    Map dataTable(String searchText, int sEcho, PageBean pageBean);
+
     List<Orders> selectBySign(int o_sign);
 
     void deleteBySign(int o_sign);

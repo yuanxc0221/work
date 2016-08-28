@@ -10,9 +10,12 @@
     <!--<link href="http://fonts.googleapis.com/css?family=Lato:100,300,400,700" media="all" rel="stylesheet" type="text/css" />-->
     <%@ include file="/se7en_css.jsp" %>
     <%@ include file="/se7en_js.jsp" %>
+    <!-- layer 弹框插件-->
+    <script src="${pageContext.request.contextPath}/resources/front-end/layer/layer.js"></script>
     <script src="${pageContext.request.contextPath}/resources/lib/messenger/build/js/messenger.min.js"></script>
     <link href="${pageContext.request.contextPath}/resources/lib/messenger/build/css/messenger.css"  rel="stylesheet" type="text/css" />
     <link href="${pageContext.request.contextPath}/resources/lib/messenger/build/css/messenger-theme-air.css"  rel="stylesheet" type="text/css" />
+
 
     <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport">
   </head>
@@ -23,12 +26,11 @@
         <a href="index.html"><img width="100" height="30" src="${pageContext.request.contextPath}/resources/admin/images/logo-login%402x.png" /></a>
         <form id="register-form" action="${pageContext.request.contextPath}/user/user/add" method="post">
           <div class="form-group">
-            <input class="form-control" id="username" name="username" type="text" placeholder="登录名">
+            <input class="form-control" id="username" name="username" type="text" placeholder="登录名" onblur="inspect()">
           </div>
           <div class="form-group">
             <input class="form-control" id="password" name="password" type="password" placeholder="密码">
           </div>
-
            <div class="form-group">
                 <input class="form-control" id="confirm_password" name="confirm_password" type="password" placeholder="再次确认密码">
             </div>
@@ -55,12 +57,14 @@
 
     <script type="text/javascript">
         $(document).ready(function() {
+            var username = $('#username').val();
             $("#register-form").validate({
                 rules: {
                     name: "required",
                     username: {
                         required: true,
-                        minlength: 5
+                        minlength: 5,
+                        inspect: true
                     },
                     phone: {
                         minlength: 11,
@@ -83,7 +87,8 @@
                     name: "请填写您的姓名",
                     username: {
                         required: "请输入您的登录名",
-                        minlength: "登录名长度不能小于5位"
+                        minlength: "登录名长度不能小于5位",
+                        inspect: "该登录名已被注册,请换一个登录名"
                     },
                     password: {
                         required: "请填写密码",
@@ -99,6 +104,47 @@
                 }
             });
         });
+
+        jQuery.validator.addMethod("inspect", function(value, element) {    //用jquery ajax的方法验证登录名是否已存在
+            var username = $('#username').val();
+            var poin;
+            $.ajax({
+                type:"POST",
+                url:'${pageContext.request.contextPath}/inspect/',
+                async:false,            //取消缓存
+                dataType : 'json',
+                data:{
+                    username:function(){return username;}
+                },
+                success : function(data){
+                    data = eval("(" + data + ")");
+                    poin = data;
+                }
+            });
+            return this.optional(element) || poin;
+        });
+
+        function inspect() {
+            var username = $('#username').val();
+
+            $.ajax({
+                url : "${pageContext.request.contextPath}/inspect/" + username,
+                type : 'get',
+                cache : false,
+                dataType : 'json',
+                async : false,
+                success : function(data) {
+                    if(data){
+                        layer.msg("恭喜您,该登录名可用")
+                    }else{
+                        layer.msg("该登录名已被注册,请换一个登录名")
+                    }
+                },
+                error : function(){
+                    return;
+                }
+            });
+        }
     </script>
 
     <c:if test="${result!=null}">

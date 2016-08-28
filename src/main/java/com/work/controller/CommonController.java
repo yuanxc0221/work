@@ -7,10 +7,12 @@ import com.work.model.User;
 import com.work.service.GoodsService;
 import com.work.service.Goods_typeService;
 import com.work.service.ShoppingcartService;
+import com.work.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpSession;
@@ -28,6 +30,8 @@ public class CommonController {
     private Goods_typeService goods_typeService;
     @Autowired
     private ShoppingcartService shoppingcartService;
+    @Autowired
+    private UserService userService;
     /**
      * 首页
      * 
@@ -98,12 +102,21 @@ public class CommonController {
         return "loginUI";
     }
 
-   /* @RequestMapping(value = "/logout", method = RequestMethod.GET)
-    public String logout(HttpSession session, HttpServletRequest request, RedirectAttributes redirectAttributes) {
-        session.removeAttribute("loginUser");
-        // request.setAttribute("result", new AjaxResult(true, "注销成功"));
-        redirectAttributes.addFlashAttribute("result", new AjaxResult(true, "注销成功"));
-        // redirectAttributes.addFlashAttribute("msg", RESULT_OK);
-        return "redirect:/index";
-    }*/
+   @RequestMapping("/inspect/{username}")
+   @ResponseBody
+    public boolean inspect(@PathVariable String username){
+        if(userService.countUsername(username) > 0){
+            return false;
+        }
+       return true;
+   }
+
+    @RequestMapping(value = "/inspect",method = RequestMethod.POST)
+    @ResponseBody
+    public boolean inspect2(String username){
+        if(userService.countUsername(username) > 0){
+            return false;
+        }
+        return true;
+    }
 }

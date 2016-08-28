@@ -69,8 +69,9 @@
                 <li><a href="#home" class="smoothScroll">主页</a></li>
                 <li><a href="#about" class="smoothScroll">关于我们</a></li>
                 <li><a href="#gallery" class="smoothScroll">商品</a></li>
-                <li><a href="#contact" class="smoothScroll">意见反馈</a></li>
+                <li><a href="#contact" class="smoothScroll">联系方式</a></li>
                 <c:if test="${loginUser.u_id != null}">
+                    <li><a href="${pageContext.request.contextPath}/user/ShoppingCart/list">我的购物车</a></li>
                     <li><a href="#" data-toggle="dropdown" class="dropdown dropdown-toggle" >${loginUser.name}，你好<b class="caret"></b></a>
                         <ul class="dropdown-menu">
                             <li><a href="${pageContext.request.contextPath}/user/ShoppingCart/list">
@@ -164,7 +165,7 @@
 <section id="contact" class="templatemo-section">
     <div class="container">
         <div class="row">
-            <div class="col-md-12">
+            <%--<div class="col-md-12">
                 <h2 class="text-uppercase text-center">意见反馈</h2>
                 <hr>
             </div>
@@ -183,7 +184,7 @@
                         <input name="submit" type="submit" class="form-control" id="submit" value="提交">
                     </div>
                 </form>
-            </div>
+            </div>--%>
             <div class="col-md-2"></div>
             <div class="col-md-4 col-sm-4">
                 <h3 class="padding-bottom-10 text-uppercase">联系方式</h3>
@@ -240,6 +241,8 @@
 <script src="${pageContext.request.contextPath}/resources/lib/pagers/jquery.paginate.js" type="text/javascript"></script>
 <script src="${pageContext.request.contextPath}/resources/lib/messenger/build/js/messenger.min.js"></script>
 <script src="${pageContext.request.contextPath}/resources/lib/messenger/build/js/messenger-theme-future.js" type="text/javascript"></script>
+<!-- layer 弹框插件-->
+<script src="${pageContext.request.contextPath}/resources/front-end/layer/layer.js"></script>
 <script>
     $(document).ready(function(){
         $.ajax({
@@ -262,7 +265,7 @@
                     border_hover_color: "#AAE",//当鼠标移动到页码上时，容器的边框颜色
                     images		: false,
                     mouse		: 'press',
-                    onChange    : function(page){ //本插件唯一可触发的事件,在点击页数的时候触发,只传过来当前被选中的页数,我想这其实足够了.
+                    onChange    : function(page){
                         list(page);
                     }
                 });
@@ -339,13 +342,13 @@
             async : false,
             success : function(data){
                 if(data){
-                    alert("成功添加至购物车");
+                    layer.msg('成功添加至购物车');
                 }else {
-                    alert("亲, 请先登录了再下单哦");
+                    layer.msg('亲, 请先登录了再下单哦');
                 }
             },
             error : function () {
-                alert("内部错误");
+                layer.msg('发生内部错误');
                 return;
             }
         })

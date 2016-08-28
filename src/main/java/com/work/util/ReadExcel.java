@@ -18,7 +18,7 @@ import java.util.List;
  * 该类是一个导入 Excel 表的工具类
  * 使用的方法参照 UserController 下的readExcel方法
  * 调用的 exportListFromExcel 方法必须传入绝对路径
- *
+ * 可以导入 .xls 和 .xlsx 格式的表
  */
 public class ReadExcel {
 

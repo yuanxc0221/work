@@ -72,7 +72,7 @@
                 <a href="#" class="navbar-brand">
                     <small>
                         <i class="fa fa-leaf"></i>
-                        Pizza后台管理
+                        个人中心
                     </small>
                 </a>
             </div>
@@ -82,82 +82,56 @@
             <div class="col-xs-12">
                 <h3 class="header smaller lighter blue">　
                     <i class="glyphicon glyphicon-th"></i>
-                    用户添加
+                    订单确认
                 </h3>
                 <div class="table-header">
-                    用户添加
+                    订单确认
                 </div>
                 <!-- PAGE CONTENT BEGINS -->
                 <br><br>
-                <form action="${pageContext.request.contextPath}/admin/user/${ user.u_id == null ? 'add' : 'update' }" id="user-form" method="post" class="form-horizontal" role="form">
-                    <fieldset>
-                        <div class="hidden">
-                            <input name="u_id" type="hidden" value="${u_id}"/>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-sm-3 control-label no-padding-right" for="name"> 姓名 </label>
-                            <div class="col-sm-9">
-                                <input type="text" id="name" name="name" class="col-xs-10 col-sm-5" value="${user.name} "/>
-                            </div>
-                        </div>
+                <h4>订单详情</h4>
+                <table>
+                    <tr>
+                        <td>　　　　商品　　</td>
+                        <td>　　　　份数　　</td>
+                        <td>　　　　单价（元）</td>
+                    </tr>
+                    <c:forEach items="${ShoppingCartList}" var="itm">
+                    <tr>
+                        <td>　　　　${itm.goods.name }　　</td>
+                        <td>　　　　${itm.piece }　　</td>
+                        <td>　　　　${itm.goods.money }</td>
+                    </tr>
+                    </c:forEach>
 
-                        <div class="form-group">
-                            <label class="col-sm-3 control-label no-padding-right" for="username"> 登录名 </label>
-                            <div class="col-sm-9">
-                                <input type="text" id="username" name="username" value="${user.username}" class="col-xs-10 col-sm-5"/>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-sm-3 control-label no-padding-right" for="phone"> 手机号码 </label>
-                            <div class="col-sm-9">
-                                <input type="text" id="phone" name="phone"
-                                      value="${user.phone}" class="col-xs-10 col-sm-5"/>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-sm-3 control-label no-padding-right" for="sex"> 性别　</label>
-                            <select class="col-sm-2" id="sex" name="sex">
-                                <c:if test="${user.sex eq '未选择' or user.sex == null or user.sex eq ''}">
-                                    <option value="未选择">未选择</option>
-                                    <option value="男">男</option>
-                                    <option value="女">女</option>
-                                </c:if>
-                                <c:if test="${user.sex eq '男'}">
-                                    <option value="男">男</option>
-                                    <option value="女">女</option>
-                                </c:if>
-                                <c:if test="${user.sex eq '女'}">
-                                    <option value="女">女</option>
-                                    <option value="男">男</option>
-                                </c:if>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-sm-3 control-label no-padding-right" for="address"> 联系地址 </label>
-                            <div class="col-sm-9">
-                                <input type="text" id="address" name="address"
-                                       value="${user.address}" class="col-xs-10 col-sm-5"/>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-sm-3 control-label no-padding-right" for="email"> 邮箱 </label>
-                            <div class="col-sm-9">
-                                <input type="email" id="email" name="email"
-                                       class="col-xs-10 col-sm-5" value="${user.email}"/>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-sm-3 control-label no-padding-right" for="introduction"> 个人说明 </label>
-                            <div class="col-sm-9">
-                                <textarea id="introduction" name="introduction"
-                                          class="col-xs-10 col-sm-5" type="text">${user.introduction}</textarea>
-                            </div>
-                        </div>
+                </table>
+
+                <h4>总金额为：${count} 元</h4>
+                <h4>客户信息</h4>
+                <form action="#" id="user-form" method="post" class="form-horizontal" role="form" enctype="multipart/form-data" >
+                    <fieldset>
+                        <table>
+                            <tr>
+                                <td>　　　　下单人:　　　　</td>
+                                <td>${ShoppingCartList[0].user.name}</td>
+                            </tr>
+                            <tr>
+                                <td>　　　　下单人号码:　　　　</td>
+                                <td>${ShoppingCartList[0].user.phone}</td>
+                            </tr>
+                            <tr>
+                                <td>　　　　下单人地址:　　　　</td>
+                                <td>${ShoppingCartList[0].user.address}</td>
+                            </tr>
+                            <tr>
+                                <td>　　　　备注:　　　　</td>
+                                <td>${ShoppingCartList[0].remark}</td>
+                            </tr>
+                        </table>
                         <div class="clearfix form-actions">
                             <div class="col-md-offset-3 col-md-9">
-                                <input class="btn btn-info " type="submit" value="保存"/>
                                 &nbsp; &nbsp; &nbsp;
-                                <a class="btn btn-default" href="${pageContext.request.contextPath}/admin/user/list">返回</a>
+                                <a class="btn btn-default" href="${pageContext.request.contextPath}/admin/orders/list">返回</a>
                             </div>
                         </div>
                         <div class="hr hr-24"></div>
@@ -191,8 +165,6 @@
 
         <!-- page specific plugin scripts -->
 
-        <!--前端校验-->
-        <script src="${pageContext.request.contextPath}/resources/admin/javascripts/jquery.validate.js" type="text/javascript"></script>
         <!--[if lte IE 8]>
         <script src="${pageContext.request.contextPath}/resources/rear-end/assets/js/excanvas.js"></script>
         <![endif]-->
@@ -248,47 +220,5 @@
         <script src="${pageContext.request.contextPath}/resources/rear-end/docs/assets/js/language/html.js"></script>
         <script src="${pageContext.request.contextPath}/resources/rear-end/docs/assets/js/language/css.js"></script>
         <script src="${pageContext.request.contextPath}/resources/rear-end/docs/assets/js/language/javascript.js"></script>
-
-<script type="text/javascript">
-    $(document).ready(function() {
-        $("#user-form").validate({
-            rules: {
-                name: "required",
-                username: {
-                    required: true,
-                    minlength: 5
-                },
-                phone: {
-                    minlength: 11,
-                    maxlength: 11,
-                    number: true
-                },
-                password: {
-                    required: true,
-                    minlength: 6
-                },
-                address:"required",
-                email:{
-                    email : true
-                }
-
-            },
-            messages: {
-                name: "请填写您的姓名",
-                username: {
-                    required: "请输入您的登录名",
-                    minlength: "登录名长度不能小于5位"
-                },
-                password: {
-                    required: "请填写密码",
-                    minlength: "密码长度不能小于6位"
-                },
-                phone: '请输入正确的手机号码',
-                address: "请输入您的收货地址",
-                email : "请输入正确的邮箱地址"
-            }
-        });
-    });
-</script>
 </body>
 </html>

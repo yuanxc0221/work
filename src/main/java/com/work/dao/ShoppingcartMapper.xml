@@ -41,7 +41,7 @@
         SELECT  g.name, g.money ,
                 s.s_id, s.s_time, s.piece
         FROM goods AS g , work_user AS u , shoppingcart AS s
-        WHERE s.goods_id = g.g_id AND u.u_id = #{u_id}
+        WHERE s.goods_id = g.g_id AND u.u_id = #{u_id} AND s.user_id = #{u_id}
         <if test="searchText !=null">
             AND (g.name LIKE #{searchText}
             OR s.piece LIKE #{searchText}
@@ -54,8 +54,8 @@
     </select>
     <select id="countOwn" parameterMap="getPageBean" resultType="int">
         SELECT count(s.s_id)
-        FROM goods g, work_user u, shoppingcart s
-        WHERE s.goods_id = g.g_id AND u.u_id = #{u_id}
+        FROM goods AS g , work_user AS u , shoppingcart AS s
+        WHERE s.goods_id = g.g_id AND u.u_id = #{u_id} AND s.user_id = #{u_id}
         <if test="searchText !=null">
             AND  (g.name LIKE #{searchText}
             OR s.piece LIKE #{searchText}
@@ -135,7 +135,7 @@
         SELECT  g.name, g.money ,
                 s.s_id, s.s_time, s.piece,s.goods_id, s.user_id
         FROM goods AS g , work_user AS u , shoppingcart AS s
-        WHERE s.goods_id = g.g_id AND u.u_id = #{u_id}
+        WHERE s.goods_id = g.g_id AND u.u_id = #{u_id} AND s.user_id = #{u_id}
     </select>
     <!-- SELECT s.goods_id, s.user_id, s.piece, g.name, g.money
     FROM shoppingcart AS s,goods AS g       错误写法.. 不知道为什么放不进List, 数据库查出来的确实是多条记录

@@ -25,7 +25,7 @@ import java.util.regex.Pattern;
  *
  * 该类是一个导出 Excel 表的工具类
  * 使用的方法参照 UserController 下的excel方法
- * 只能导出 .xls 文件格式的excel表,不能导出 .xlsx 文件格式的excel表(导出的该格式的表打不开)
+ * 可以导出 .xls 和 .xlsx 格式的表, 但是导出的 .xlsx 的表用微软的 excel 软件打不开,需要用金山的 WPS 才行
  */
 public class ExcelUtil<T> {
     /**

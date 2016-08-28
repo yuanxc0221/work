@@ -24,4 +24,6 @@ public interface UserService extends BaseService<User> {
     void add(User user);
 
     List<User> selectAllToExcel();
+
+    int countUsername(String username);
 }

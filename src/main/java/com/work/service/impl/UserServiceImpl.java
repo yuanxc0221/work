@@ -80,4 +80,9 @@ public class UserServiceImpl extends BaseServiceImpl<User> implements UserServic
     public List<User> selectAllToExcel() {
         return userMapper.selectAllToExcel();
     }
+
+    @Override
+    public int countUsername(String username) {
+        return userMapper.countUsername(username);
+    }
 }

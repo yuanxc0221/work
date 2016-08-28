@@ -32,4 +32,6 @@ public interface UserMapper extends BaseMapper<User> {
     void add(User user);
 
     List<User> selectAllToExcel();
+
+    int countUsername(String username);
 }

@@ -108,6 +108,24 @@
                             </div>
                         </div>
                         <div class="form-group">
+                            <label class="col-sm-3 control-label no-padding-right" for="sex"> 性别　</label>
+                            <select class="col-sm-2" id="sex" name="sex">
+                                <c:if test="${user.sex eq '未选择' or user.sex == null or user.sex eq ''}">
+                                    <option value="未选择">未选择</option>
+                                    <option value="男">男</option>
+                                    <option value="女">女</option>
+                                </c:if>
+                                <c:if test="${user.sex eq '男'}">
+                                    <option value="男">男</option>
+                                    <option value="女">女</option>
+                                </c:if>
+                                <c:if test="${user.sex eq '女'}">
+                                    <option value="女">女</option>
+                                    <option value="男">男</option>
+                                </c:if>
+                            </select>
+                        </div>
+                        <div class="form-group">
                             <label class="col-sm-3 control-label no-padding-right" for="phone"> 手机号码 </label>
                             <div class="col-sm-9">
                                 <input type="text" id="phone" name="phone"
