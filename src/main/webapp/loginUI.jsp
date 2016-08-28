@@ -80,7 +80,7 @@
                     type="success"
                 }
                 Messenger.options = {
-                    extraClasses: 'messenger-fixed messenger-theme-block  messenger-on-top messenger-on-left'
+                    extraClasses: 'messenger-fixed messenger-theme-future  messenger-on-top messenger-on-left'
                 }
                 $.globalMessenger().post({  message:"提示："+ msg,
                     type: type,

@@ -218,7 +218,7 @@
                 if (data.success == true) {
                     oTable.fnDeleteRow( nRow );
                     $._messengerDefaults = {
-                        extraClasses: 'messenger-fixed messenger-theme-block  messenger-on-top messenger-on-left'
+                        extraClasses: 'messenger-fixed messenger-theme-future  messenger-on-top messenger-on-left'
                     }
                     $.globalMessenger().post({
                         message: "提示：" + data.msg,
@@ -228,7 +228,7 @@
                     })
                 } else {
                     $._messengerDefaults = {
-                        extraClasses: 'messenger-fixed messenger-theme-block  messenger-on-top messenger-on-left'
+                        extraClasses: 'messenger-fixed messenger-theme-future  messenger-on-top messenger-on-left'
                     }
                     $.globalMessenger().post({
                         message: "提示：" + data.msg,
@@ -252,7 +252,7 @@
                 type="success"
             }
             $._messengerDefaults = {
-                extraClasses: 'messenger-fixed messenger-theme-block  messenger-on-top messenger-on-left'
+                extraClasses: 'messenger-fixed messenger-theme-future  messenger-on-top messenger-on-left'
             }
             $.globalMessenger().post({  message:"提示："+ msg,
                 type: type,
