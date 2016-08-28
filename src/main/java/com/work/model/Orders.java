@@ -15,8 +15,8 @@ public class Orders {
     private int goods_id;
     private int user_id;
     private Date o_time;
-    private int o_sign;
-    private int o_integrate;
+    private int o_sign;   //订单标识
+    private int o_integrate; //主订单标识,由于是几个订单拼凑成为一个订单, 所以将第一个订单定义为主订单以方便订单的显示(大于1的都表示主订单)
     private int piece;
     private String remark;  //备注
 

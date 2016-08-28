@@ -7,7 +7,7 @@ import java.util.Date;
 public class Goods {
     private Integer g_id;
 
-    private String introduction;
+    private String introduction;    //商品介绍, 主要用在富文本编辑器上
 
     private String name;
 

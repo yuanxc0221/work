@@ -12,7 +12,7 @@ public class Shoppingcart {
     private int s_id;
     private int goods_id;
     private int user_id;
-    private int piece;
+    private int piece;      //商品件数
     private Date s_time;
 
     @Transient
