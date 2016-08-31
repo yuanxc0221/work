@@ -49,14 +49,21 @@ public class FileUploadUtil {
      * @param uploadFile
      * @param
      */
-    public static void uploadProductPicture(MultipartFile uploadFile,Goods goods){
+    public static boolean uploadProductPicture(MultipartFile uploadFile,Goods goods){
+        String fileName = null;
         if (!uploadFile.isEmpty()){
+            fileName = uploadFile(uploadFile, PRODUCT_PATH);
+            String suffix = fileName.substring(36, 40);
+            if(!".jpg".equals(suffix) && !".png".equals(suffix) && !".bpn".equals(suffix)){
+                System.out.println("不通过  ------------------------------");
+                return false;
+            }
             if (goods.getPicture()!=null){
                 deleteFile(PRODUCT_PATH,goods.getPicture());
             }
-            goods.setPicture(uploadFile(uploadFile, PRODUCT_PATH));
-
+            goods.setPicture(fileName);
         }
+        return true;
     }
 	public static String uploadFile(MultipartFile uploadFile, String savePath) {
         RequestAttributes ar = RequestContextHolder.getRequestAttributes();

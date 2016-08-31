@@ -186,7 +186,7 @@ public class UserController extends BaseAdminController<User, String>{
     public String readExcel(@RequestParam(value = "excel", required = true) MultipartFile excel, HttpServletRequest request, RedirectAttributes redirectAttributes){
         String path = "/resources/file/user/excel";
         String fileName = FileUploadUtil.uploadFile(excel,path);
-        //System.out.println(fileName + " =============================== ");
+        //System.out.println(fileName + " fileName =============================== ");
         String suffix = fileName.substring(36, 40);
         //System.out.println(suffix + " =============================== ");
         if(!".xls".equals(suffix) && !".xlsx".equals(suffix)){
@@ -199,6 +199,7 @@ public class UserController extends BaseAdminController<User, String>{
        // System.out.println(savePath + "============---------------");     //测试所得为真实路径
         List<String> list = null;
         int sign = 0;   //用于标记是否读取了属性名那行(也就是第一行,第一行是不需要的)
+        int successNumber = 0;
         User user = new User();
         try {
             list = ReadExcel.exportListFromExcel(new File(savePath), 0);
@@ -219,10 +220,14 @@ public class UserController extends BaseAdminController<User, String>{
                     user.setIntroduction(names[7]);
                     user.setDate(new Date());
                     user.setPassword(Encrypt.e("123456"));   //从excel导入的用户密码均设为123456
-                    userService.add(user);
+                    if(userService.countUsername(user.getUsername()) == 0){ //若已存在相同的登录名的用户,则不执行添加操作,也不提供修改信息的操作..
+                        userService.add(user);
+                        successNumber++;
+                    }
                 }
             }
-            redirectAttributes.addFlashAttribute("result", new AjaxResult(true, "成功导入用户信息表"));
+            FileUploadUtil.deleteFile(path,fileName);   //excel里的内容导入数据库后就可以将excel删除了
+            redirectAttributes.addFlashAttribute("result", new AjaxResult(true, "成功导入用户信息表,成功"+ successNumber +"次,失败" + (sign-successNumber-1) + "次"));
             System.out.println(list);
         } catch (IOException e) {
             e.printStackTrace();

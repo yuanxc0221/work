@@ -75,11 +75,13 @@ public class GoodsServiceImpl extends BaseServiceImpl<Goods> implements GoodsSer
     }
 
     @Override
-    public void saveOrUpdatePicture(Goods goods, MultipartFile picture) {
-        FileUploadUtil.uploadProductPicture(picture, goods);
+    public boolean saveOrUpdatePicture(Goods goods, MultipartFile picture) {
+        boolean fileName = FileUploadUtil.uploadProductPicture(picture, goods);
         // 切割文章内用获取图片名称
         System.out.println(goods + "==================================");
+        System.out.println(fileName + " fileName -------------------");
        // this.addGoods(goods);
+        return fileName;
     }
 
     @Override

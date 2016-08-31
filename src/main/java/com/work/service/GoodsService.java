@@ -22,7 +22,7 @@ public interface GoodsService extends BaseService<Goods>{
 
     void addGoods(Goods goods);
 
-    void saveOrUpdatePicture(Goods goods, MultipartFile picture);
+    boolean saveOrUpdatePicture(Goods goods, MultipartFile picture);
 
     List<Goods> getGoodsList();
 

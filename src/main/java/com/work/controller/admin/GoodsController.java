@@ -47,7 +47,10 @@ public class GoodsController extends BaseAdminController<Goods,Long>{
             goods.setIntroduction(introduction);
             goods.setName(name);
             goods.setGoods_type_id(goods_type_id);
-            goodsService.saveOrUpdatePicture(goods, picture);
+            if(!goodsService.saveOrUpdatePicture(goods, picture)){
+                redirectAttributes.addFlashAttribute("result", new AjaxResult(false, "操作失败,图片的格式只能为.jpg或.png或.bmp"));
+                return REDIRECT_URL + "list";
+            }
             goodsService.updateInfo(goods);
             redirectAttributes.addFlashAttribute("result", new AjaxResult(true, "操作成功"));
             return REDIRECT_URL+"list";
@@ -103,14 +106,17 @@ public class GoodsController extends BaseAdminController<Goods,Long>{
             goods.setIntroduction(introduction);
             goods.setMoney(money);
             System.out.println(picture + "---------------");
-            goodsService.saveOrUpdatePicture(goods, picture);
+            if(!goodsService.saveOrUpdatePicture(goods, picture)){
+                redirectAttributes.addFlashAttribute("result", new AjaxResult(false, "操作失败,图片的格式只能为.jpg或.png或.bmp"));
+                return REDIRECT_URL + "list";
+            }
             goodsService.addGoods(goods);
             redirectAttributes.addFlashAttribute("result", new AjaxResult(true, "操作成功"));
             return REDIRECT_URL + "list";
         }catch (Exception e){
             e.printStackTrace();
+            redirectAttributes.addFlashAttribute("result", new AjaxResult(false, "操作失败,内部错误"));
         }
-        redirectAttributes.addFlashAttribute("result", new AjaxResult(false, "操作失败"));
         return REDIRECT_URL+"list";
     }
 }

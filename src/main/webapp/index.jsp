@@ -37,8 +37,8 @@
     <!-- custom -->
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/front-end/css/templatemo-style.css">
     <!-- google font -->
-    <link href='http://fonts.useso.com/css?family=Signika:400,300,600,700' rel='stylesheet' type='text/css'>
-    <link href='http://fonts.useso.com/css?family=Chewy' rel='stylesheet' type='text/css'>
+    <%--<link href='http://fonts.useso.com/css?family=Signika:400,300,600,700' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.useso.com/css?family=Chewy' rel='stylesheet' type='text/css'>--%>
     <!--模态框css-->
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/front-end/css/modelStyle.css">
 
