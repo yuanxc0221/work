@@ -24,7 +24,7 @@ import java.util.Date;
 @RequestMapping("user/user")
 public class UUserController extends BaseUserController<User, String>{
     @Autowired
-    private UserService userService ;
+    private UserService userService;
 
     @RequestMapping(value = "add" ,method = RequestMethod.POST)
     public String add(@Valid @ModelAttribute("user")User user , BindingResult result, RedirectAttributes redirectAttributes, HttpServletRequest request){
